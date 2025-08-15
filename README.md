@@ -83,6 +83,21 @@
 - 자동 포맷팅 (저장 시)
 - 실시간 린팅 (입력 중)
 
+### Diagnostic 관리 (Trouble.nvim)
+#### 목록 보기
+- `<leader>xx` - 전체 프로젝트 진단 목록
+- `<leader>xX` - 현재 버퍼 진단 목록
+- `<leader>xL` - Location List (Trouble)
+- `<leader>xQ` - Quickfix List (Trouble)
+
+#### 코드 탐색
+- `<leader>cs` - 심볼 목록 (함수, 클래스 등)
+- `<leader>cl` - LSP 정의/참조 목록
+
+#### 진단 네비게이션
+- `]x` - 다음 문제/진단으로 이동
+- `[x` - 이전 문제/진단으로 이동
+
 ### 디버깅 (DAP)
 #### 기본 컨트롤
 - `<F5>` - 디버깅 시작/계속
@@ -232,6 +247,7 @@
 ### 개발 도구
 - **conform.nvim** - 코드 포맷터
 - **nvim-lint** - 코드 린터
+- **trouble.nvim** - 진단/오류 관리 및 네비게이션
 - **nvim-dap** - 디버거 (DAP 프로토콜)
 - **nvim-dap-ui** - 디버깅 UI
 - **nvim-treesitter** - 구문 하이라이팅
