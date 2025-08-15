@@ -1051,25 +1051,39 @@ require('lazy').setup({
     opts_extend = { "sources.default" }
   },
 
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
+  { -- 🎨 Kanagawa colorscheme - A dark theme inspired by the famous painting
+    -- Beautiful color palette with warm tones and great contrast
+    'rebelot/kanagawa.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require('tokyonight').setup {
-        styles = {
-          comments = { italic = false }, -- Disable italics in comments
+      require('kanagawa').setup({
+        compile = false, -- Enable compiling the colorscheme
+        undercurl = true, -- Enable undercurls
+        commentStyle = { italic = false }, -- Disable italics in comments
+        functionStyle = {},
+        keywordStyle = { italic = false },
+        statementStyle = { bold = false },
+        typeStyle = {},
+        transparent = false, -- Do not set background color
+        dimInactive = false, -- Dim inactive window
+        terminalColors = true, -- Define vim.g.terminal_color_{0,17}
+        colors = {
+          palette = {},
+          theme = { wave = {}, lotus = {}, dragon = {}, all = {} }
         },
-      }
+        overrides = function(colors)
+          return {}
+        end,
+        theme = "wave", -- Load "wave" theme when 'background' option is not set
+        background = {
+          dark = "wave", -- Try "dragon" for different dark variant
+          light = "lotus"
+        },
+      })
 
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      -- Load the colorscheme
+      -- Available variants: kanagawa-wave (default), kanagawa-dragon, kanagawa-lotus
+      vim.cmd.colorscheme 'kanagawa-wave'
     end,
   },
 
