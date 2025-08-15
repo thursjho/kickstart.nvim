@@ -856,6 +856,7 @@ require('lazy').setup({
         'prettier', -- Formatter for web languages
         'prettierd', -- Faster prettier daemon
         'eslint_d', -- Faster eslint daemon
+        'ruff', -- Python formatter and linter
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -908,6 +909,7 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        python = { 'ruff_format', 'ruff_organize_imports' },
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
         typescript = { 'prettierd', 'prettier', stop_after_first = true },
         javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
@@ -929,6 +931,7 @@ require('lazy').setup({
       local lint = require('lint')
       
       lint.linters_by_ft = {
+        python = { 'ruff' },
         javascript = { 'eslint_d' },
         typescript = { 'eslint_d' },
         javascriptreact = { 'eslint_d' },
