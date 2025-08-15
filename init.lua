@@ -220,6 +220,25 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- Go to last cursor position when opening a buffer
+vim.api.nvim_create_autocmd('BufReadPost', {
+  desc = 'Restore cursor position when opening a file',
+  group = vim.api.nvim_create_augroup('kickstart-restore-cursor', { clear = true }),
+  callback = function(event)
+    local exclude_filetypes = { 'gitcommit', 'gitrebase', 'svn', 'hgcommit' }
+    local buf = event.buf
+    if vim.tbl_contains(exclude_filetypes, vim.bo[buf].filetype) or vim.b[buf].kickstart_last_loc then
+      return
+    end
+    vim.b[buf].kickstart_last_loc = true
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    local line_count = vim.api.nvim_buf_line_count(0)
+    if mark[1] > 0 and mark[1] <= line_count then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+    end
+  end,
+})
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -1109,7 +1128,7 @@ require('lazy').setup({
       bigfile = { enabled = true },
       dashboard = { enabled = true },
       explorer = { enabled = true },
-      indent = { enabled = true },
+      indent = { enabled = true, animate = { enabled = false } },
       input = { enabled = true },
       notifier = {
         enabled = true,
@@ -1118,7 +1137,7 @@ require('lazy').setup({
       picker = { enabled = true },
       quickfile = { enabled = true },
       scope = { enabled = true },
-      scroll = { enabled = true },
+      scroll = { enabled = false },
       statuscolumn = { enabled = true },
       words = { enabled = true },
       styles = {
