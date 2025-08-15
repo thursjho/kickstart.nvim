@@ -1,241 +1,301 @@
-# kickstart.nvim
+# Neovim Kickstart Configuration
 
-## Introduction
+이 설정은 Neovim Kickstart를 기반으로 한 완전한 개발 환경입니다. Frontend(JavaScript/TypeScript/React) 개발과 Python 개발에 최적화되어 있습니다.
 
-A starting point for Neovim that is:
+## 🎨 테마
 
-* Small
-* Single-file
-* Completely Documented
+- **Kanagawa** - 일본 전통 미술에서 영감을 받은 아름다운 테마
+  - `kanagawa-wave` (기본 다크)
+  - `kanagawa-dragon` (다른 다크 변형)
+  - `kanagawa-lotus` (라이트 테마)
 
-**NOT** a Neovim distribution, but instead a starting point for your configuration.
+## ⌨️ 주요 키바인딩
 
-## Installation
+### 기본 편집
+- `<leader>` = `<Space>`
+- `<Esc>` - 검색 하이라이트 제거
+- `<Esc><Esc>` - 터미널 모드에서 나가기
 
-### Install Neovim
+### 파일 및 검색 (Snacks Picker)
+#### 주요 파일 검색
+- `<leader><space>` - Smart Find Files (스마트 파일 찾기)
+- `<leader>,` - 버퍼 목록
+- `<leader>/` - 전체 검색 (Grep)
+- `<leader>:` - 명령 히스토리
+- `<leader>e` - 파일 탐색기
 
-Kickstart.nvim targets *only* the latest
-['stable'](https://github.com/neovim/neovim/releases/tag/stable) and latest
-['nightly'](https://github.com/neovim/neovim/releases/tag/nightly) of Neovim.
-If you are experiencing issues, please make sure you have the latest versions.
+#### 파일 관련 (f 그룹)
+- `<leader>ff` - 파일 찾기
+- `<leader>fg` - Git 파일 찾기
+- `<leader>fr` - 최근 파일
+- `<leader>fc` - 설정 파일 찾기
+- `<leader>fb` - 버퍼 목록
+- `<leader>fp` - 프로젝트 목록
 
-### Install External Dependencies
+#### 검색 관련 (s 그룹)
+- `<leader>sg` - 전체 검색 (Grep)
+- `<leader>sw` - 현재 단어/선택영역 검색
+- `<leader>sb` - 현재 버퍼 내 라인 검색
+- `<leader>sB` - 열린 버퍼들에서 검색
+- `<leader>sc` - 명령 히스토리
+- `<leader>sC` - 사용가능한 명령어들
+- `<leader>s"` - 레지스터 내용
+- `<leader>s/` - 검색 히스토리
+- `<leader>sa` - 자동 명령어 (autocmds)
+- `<leader>sd` - 진단 (Diagnostics)
+- `<leader>sD` - 현재 버퍼 진단
+- `<leader>sh` - 도움말 페이지
+- `<leader>sH` - 하이라이트 그룹
+- `<leader>si` - 아이콘 목록
+- `<leader>sj` - 점프 목록
+- `<leader>sk` - 키맵 목록
+- `<leader>sl` - Location List
+- `<leader>sm` - 마크 목록
+- `<leader>sM` - Man 페이지
+- `<leader>sp` - 플러그인 스펙 검색
+- `<leader>sq` - Quickfix List
+- `<leader>sR` - 마지막 검색 재개
+- `<leader>st` - Tmux 세션 목록
+- `<leader>su` - Undo 히스토리
 
-External Requirements:
-- Basic utils: `git`, `make`, `unzip`, C Compiler (`gcc`)
-- [ripgrep](https://github.com/BurntSushi/ripgrep#installation),
-  [fd-find](https://github.com/sharkdp/fd#installation)
-- Clipboard tool (xclip/xsel/win32yank or other depending on the platform)
-- A [Nerd Font](https://www.nerdfonts.com/): optional, provides various icons
-  - if you have it set `vim.g.have_nerd_font` in `init.lua` to true
-- Emoji fonts (Ubuntu only, and only if you want emoji!) `sudo apt install fonts-noto-color-emoji`
-- Language Setup:
-  - If you want to write Typescript, you need `npm`
-  - If you want to write Golang, you will need `go`
-  - etc.
+### Git 관련
+- `<leader>gb` - Git 브랜치
+- `<leader>gl` - Git 로그
+- `<leader>gL` - Git 로그 (현재 라인)
+- `<leader>gs` - Git 상태
+- `<leader>gS` - Git Stash
+- `<leader>gd` - Git Diff (Hunks)
+- `<leader>gf` - Git 로그 (현재 파일)
+- `<leader>gg` - Lazygit 열기
+- `<leader>gB` - Git Browse (GitHub/GitLab)
 
-> [!NOTE]
-> See [Install Recipes](#Install-Recipes) for additional Windows and Linux specific notes
-> and quick install snippets
+### LSP (Language Server)
+- `gd` - 정의로 이동
+- `gD` - 선언으로 이동
+- `gr` - 참조 찾기
+- `gI` - 구현으로 이동
+- `gy` - 타입 정의로 이동
+- `<leader>ss` - LSP 심볼
+- `<leader>sS` - 워크스페이스 심볼
 
-### Install Kickstart
+### 코드 포맷팅 및 린팅
+- `<leader>f` - 코드 포맷팅
+- 자동 포맷팅 (저장 시)
+- 실시간 린팅 (입력 중)
 
-> [!NOTE]
-> [Backup](#FAQ) your previous configuration (if any exists)
+### 디버깅 (DAP)
+#### 기본 컨트롤
+- `<F5>` - 디버깅 시작/계속
+- `<F10>` - Step Over (한 줄씩 실행)
+- `<F11>` - Step Into (함수 안으로)
+- `<F12>` - Step Out (함수에서 나오기)
 
-Neovim's configurations are located under the following paths, depending on your OS:
+#### 브레이크포인트
+- `<leader>db` - 브레이크포인트 토글
+- `<leader>dB` - 조건부 브레이크포인트
 
-| OS | PATH |
-| :- | :--- |
-| Linux, MacOS | `$XDG_CONFIG_HOME/nvim`, `~/.config/nvim` |
-| Windows (cmd)| `%localappdata%\nvim\` |
-| Windows (powershell)| `$env:LOCALAPPDATA\nvim\` |
+#### UI 및 기타
+- `<leader>du` - 디버그 UI 토글
+- `<leader>de` - 표현식/변수 평가 (Normal/Visual)
+- `<leader>dr` - REPL 열기
+- `<leader>dl` - 마지막 디버그 설정 재실행
+- `<leader>dt` - 디버깅 종료
 
-#### Recommended Step
+### 윈도우 관리 (Smart Splits)
+- `<Alt-h/j/k/l>` - 윈도우 크기 조정
+- `<Ctrl-h/j/k/l>` - 윈도우 간 이동
+- `<Ctrl-\>` - 이전 윈도우로 이동
+- `<leader><leader>h/j/k/l` - 버퍼 위치 교환
+- `<Ctrl-w><space>` - 윈도우 하이드라 모드
 
-[Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) this repo
-so that you have your own copy that you can modify, then install by cloning the
-fork to your machine using one of the commands below, depending on your OS.
+### 버퍼 관리
+- `<leader>bd` - 버퍼 삭제
+- `<leader>?` - 현재 버퍼 키맵 보기
 
-> [!NOTE]
-> Your fork's URL will be something like this:
-> `https://github.com/<your_github_username>/kickstart.nvim.git`
+### UI 토글
+- `<leader>us` - 맞춤법 검사 토글
+- `<leader>uw` - 줄바꿈 토글
+- `<leader>ul` - 라인 번호 토글
+- `<leader>uL` - 상대 라인 번호 토글
+- `<leader>ud` - 진단 토글
+- `<leader>ub` - 배경색 토글 (light/dark)
+- `<leader>uh` - Inlay Hints 토글
+- `<leader>ug` - Indent 가이드 토글
 
-You likely want to remove `lazy-lock.json` from your fork's `.gitignore` file
-too - it's ignored in the kickstart repo to make maintenance easier, but it's
-[recommended to track it in version control](https://lazy.folke.io/usage/lockfile).
+### 터미널
+- `<Ctrl-/>` or `<Ctrl-_>` - 터미널 토글
 
-#### Clone kickstart.nvim
+### Claude Code (AI 어시스턴트)
+- `<leader>cc` - Claude Code 채팅 열기
+- `<leader>cn` - 새 대화 시작
+- `<leader>ct` - 현재 선택영역에 대해 질문
+- `<leader>ce` - 코드 설명 요청
+- `<leader>cr` - 코드 리팩토링 요청
+- `<leader>cd` - 문서화 요청
+- `<leader>cq` - 빠른 질문
 
-> [!NOTE]
-> If following the recommended step above (i.e., forking the repo), replace
-> `nvim-lua` with `<your_github_username>` in the commands below
+### 기타 유용한 기능
+- `<leader>z` - Zen 모드 토글
+- `<leader>Z` - 줌 모드 토글
+- `<leader>.` - 스크래치 버퍼
+- `<leader>S` - 스크래치 버퍼 선택
+- `<leader>n` - 알림 히스토리
+- `<leader>N` - Neovim 뉴스 보기
+- `<leader>un` - 모든 알림 숨기기
+- `<leader>cR` - 파일 이름 변경
+- `<leader>uC` - 컬러스킴 선택
+- `]]` / `[[` - 다음/이전 참조로 이동
 
-<details><summary> Linux and Mac </summary>
+## 🔧 설치된 도구들
 
-```sh
-git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+### 언어 서버 (LSP)
+- **Lua** - lua_ls
+- **TypeScript/JavaScript** - vtsls (고급 TypeScript 지원)
+- **Python** - basedpyright (강력한 타입 검사)
+- **HTML** - html-lsp
+- **CSS/SCSS** - cssls
+- **TailwindCSS** - tailwindcss-lsp
+- **Emmet** - emmet_language_server (HTML/CSS 스니펫)
+
+### 포맷터
+- **JavaScript/TypeScript** - prettierd, prettier
+- **HTML/CSS/SCSS/JSON** - prettier
+- **Python** - ruff (포맷팅 + import 정리)
+- **Lua** - stylua
+
+### 린터
+- **JavaScript/TypeScript** - eslint_d
+- **Python** - ruff
+- **CSS/SCSS** - stylelint
+
+### 디버거
+- **Python** - debugpy
+- **JavaScript/TypeScript** - js-debug-adapter
+
+## 🌟 특별한 기능들
+
+### 자동 Indent 감지
+- 파일을 열면 기존 코드의 indent 패턴을 자동 분석
+- 프로젝트별로 다른 indent 설정 자동 적용
+- `.editorconfig` 파일 우선 지원
+
+### Frontend 개발 도구
+- **Auto Tag** - HTML/JSX 태그 자동 완성 및 리네임
+- **Color Preview** - CSS 색상 코드 실시간 미리보기 (`#ff0000`, `rgb(255,0,0)`)
+- **Tag Matching** - `%` 키로 HTML/JSX 태그 간 이동
+- **Emmet 지원** - `div.container>p*3` + `<Ctrl-y>,` 로 HTML 생성
+
+### 커서 위치 복원
+- 파일을 다시 열면 마지막 편집 위치로 자동 이동
+- Git 커밋 메시지 등에서는 제외
+
+### 스마트 검색
+- 파일, 텍스트, 심볼, Git 등 통합 검색
+- 실시간 미리보기
+- 퍼지 매칭 지원
+
+## 🚀 사용법
+
+### Python 개발
+1. `.py` 파일 생성
+2. 코드 작성 (자동완성, 타입 힌트 제공)
+3. 저장 시 자동 포맷팅 (ruff)
+4. `<leader>db`로 브레이크포인트 설정 후 `<F5>`로 디버깅
+
+### JavaScript/TypeScript/React 개발
+1. 프로젝트 폴더에서 Neovim 실행
+2. `.js/.ts/.jsx/.tsx` 파일 편집
+3. 자동완성, import 관리, 타입 검사 제공
+4. TailwindCSS 클래스명 자동완성
+5. React 컴포넌트 디버깅 가능
+
+### HTML/CSS 개발
+1. Emmet으로 빠른 HTML 구조 생성
+2. CSS 색상 실시간 미리보기
+3. TailwindCSS 지원
+4. HTML 태그 자동 완성
+
+### Tmux 세션 관리
+1. `<leader>st`로 tmux 세션 선택기 열기
+2. 세션 목록에서 상태(attached/not attached)와 창 개수 확인
+3. 세션 선택하면 자동으로 전환
+4. tmux 외부에서 실행 시 자동으로 attach
+
+## 📦 주요 플러그인 목록
+
+### 핵심 플러그인
+- **lazy.nvim** - 플러그인 매니저
+- **mason.nvim** - LSP/도구 설치 관리자
+- **nvim-lspconfig** - LSP 설정
+- **blink.cmp** - 자동완성 엔진
+
+### 개발 도구
+- **conform.nvim** - 코드 포맷터
+- **nvim-lint** - 코드 린터
+- **nvim-dap** - 디버거 (DAP 프로토콜)
+- **nvim-dap-ui** - 디버깅 UI
+- **nvim-treesitter** - 구문 하이라이팅
+
+### UI/UX
+- **kanagawa.nvim** - 컬러스킴
+- **which-key.nvim** - 키바인딩 도움말
+- **snacks.nvim** - 통합 UI 플러그인 (파일 탐색, 검색, 알림 등)
+- **gitsigns.nvim** - Git 변경사항 표시
+
+### Frontend 전용
+- **nvim-ts-autotag** - HTML/JSX 자동 태그
+- **nvim-colorizer.lua** - CSS 색상 미리보기
+- **vim-matchup** - 태그 매칭
+- **emmet-vim** - Emmet 지원
+
+### 유틸리티
+- **smart-splits.nvim** - 스마트 윈도우 관리
+- **guess-indent.nvim** - 자동 indent 감지
+- **todo-comments.nvim** - TODO 하이라이팅
+
+## 📋 설정 파일 위치
+- 메인 설정: `~/.config/nvim-kickstart/init.lua`
+- 이 README: `~/.config/nvim-kickstart/README.md`
+
+## 🔄 업데이트 및 관리
+- `:Lazy` - 플러그인 관리 UI
+- `:Mason` - LSP/도구 관리 UI
+- `:checkhealth` - 설정 상태 진단
+- `:ConformInfo` - 포맷터 상태 확인
+- `:LspInfo` - LSP 서버 상태 확인
+
+## 🎯 디버깅 설정
+
+### Python 디버깅
+```python
+# 브레이크포인트를 설정하고 F5를 누르면 디버깅 시작
+def hello_world():
+    name = "World"  # 이 줄에 브레이크포인트 설정
+    print(f"Hello, {name}!")
+
+hello_world()
 ```
 
-</details>
+### JavaScript/React 디버깅
+```javascript
+// Node.js 스크립트 디버깅
+function calculateSum(a, b) {
+    const result = a + b;  // 브레이크포인트 설정
+    return result;
+}
 
-<details><summary> Windows </summary>
-
-If you're using `cmd.exe`:
-
-```
-git clone https://github.com/nvim-lua/kickstart.nvim.git "%localappdata%\nvim"
-```
-
-If you're using `powershell.exe`
-
-```
-git clone https://github.com/nvim-lua/kickstart.nvim.git "${env:LOCALAPPDATA}\nvim"
+console.log(calculateSum(5, 3));
 ```
 
-</details>
+### 디버깅 설정 선택
+F5를 누르면 다음 옵션들 중 선택:
+- **Launch file** - 현재 파일 실행
+- **Launch React App** - React 개발 서버 디버깅
+- **Attach** - 실행 중인 프로세스에 연결
 
-### Post Installation
+---
 
-Start Neovim
-
-```sh
-nvim
-```
-
-That's it! Lazy will install all the plugins you have. Use `:Lazy` to view
-the current plugin status. Hit `q` to close the window.
-
-#### Read The Friendly Documentation
-
-Read through the `init.lua` file in your configuration folder for more
-information about extending and exploring Neovim. That also includes
-examples of adding popularly requested plugins.
-
-> [!NOTE]
-> For more information about a particular plugin check its repository's documentation.
-
-
-### Getting Started
-
-[The Only Video You Need to Get Started with Neovim](https://youtu.be/m8C0Cq9Uv9o)
-
-### FAQ
-
-* What should I do if I already have a pre-existing Neovim configuration?
-  * You should back it up and then delete all associated files.
-  * This includes your existing init.lua and the Neovim files in `~/.local`
-    which can be deleted with `rm -rf ~/.local/share/nvim/`
-* Can I keep my existing configuration in parallel to kickstart?
-  * Yes! You can use [NVIM_APPNAME](https://neovim.io/doc/user/starting.html#%24NVIM_APPNAME)`=nvim-NAME`
-    to maintain multiple configurations. For example, you can install the kickstart
-    configuration in `~/.config/nvim-kickstart` and create an alias:
-    ```
-    alias nvim-kickstart='NVIM_APPNAME="nvim-kickstart" nvim'
-    ```
-    When you run Neovim using `nvim-kickstart` alias it will use the alternative
-    config directory and the matching local directory
-    `~/.local/share/nvim-kickstart`. You can apply this approach to any Neovim
-    distribution that you would like to try out.
-* What if I want to "uninstall" this configuration:
-  * See [lazy.nvim uninstall](https://lazy.folke.io/usage#-uninstalling) information
-* Why is the kickstart `init.lua` a single file? Wouldn't it make sense to split it into multiple files?
-  * The main purpose of kickstart is to serve as a teaching tool and a reference
-    configuration that someone can easily use to `git clone` as a basis for their own.
-    As you progress in learning Neovim and Lua, you might consider splitting `init.lua`
-    into smaller parts. A fork of kickstart that does this while maintaining the
-    same functionality is available here:
-    * [kickstart-modular.nvim](https://github.com/dam9000/kickstart-modular.nvim)
-  * Discussions on this topic can be found here:
-    * [Restructure the configuration](https://github.com/nvim-lua/kickstart.nvim/issues/218)
-    * [Reorganize init.lua into a multi-file setup](https://github.com/nvim-lua/kickstart.nvim/pull/473)
-
-### Install Recipes
-
-Below you can find OS specific install instructions for Neovim and dependencies.
-
-After installing all the dependencies continue with the [Install Kickstart](#Install-Kickstart) step.
-
-#### Windows Installation
-
-<details><summary>Windows with Microsoft C++ Build Tools and CMake</summary>
-Installation may require installing build tools and updating the run command for `telescope-fzf-native`
-
-See `telescope-fzf-native` documentation for [more details](https://github.com/nvim-telescope/telescope-fzf-native.nvim#installation)
-
-This requires:
-
-- Install CMake and the Microsoft C++ Build Tools on Windows
-
-```lua
-{'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
-```
-</details>
-<details><summary>Windows with gcc/make using chocolatey</summary>
-Alternatively, one can install gcc and make which don't require changing the config,
-the easiest way is to use choco:
-
-1. install [chocolatey](https://chocolatey.org/install)
-either follow the instructions on the page or use winget,
-run in cmd as **admin**:
-```
-winget install --accept-source-agreements chocolatey.chocolatey
-```
-
-2. install all requirements using choco, exit the previous cmd and
-open a new one so that choco path is set, and run in cmd as **admin**:
-```
-choco install -y neovim git ripgrep wget fd unzip gzip mingw make
-```
-</details>
-<details><summary>WSL (Windows Subsystem for Linux)</summary>
-
-```
-wsl --install
-wsl
-sudo add-apt-repository ppa:neovim-ppa/unstable -y
-sudo apt update
-sudo apt install make gcc ripgrep unzip git xclip neovim
-```
-</details>
-
-#### Linux Install
-<details><summary>Ubuntu Install Steps</summary>
-
-```
-sudo add-apt-repository ppa:neovim-ppa/unstable -y
-sudo apt update
-sudo apt install make gcc ripgrep unzip git xclip neovim
-```
-</details>
-<details><summary>Debian Install Steps</summary>
-
-```
-sudo apt update
-sudo apt install make gcc ripgrep unzip git xclip curl
-
-# Now we install nvim
-curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
-sudo rm -rf /opt/nvim-linux-x86_64
-sudo mkdir -p /opt/nvim-linux-x86_64
-sudo chmod a+rX /opt/nvim-linux-x86_64
-sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
-
-# make it available in /usr/local/bin, distro installs to /usr/bin
-sudo ln -sf /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/
-```
-</details>
-<details><summary>Fedora Install Steps</summary>
-
-```
-sudo dnf install -y gcc make git ripgrep fd-find unzip neovim
-```
-</details>
-
-<details><summary>Arch Install Steps</summary>
-
-```
-sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
-```
-</details>
-
+💡 **팁**: 
+- `<leader>?`를 눌러서 현재 버퍼에서 사용 가능한 모든 키맵을 확인할 수 있습니다!
+- 처음 실행 시 모든 플러그인과 도구가 자동으로 설치됩니다.
+- `:checkhealth`로 설정 상태를 점검하고 문제를 해결할 수 있습니다.

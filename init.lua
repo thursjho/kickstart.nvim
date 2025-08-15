@@ -1280,6 +1280,107 @@ require('lazy').setup({
       { "<leader>sR", function() Snacks.picker.resume() end, desc = "Resume" },
       { "<leader>su", function() Snacks.picker.undo() end, desc = "Undo History" },
       { "<leader>uC", function() Snacks.picker.colorschemes() end, desc = "Colorschemes" },
+      -- Tmux integration
+      { "<leader>st", function() 
+        -- Custom tmux session picker with preview
+        local function get_tmux_sessions()
+          local handle = io.popen("tmux list-sessions -F '#{session_name}\t#{session_windows}\t#{?session_attached,●,○}\t#{session_created}\t#{session_last_attached}' 2>/dev/null")
+          if not handle then
+            vim.notify("tmux not found or no sessions available", vim.log.levels.WARN)
+            return {}
+          end
+          
+          local sessions = {}
+          for line in handle:lines() do
+            local name, windows, attached, created, last_attached = line:match("([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]*)")
+            if name then
+              table.insert(sessions, {
+                text = string.format("%-20s %s %s windows", name, attached, windows),
+                session = name,
+                windows = windows,
+                attached = attached == "●",
+                created = created,
+                last_attached = last_attached or "never"
+              })
+            end
+          end
+          handle:close()
+          return sessions
+        end
+        
+        local function get_session_windows(session_name)
+          local handle = io.popen(string.format("tmux list-windows -t '%s' -F '#{window_index}: #{window_name} [#{window_panes} panes]#{?window_active, (active),}' 2>/dev/null", session_name))
+          if not handle then return {} end
+          
+          local windows = {}
+          for line in handle:lines() do
+            table.insert(windows, line)
+          end
+          handle:close()
+          return windows
+        end
+        
+        local sessions = get_tmux_sessions()
+        if #sessions == 0 then
+          vim.notify("No tmux sessions found", vim.log.levels.INFO)
+          return
+        end
+        
+        -- Create items for Snacks picker
+        local items = {}
+        for _, session in ipairs(sessions) do
+          table.insert(items, {
+            text = session.text,
+            session_name = session.session,
+            windows_count = session.windows,
+            attached = session.attached,
+            created = session.created,
+            last_attached = session.last_attached
+          })
+        end
+        
+        -- Use stable vim.ui.select with enhanced display
+        local enhanced_sessions = {}
+        for _, session in ipairs(sessions) do
+          -- Add preview info directly to the display text
+          local windows_list = get_session_windows(session.session)
+          local preview_text = string.format("%s | %s | %s", 
+            session.text,
+            session.attached and "Connected" or "Disconnected",
+            #windows_list > 0 and table.concat(windows_list, ", "):gsub("%s*%[%d+ panes%]", "") or "No windows"
+          )
+          
+          table.insert(enhanced_sessions, {
+            display = preview_text,
+            session_name = session.session,
+            original = session
+          })
+        end
+        
+        vim.ui.select(enhanced_sessions, {
+          prompt = "󰀹 Select tmux session:",
+          format_item = function(item)
+            return item.display
+          end,
+        }, function(choice)
+          if choice and choice.session_name then
+            local cmd = string.format("tmux switch-client -t '%s'", choice.session_name)
+            local result = os.execute(cmd)
+            if result == 0 then
+              vim.notify("Switched to tmux session: " .. choice.session_name, vim.log.levels.INFO)
+            else
+              -- Try attaching if switch failed (not inside tmux)
+              cmd = string.format("tmux attach-session -t '%s'", choice.session_name)
+              local attach_result = os.execute(cmd)
+              if attach_result == 0 then
+                vim.notify("Attached to tmux session: " .. choice.session_name, vim.log.levels.INFO)
+              else
+                vim.notify("Failed to switch/attach to session: " .. choice.session_name, vim.log.levels.ERROR)
+              end
+            end
+          end
+        end)
+      end, desc = "Tmux Sessions" },
       -- LSP
       { "gd", function() Snacks.picker.lsp_definitions() end, desc = "Goto Definition" },
       { "gD", function() Snacks.picker.lsp_declarations() end, desc = "Goto Declaration" },
@@ -1364,6 +1465,145 @@ require('lazy').setup({
         }
       })
     end
+  },
+
+  -- 🐛 Debugging Setup with DAP (Debug Adapter Protocol)
+  { -- Core DAP plugin
+    'mfussenegger/nvim-dap',
+    dependencies = {
+      -- UI for DAP
+      'rcarriga/nvim-dap-ui',
+      'nvim-neotest/nvim-nio', -- Required by dap-ui
+      
+      -- Virtual text showing variable values during debugging
+      'theHamsta/nvim-dap-virtual-text',
+      
+      -- Mason integration for DAP adapters
+      'jay-babu/mason-nvim-dap.nvim',
+      
+      -- Language specific extensions
+      'mfussenegger/nvim-dap-python', -- Python debugging
+    },
+    config = function()
+      local dap = require('dap')
+      local dapui = require('dapui')
+
+      -- Mason DAP setup - automatically install debuggers
+      require('mason-nvim-dap').setup({
+        automatic_installation = true,
+        handlers = {},
+        ensure_installed = {
+          'debugpy', -- Python debugger
+          'js-debug-adapter', -- JavaScript/TypeScript debugger
+        }
+      })
+
+      -- DAP UI setup
+      dapui.setup({
+        icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
+        controls = {
+          icons = {
+            pause = '⏸',
+            play = '▶',
+            step_into = '⏎',
+            step_over = '⏭',
+            step_out = '⏮',
+            step_back = 'b',
+            run_last = '▶▶',
+            terminate = '⏹',
+            disconnect = '⏏',
+          },
+        },
+      })
+
+      -- Virtual text setup - shows variable values inline
+      require('nvim-dap-virtual-text').setup({
+        enabled = true,
+        enabled_commands = true,
+        highlight_changed_variables = true,
+        highlight_new_as_changed = false,
+        show_stop_reason = true,
+        commented = false,
+      })
+
+      -- Python debugging setup
+      require('dap-python').setup('python') -- Uses system python, can specify debugpy path
+
+      -- JavaScript/TypeScript debugging setup
+      dap.adapters['pwa-node'] = {
+        type = 'server',
+        host = 'localhost',
+        port = '${port}',
+        executable = {
+          command = 'js-debug-adapter',
+          args = { '${port}' },
+        }
+      }
+
+      -- JavaScript debugging configuration
+      dap.configurations.javascript = {
+        {
+          type = 'pwa-node',
+          request = 'launch',
+          name = 'Launch file',
+          program = '${file}',
+          cwd = '${workspaceFolder}',
+        },
+        {
+          type = 'pwa-node',
+          request = 'attach',
+          name = 'Attach',
+          processId = require('dap.utils').pick_process,
+          cwd = '${workspaceFolder}',
+        }
+      }
+
+      -- TypeScript debugging (same as JavaScript)
+      dap.configurations.typescript = dap.configurations.javascript
+
+      -- React debugging configuration
+      dap.configurations.javascriptreact = {
+        {
+          type = 'pwa-node',
+          request = 'launch',
+          name = 'Launch React App',
+          runtimeExecutable = 'npm',
+          runtimeArgs = { 'start' },
+          cwd = '${workspaceFolder}',
+          port = 3000,
+        }
+      }
+      dap.configurations.typescriptreact = dap.configurations.javascriptreact
+
+      -- Auto open/close DAP UI
+      dap.listeners.after.event_initialized['dapui_config'] = function()
+        dapui.open()
+      end
+      dap.listeners.before.event_terminated['dapui_config'] = function()
+        dapui.close()
+      end
+      dap.listeners.before.event_exited['dapui_config'] = function()
+        dapui.close()
+      end
+
+      -- Debugging keymaps
+      vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue' })
+      vim.keymap.set('n', '<F10>', dap.step_over, { desc = 'Debug: Step Over' })
+      vim.keymap.set('n', '<F11>', dap.step_into, { desc = 'Debug: Step Into' })
+      vim.keymap.set('n', '<F12>', dap.step_out, { desc = 'Debug: Step Out' })
+      vim.keymap.set('n', '<leader>db', dap.toggle_breakpoint, { desc = 'Debug: Toggle Breakpoint' })
+      vim.keymap.set('n', '<leader>dB', function()
+        dap.set_breakpoint(vim.fn.input('Breakpoint condition: '))
+      end, { desc = 'Debug: Set Conditional Breakpoint' })
+      vim.keymap.set('n', '<leader>dr', dap.repl.open, { desc = 'Debug: Open REPL' })
+      vim.keymap.set('n', '<leader>dl', dap.run_last, { desc = 'Debug: Run Last' })
+      vim.keymap.set('n', '<leader>dt', dap.terminate, { desc = 'Debug: Terminate' })
+      
+      -- DAP UI specific keymaps
+      vim.keymap.set('n', '<leader>du', dapui.toggle, { desc = 'Debug: Toggle UI' })
+      vim.keymap.set('n', '<leader>de', dapui.eval, { desc = 'Debug: Evaluate Expression' })
+      vim.keymap.set('v', '<leader>de', dapui.eval, { desc = 'Debug: Evaluate Selection' })
+    end,
   }
 
 
