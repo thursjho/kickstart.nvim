@@ -76,6 +76,7 @@
 - `<leader>/` - 전체 검색 (Grep)
 - `<leader>:` - 명령 히스토리
 - `<leader>e` - 파일 탐색기
+ - `<leader>fR` - Ranger 파일 매니저 열기
 - `<leader>re` - 최근 수정 위치 목록
 
 ### 파일 탐색 (Oil.nvim)
