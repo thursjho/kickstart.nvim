@@ -221,6 +221,24 @@ return {
           { 'Prev Yank in Ring', '[y' },
           { 'Yank History Picker', '<leader>p' },
         },
+        ['Recent Edits Navigation'] = {
+          { 'Recently Edited Locations', '<leader>re' },
+          { 'Next Recent Edit', ']e' },
+          { 'Prev Recent Edit', '[e' },
+        },
+        ['Git Age Navigation'] = {
+          { 'Next Change (≤1 day)', ']rd' },
+          { 'Prev Change (≤1 day)', '[rd' },
+          { 'Next Change (≤1 week)', ']rw' },
+          { 'Prev Change (≤1 week)', '[rw' },
+          { 'Next Change (≤1 month)', ']rm' },
+          { 'Prev Change (≤1 month)', '[rm' },
+        },
+        ['Git Changes Navigation'] = {
+          { 'Next Project Change', ']g' },
+          { 'Prev Project Change', '[g' },
+          { 'Open Project Changes (QF)', '<leader>gq' },
+        },
         ['Misc'] = {
           { 'Command History', '<leader>:' },
           { 'Notification History', '<leader>n' },
