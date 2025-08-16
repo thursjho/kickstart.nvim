@@ -307,6 +307,51 @@
 - `<leader>cd` - 문서화 요청
 - `<leader>cq` - 빠른 질문
 
+### 테스팅 (Neotest Framework)
+#### 기본 테스트 명령어
+- `<leader>tt` - 가장 가까운 테스트 실행
+- `<leader>tf` - 현재 파일의 모든 테스트 실행
+- `<leader>ta` - 전체 프로젝트 테스트 실행
+- `<leader>tl` - 마지막 테스트 재실행
+- `<leader>ts` - 테스트 요약 패널 토글
+- `<leader>tS` - 테스트 실행 중단
+
+#### 테스트 디버깅 및 출력
+- `<leader>td` - 가장 가까운 테스트 디버깅
+- `<leader>to` - 테스트 출력 보기
+- `<leader>tO` - 테스트 출력 패널 토글
+- `<leader>tw` - 현재 파일 테스트 감시 모드 토글
+
+#### 테스트 네비게이션
+- `]t` - 다음 실패한 테스트로 이동
+- `[t` - 이전 실패한 테스트로 이동
+
+#### 지원하는 테스트 프레임워크
+1. **Python**: pytest 기본 지원, 가상환경 자동 감지
+2. **JavaScript/TypeScript**: Jest, Vitest 지원
+3. **E2E Testing**: Playwright 지원
+4. **설정 자동 감지**: 프로젝트 루트의 설정 파일 자동 탐지
+
+#### 테스트 요약 패널 키맵
+- `r` - 선택된 테스트 실행
+- `d` - 선택된 테스트 디버깅
+- `o` - 테스트 출력 보기
+- `e` - 모든 테스트 펼치기
+- `w` - 테스트 감시 모드
+- `m` - 테스트 마킹
+- `R` - 마킹된 테스트들 실행
+
+### Frontend 개발 도구
+#### Auto Tag Management (nvim-ts-autotag)
+- HTML/JSX 태그 자동 완성
+- 태그 이름 변경 시 자동 동기화
+- React, Vue, Angular 등 모든 JSX 기반 프레임워크 지원
+
+#### Enhanced Tailwind CSS (tailwind-tools.nvim)
+- 실시간 색상 미리보기 (인라인 표시)
+- Tailwind 클래스 자동완성 강화
+- 다중 파일 타입 지원: HTML, CSS, JS/TS, React, Vue, Svelte, Astro
+
 ### 워크스페이스 관리 (Workspace Management)
 #### 기본 워크스페이스 명령어
 - `<leader>fw` - 워크스페이스 전환 (Snacks Picker 사용)
@@ -402,8 +447,16 @@
 ### HTML/CSS 개발
 1. Emmet으로 빠른 HTML 구조 생성
 2. CSS 색상 실시간 미리보기
-3. TailwindCSS 지원
-4. HTML 태그 자동 완성
+3. TailwindCSS 지원 (강화된 색상 미리보기 및 자동완성)
+4. HTML 태그 자동 완성 및 동기화
+
+### 테스트 주도 개발
+1. **빠른 테스트 실행**: `<leader>tt`로 커서 위치의 테스트 즉시 실행
+2. **파일 단위 테스트**: `<leader>tf`로 현재 파일의 모든 테스트 실행
+3. **테스트 감시**: `<leader>tw`로 파일 변경 시 자동 테스트 실행
+4. **시각적 피드백**: 테스트 결과를 아이콘과 색상으로 표시
+5. **통합 디버깅**: `<leader>td`로 테스트 내에서 직접 디버깅
+6. **다중 프레임워크**: Jest, Vitest, Playwright, pytest 동시 지원
 
 ### Tmux 세션 관리
 1. `<leader>st`로 tmux 세션 선택기 열기
@@ -464,6 +517,9 @@
 - **nvim-dap** - 디버거 (DAP 프로토콜)
 - **nvim-dap-ui** - 디버깅 UI
 - **nvim-treesitter** - 구문 하이라이팅
+- **neotest** - 통합 테스팅 프레임워크 (Jest, Vitest, Playwright, Python 지원)
+- **nvim-ts-autotag** - HTML/JSX 자동 태그 관리
+- **tailwind-tools.nvim** - Tailwind CSS 강화 도구
 
 ### Git 관련
 - **gitsigns.nvim** - Git 변경사항 표시

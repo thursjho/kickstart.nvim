@@ -376,6 +376,7 @@ require('lazy').setup({
           { '<leader>gh', group = 'hunks' },
           { '<leader>q', group = 'quit/session' },
           { '<leader>s', group = 'search' },
+          { '<leader>t', group = 'test' },
           { '<leader>u', group = 'ui', icon = { icon = '󰙵 ', color = 'cyan' } },
           { '<leader>x', group = 'diagnostics/quickfix', icon = { icon = '󱖫 ', color = 'green' } },
           { '[', group = 'prev' },
@@ -1190,6 +1191,219 @@ require('lazy').setup({
     --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+  },
+
+  -- 🏷️ Auto Tag Management
+  {
+    'windwp/nvim-ts-autotag',
+    event = 'VeryLazy',
+    opts = {
+      opts = {
+        enable_close = true,
+        enable_rename = true,
+        enable_close_on_slash = false,
+      },
+      per_filetype = {
+        ['html'] = {
+          enable_close = false,
+        },
+      },
+    },
+  },
+
+  -- 🎨 Enhanced Tailwind CSS Support
+  {
+    'luckasRanarison/tailwind-tools.nvim',
+    name = 'tailwind-tools',
+    build = ':UpdateRemotePlugins',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+      'nvim-lua/plenary.nvim',
+    },
+    opts = {
+      document_color = {
+        enabled = true,
+        kind = 'inline',
+        inline_symbol = '󰝤 ',
+        debounce = 200,
+      },
+      conceal = {
+        enabled = false,
+      },
+      custom_filetypes = {},
+    },
+    ft = {
+      'html',
+      'css',
+      'scss',
+      'javascript',
+      'typescript',
+      'javascriptreact',
+      'typescriptreact',
+      'vue',
+      'svelte',
+      'astro',
+    },
+  },
+
+  -- 🧪 Testing Framework (Neotest)
+  {
+    'nvim-neotest/neotest',
+    dependencies = {
+      'nvim-neotest/nvim-nio',
+      'nvim-lua/plenary.nvim',
+      'antoinemadec/FixCursorHold.nvim',
+      'nvim-treesitter/nvim-treesitter',
+      -- Test adapters
+      'nvim-neotest/neotest-python',
+      'nvim-neotest/neotest-jest',
+      'marilari88/neotest-vitest',
+      'thenbe/neotest-playwright',
+    },
+    config = function()
+      require('neotest').setup {
+        adapters = {
+          require 'neotest-python' {
+            dap = { justMyCode = false },
+            args = { '--log-level', 'DEBUG' },
+            runner = 'pytest',
+            python = '.venv/bin/python',
+          },
+          require 'neotest-jest' {
+            jestCommand = 'npm test --',
+            jestConfigFile = 'jest.config.js',
+            env = { CI = true },
+            cwd = function()
+              return vim.fn.getcwd()
+            end,
+          },
+          require 'neotest-vitest' {
+            filter_dir = function(name)
+              return name ~= 'node_modules'
+            end,
+          },
+          require 'neotest-playwright',
+        },
+        discovery = {
+          enabled = true,
+          concurrent = 1,
+        },
+        running = {
+          concurrent = true,
+        },
+        summary = {
+          enabled = true,
+          expand_errors = true,
+          follow = true,
+          mappings = {
+            attach = 'a',
+            clear_marked = 'M',
+            clear_target = 'T',
+            debug = 'd',
+            debug_marked = 'D',
+            expand = { '<CR>', '<2-LeftMouse>' },
+            expand_all = 'e',
+            jumpto = 'i',
+            mark = 'm',
+            next_failed = 'J',
+            output = 'o',
+            prev_failed = 'K',
+            run = 'r',
+            run_marked = 'R',
+            short = 'O',
+            stop = 'u',
+            target = 't',
+            watch = 'w',
+          },
+        },
+        output = {
+          enabled = true,
+          open_on_run = 'short',
+        },
+        quickfix = {
+          enabled = true,
+          open = false,
+        },
+        status = {
+          enabled = true,
+          virtual_text = false,
+          signs = true,
+        },
+        icons = {
+          child_indent = '│',
+          child_prefix = '├',
+          collapsed = '─',
+          expanded = '╮',
+          failed = '󰅚',
+          final_child_indent = ' ',
+          final_child_prefix = '╰',
+          non_collapsible = '─',
+          notify = '󰗠',
+          passed = '󰱒',
+          running = '󰑮',
+          running_animated = { '/', '|', '\\', '-', '/', '|', '\\', '-' },
+          skipped = '󰒲',
+          unknown = '󰘥',
+          watching = '󰗖',
+        },
+        floating = {
+          border = 'rounded',
+          max_height = 0.8,
+          max_width = 0.8,
+          options = {},
+        },
+      }
+
+      -- Test keymaps
+      vim.keymap.set('n', '<leader>tt', function()
+        require('neotest').run.run()
+      end, { desc = 'Run Nearest Test' })
+
+      vim.keymap.set('n', '<leader>tf', function()
+        require('neotest').run.run(vim.fn.expand '%')
+      end, { desc = 'Run Current File Tests' })
+
+      vim.keymap.set('n', '<leader>td', function()
+        require('neotest').run.run { strategy = 'dap' }
+      end, { desc = 'Debug Nearest Test' })
+
+      vim.keymap.set('n', '<leader>ts', function()
+        require('neotest').summary.toggle()
+      end, { desc = 'Toggle Test Summary' })
+
+      vim.keymap.set('n', '<leader>to', function()
+        require('neotest').output.open { enter = true, auto_close = true }
+      end, { desc = 'Show Test Output' })
+
+      vim.keymap.set('n', '<leader>tO', function()
+        require('neotest').output_panel.toggle()
+      end, { desc = 'Toggle Test Output Panel' })
+
+      vim.keymap.set('n', '<leader>tw', function()
+        require('neotest').watch.toggle(vim.fn.expand '%')
+      end, { desc = 'Toggle Watch Current File' })
+
+      vim.keymap.set('n', '<leader>ta', function()
+        require('neotest').run.run(vim.fn.getcwd())
+      end, { desc = 'Run All Tests' })
+
+      vim.keymap.set('n', '<leader>tl', function()
+        require('neotest').run.run_last()
+      end, { desc = 'Run Last Test' })
+
+      vim.keymap.set('n', '<leader>tS', function()
+        require('neotest').run.stop()
+      end, { desc = 'Stop Tests' })
+
+      -- Test navigation
+      vim.keymap.set('n', ']t', function()
+        require('neotest').jump.next { status = 'failed' }
+      end, { desc = 'Next Failed Test' })
+
+      vim.keymap.set('n', '[t', function()
+        require('neotest').jump.prev { status = 'failed' }
+      end, { desc = 'Previous Failed Test' })
+    end,
   },
 
   -- custom
