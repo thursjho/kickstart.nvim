@@ -203,7 +203,7 @@ vim.keymap.set('n', '<leader>R', function()
   
   -- Notify user
   vim.notify('Neovim configuration reloaded!', vim.log.levels.INFO)
-end, { desc = '[R]eload Neovim configuration' })
+end, { desc = 'reload neovim config' })
 
 -- TIP: Disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
