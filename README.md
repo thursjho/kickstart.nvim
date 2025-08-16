@@ -436,6 +436,7 @@
 
 #### Obsidian 워크플로우
 1. **자동 Vault 탐지**: 다음 경로들에서 자동으로 Obsidian vault를 찾습니다:
+   - `~/documents/obsidian/`
    - `~/Documents/Obsidian/`
    - `~/Obsidian/`
    - `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/` (iCloud)
@@ -443,10 +444,11 @@
    - `~/Dropbox/Obsidian/`
    - `~/OneDrive/Obsidian/`
 2. **디바이스별 설정**: 각 디바이스의 Obsidian vault 위치가 다르더라도 자동으로 감지
-3. **빠른 노트 접근**: `<leader>on`으로 최근 수정된 노트 순으로 빠른 검색
-4. **일일 노트**: `<leader>ot`로 매일 노트 작성 및 관리
-5. **링크 네트워크**: 백링크와 링크를 통한 지식 그래프 구축
-6. **템플릿 활용**: `Templates` 폴더의 템플릿을 통한 일관된 노트 구조
+3. **동적 워크스페이스**: 일반 마크다운 파일도 Obsidian 기능을 사용할 수 있도록 동적 워크스페이스 지원
+4. **빠른 노트 접근**: `<leader>on`으로 최근 수정된 노트 순으로 빠른 검색
+5. **일일 노트**: `<leader>ot`로 매일 노트 작성 및 관리
+6. **링크 네트워크**: 백링크와 링크를 통한 지식 그래프 구축
+7. **템플릿 활용**: `Templates` 폴더의 템플릿을 통한 일관된 노트 구조
 
 #### Obsidian 특별 기능
 - **자동 체크박스**: 다양한 체크박스 상태 시각화 (`[ ]`, `[x]`, `[>]`, `[~]`)

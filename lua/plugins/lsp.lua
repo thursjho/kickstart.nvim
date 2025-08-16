@@ -145,6 +145,20 @@ return {
       },
       sources = {
         default = { 'lsp', 'path', 'luasnip', 'buffer' },
+        providers = {
+          obsidian = {
+            name = 'Obsidian',
+            module = 'blink.compat.source',
+            opts = {
+              get_source = function()
+                return require('obsidian').get_completion_source()
+              end,
+            },
+          },
+        },
+        per_filetype = {
+          markdown = { 'obsidian', 'lsp', 'path', 'luasnip', 'buffer' },
+        },
       },
       completion = {
         documentation = {

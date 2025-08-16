@@ -14,6 +14,7 @@ return {
       -- Auto-detect common Obsidian vault locations
       local function find_vaults()
         local possible_paths = {
+          vim.fn.expand('~/documents/obsidian'),
           vim.fn.expand('~/Documents/Obsidian'),
           vim.fn.expand('~/Obsidian'),
           vim.fn.expand('~/Library/Mobile Documents/iCloud~md~obsidian/Documents'),
@@ -58,13 +59,26 @@ return {
         return workspaces
       end
 
+      local workspaces = find_vaults()
+      
+      -- Add dynamic workspace for any directory (replaces detect_cwd)
+      table.insert(workspaces, {
+        name = "no-vault",
+        path = function()
+          return assert(vim.fs.dirname(vim.api.nvim_buf_get_name(0)))
+        end,
+        overrides = {
+          notes_subdir = vim.NIL, -- Don't enforce notes subdirectory
+          new_notes_location = "current_dir",
+        }
+      })
+
       return {
-        workspaces = find_vaults(),
-        detect_cwd = true, -- Auto-detect if current directory is a vault
+        workspaces = workspaces,
         completion = {
-        nvim_cmp = true,
-        min_chars = 2,
-      },
+          nvim_cmp = false, -- Using blink.cmp instead
+          min_chars = 2,
+        },
       mappings = {
         ['gf'] = {
           action = function()
@@ -202,7 +216,7 @@ return {
       { '<leader>oT', '<cmd>ObsidianTemplate<cr>', desc = 'Insert template' },
     },
     config = function(_, opts)
-      require('obsidian').setup(opts())
+      require('obsidian').setup(opts)
       
       -- Configure snacks picker integration
       vim.keymap.set('n', '<leader>of', function()
