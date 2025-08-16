@@ -184,6 +184,27 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
+-- Reload Neovim configuration
+vim.keymap.set('n', '<leader>R', function()
+  -- Save current file if it's been modified
+  if vim.bo.modified then
+    vim.cmd('write')
+  end
+  
+  -- Clear all loaded modules to force reload
+  for name, _ in pairs(package.loaded) do
+    if name:match('^user') or name:match('^config') or name:match('^custom') then
+      package.loaded[name] = nil
+    end
+  end
+  
+  -- Source the init.lua file
+  dofile(vim.env.MYVIMRC)
+  
+  -- Notify user
+  vim.notify('Neovim configuration reloaded!', vim.log.levels.INFO)
+end, { desc = '[R]eload Neovim configuration' })
+
 -- TIP: Disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 -- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
