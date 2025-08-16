@@ -352,6 +352,52 @@
 - Tailwind 클래스 자동완성 강화
 - 다중 파일 타입 지원: HTML, CSS, JS/TS, React, Vue, Svelte, Astro
 
+### Obsidian 노트 관리 (Obsidian.nvim)
+#### 기본 Vault 및 노트 관리
+- `<leader>ov` - Obsidian Vault 전환 (Snacks Picker 사용)
+- `<leader>on` - Obsidian 노트 열기 (Snacks Picker 사용)
+- `<leader>oN` - 새 Obsidian 노트 생성
+- `<leader>oo` - Obsidian 앱에서 열기
+
+#### 일일 노트 관리
+- `<leader>ot` - 오늘 노트 열기
+- `<leader>oy` - 어제 노트 열기
+- `<leader>om` - 내일 노트 열기
+
+#### 검색 및 네비게이션
+- `<leader>os` - Obsidian 노트 검색
+- `<leader>oq` - 빠른 노트 전환
+- `<leader>ob` - 백링크 보기
+- `<leader>ol` - 노트 링크 보기
+- `<leader>oT` - 태그 목록 보기
+
+#### 노트 편집 및 유틸리티
+- `<leader>op` - 이미지 붙여넣기
+- `<leader>or` - 노트 이름 변경
+- `<leader>oc` - 목차 생성
+- `<leader>otm` - 템플릿 삽입
+- `<leader>oe` - 선택 텍스트를 새 노트로 추출 (Visual 모드)
+
+#### 링크 관리
+- `<leader>oL` - 선택 텍스트에서 링크 생성 (Visual 모드)
+- `<leader>oln` - 새 노트로 링크 생성 (Visual 모드)
+- `gf` - 링크 따라가기 (커서가 링크 위에 있을 때)
+- `<CR>` - 스마트 액션 (링크 따라가기/체크박스 토글 등)
+- `<leader>ch` - 체크박스 토글
+
+#### Obsidian 워크플로우
+1. **Vault 설정**: 기본적으로 `~/Documents/Obsidian/Personal`과 `~/Documents/Obsidian/Work` 설정
+2. **빠른 노트 접근**: `<leader>on`으로 최근 수정된 노트 순으로 빠른 검색
+3. **일일 노트**: `<leader>ot`로 매일 노트 작성 및 관리
+4. **링크 네트워크**: 백링크와 링크를 통한 지식 그래프 구축
+5. **템플릿 활용**: `Templates` 폴더의 템플릿을 통한 일관된 노트 구조
+
+#### Obsidian 특별 기능
+- **자동 체크박스**: 다양한 체크박스 상태 시각화 (`[ ]`, `[x]`, `[>]`, `[~]`)
+- **이미지 관리**: 클립보드 이미지를 `Assets/Images` 폴더에 자동 저장
+- **실시간 UI**: 링크, 태그, 하이라이트 텍스트 실시간 스타일링
+- **Snacks Picker 통합**: 모든 선택 작업이 일관된 인터페이스로 통합
+
 ### 워크스페이스 관리 (Workspace Management)
 #### 기본 워크스페이스 명령어
 - `<leader>fw` - 워크스페이스 전환 (Snacks Picker 사용)
@@ -458,6 +504,14 @@
 5. **통합 디버깅**: `<leader>td`로 테스트 내에서 직접 디버깅
 6. **다중 프레임워크**: Jest, Vitest, Playwright, pytest 동시 지원
 
+### Obsidian 노트 작성
+1. **Vault 초기 설정**: `~/Documents/Obsidian/Personal`과 `~/Documents/Obsidian/Work` 폴더 생성
+2. **빠른 노트 탐색**: `<leader>on`으로 모든 노트를 최근 수정순으로 검색
+3. **일일 노트 습관**: `<leader>ot`로 매일 노트 작성 및 관리
+4. **지식 연결**: `[[링크]]` 문법과 백링크를 통한 노트 간 연결
+5. **이미지 관리**: `<leader>op`로 클립보드 이미지를 노트에 바로 삽입
+6. **템플릿 활용**: `Templates` 폴더의 템플릿으로 일관된 노트 구조 유지
+
 ### Tmux 세션 관리
 1. `<leader>st`로 tmux 세션 선택기 열기
 2. 세션 목록에서 상태(attached/not attached)와 창 개수 확인
@@ -542,6 +596,9 @@
 - **nvim-colorizer.lua** - CSS 색상 미리보기
 - **vim-matchup** - 태그 매칭
 - **emmet-vim** - Emmet 지원
+
+### 노트 관리
+- **obsidian.nvim** - Obsidian Vault 통합 및 노트 관리 (Snacks Picker 통합)
 
 ### 유틸리티
 - **smart-splits.nvim** - 스마트 윈도우 관리

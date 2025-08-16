@@ -374,6 +374,7 @@ require('lazy').setup({
           { '<leader>f', group = 'file/find' },
           { '<leader>g', group = 'git' },
           { '<leader>gh', group = 'hunks' },
+          { '<leader>o', group = 'obsidian' },
           { '<leader>q', group = 'quit/session' },
           { '<leader>s', group = 'search' },
           { '<leader>t', group = 'test' },
