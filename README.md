@@ -374,6 +374,22 @@
 - 커밋 요약, 날짜, 작성자 정보를 한눈에 확인
 - `<leader>gW`로 해당 커밋의 웹 URL 열기 (GitHub/GitLab)
 
+### Neogit Git 워크플로우
+1. **상태 확인**: `<leader>gn`으로 Neogit 열기
+2. **스테이징**: 파일에서 `s`로 스테이지, `u`로 언스테이지
+3. **커밋**: `c`로 커밋 팝업 → 옵션 선택 → 커밋 메시지 작성 → `<Ctrl-c><Ctrl-c>`로 제출
+4. **푸시**: `P`로 Push 팝업 → 옵션 선택하여 푸시
+5. **브랜치 관리**: `b`로 브랜치 팝업 → 새 브랜치 생성, 체크아웃, 삭제 등
+6. **리베이스**: `r`로 리베이스 팝업 → 인터랙티브 리베이스로 커밋 정리
+7. **Diff 보기**: `D`로 Diff 팝업 → diffview 통합으로 상세 diff 확인
+
+### 통합 Git 도구 사용 팁
+- **빠른 확인**: Snacks Picker(`<leader>gs`, `<leader>gl`)로 상태/로그 빠르게 보기
+- **상세 작업**: Neogit(`<leader>gn`)으로 복잡한 Git 작업 수행
+- **Diff 분석**: Diffview(`<leader>gd`)로 변경사항 상세 비교
+- **Blame 추적**: 자동 Git Blame으로 코드 히스토리 추적
+- **빠른 커밋**: `<leader>gc`로 즉시 커밋 화면 열기
+
 ## 📦 주요 플러그인 목록
 
 ### 핵심 플러그인
@@ -394,6 +410,7 @@
 - **gitsigns.nvim** - Git 변경사항 표시
 - **git-blame.nvim** - Git blame 정보 표시
 - **diffview.nvim** - Git diff 뷰어 및 파일 히스토리
+- **neogit.nvim** - Git 인터페이스 (Magit 스타일)
 - **snacks.nvim** - Git 관련 기능 (브랜치, 로그, 상태 등)
 
 ### UI/UX
