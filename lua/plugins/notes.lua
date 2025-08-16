@@ -73,7 +73,18 @@ return {
         }
       })
 
-      return {
+      -- Helper: determine if any configured workspace has a valid Templates dir
+      local function any_templates_exist(ws)
+        for _, w in ipairs(ws) do
+          local base = type(w.path) == 'string' and w.path or nil
+          if base and vim.fn.isdirectory(base .. '/Templates') == 1 then
+            return true
+          end
+        end
+        return false
+      end
+
+      local cfg = {
         workspaces = workspaces,
         completion = {
           nvim_cmp = false, -- Using blink.cmp instead
@@ -132,12 +143,13 @@ return {
         
         return out
       end,
-      templates = {
+      -- Only enable templates if a Templates folder exists in at least one workspace
+      templates = any_templates_exist(workspaces) and {
         folder = 'Templates',
         date_format = '%Y-%m-%d',
         time_format = '%H:%M',
         substitutions = {},
-      },
+      } or nil,
       follow_url_func = function(url)
         vim.fn.jobstart { 'open', url }
       end,
@@ -200,6 +212,8 @@ return {
         end,
       },
       }
+
+      return cfg
     end,
     keys = {
       { '<leader>oo', '<cmd>ObsidianOpen<cr>', desc = 'Open note in Obsidian app' },

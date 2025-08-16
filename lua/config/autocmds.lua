@@ -47,3 +47,15 @@ vim.api.nvim_create_autocmd('VimEnter', {
     dedupe_path()
   end,
 })
+
+-- Ensure Obsidian UI features work: set conceallevel for Markdown
+vim.api.nvim_create_autocmd('FileType', {
+  group = vim.api.nvim_create_augroup('kickstart-markdown-conceal', { clear = true }),
+  pattern = { 'markdown' },
+  callback = function()
+    -- Obsidian.nvim requires conceallevel 1 or 2 for UI enhancements
+    vim.wo.conceallevel = 2
+    -- Conceal in normal/command modes, reveal while inserting
+    vim.wo.concealcursor = 'nc'
+  end,
+})
