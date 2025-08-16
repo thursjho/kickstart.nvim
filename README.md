@@ -15,6 +15,7 @@
 - `<leader>` = `<Space>`
 - `<Esc>` - 검색 하이라이트 제거
 - `<Esc><Esc>` - 터미널 모드에서 나가기
+- `<leader>R` - Neovim 설정 리로드
 
 ### 파일 및 검색 (Snacks Picker)
 #### 주요 파일 검색
@@ -58,7 +59,7 @@
 - `<leader>st` - Tmux 세션 목록
 - `<leader>su` - Undo 히스토리
 
-### Git 관련
+### Git 관련 (Snacks Picker)
 - `<leader>gb` - Git 브랜치
 - `<leader>gl` - Git 로그
 - `<leader>gL` - Git 로그 (현재 라인)
@@ -67,7 +68,48 @@
 - `<leader>gd` - Git Diff (Hunks)
 - `<leader>gf` - Git 로그 (현재 파일)
 - `<leader>gg` - Lazygit 열기
-- `<leader>gB` - Git Browse (GitHub/GitLab)
+- `<leader>gw` - Git Browse (GitHub/GitLab)
+
+### Git Blame (git-blame.nvim)
+- `<leader>gW` - Git Blame 커밋 URL 열기
+- 커서가 있는 라인의 Git Blame 정보 자동 표시 (0.5초 후)
+- 삽입 모드에서는 자동으로 숨김
+
+### Git Diff Viewer (diffview.nvim)
+#### 기본 명령어
+- `<leader>gd` - DiffView 열기 (변경된 파일들의 diff 보기)
+- `<leader>gD` - DiffView 닫기
+- `<leader>gh` - 전체 파일 히스토리 보기
+- `<leader>gH` - 현재 파일 히스토리 보기
+- `<leader>gt` - 파일 패널 토글
+- `<leader>gf` - 파일 패널에 포커스
+- `<leader>gr` - DiffView 새로고침
+
+#### DiffView 내부 키맵
+- `<Tab>` / `<Shift-Tab>` - 다음/이전 파일로 이동
+- `gf` - 파일 열기 (이전 탭에서)
+- `<Ctrl-w><Ctrl-f>` - 새 분할 창에서 파일 열기
+- `<Ctrl-w>gf` - 새 탭에서 파일 열기
+- `<leader>e` - 파일 패널 토글
+- `g<Ctrl-x>` - 레이아웃 순환 변경
+- `[x]` / `]x` - 이전/다음 충돌로 이동
+
+#### 파일 패널 키맵
+- `j` / `k` - 위/아래 엔트리로 이동
+- `<Enter>`, `o`, `l` - 선택된 파일의 diff 열기
+- `-` - 파일 스테이지/언스테이지 토글
+- `S` - 모든 파일 스테이지
+- `U` - 모든 파일 언스테이지
+- `X` - 파일을 원래 상태로 복원
+- `R` - 파일 목록 새로고침
+- `g?` - 도움말 보기
+
+#### 파일 히스토리 패널 키맵
+- `y` - 커밋 해시 복사
+- `L` - 커밋 상세 정보 보기
+- `<Ctrl-Alt-d>` - 선택된 커밋을 diffview에서 열기
+- `g!` - 옵션 패널 열기
+- `zR` / `zM` - 모든 폴드 열기/닫기
 
 ### LSP (Language Server)
 - `gd` - 정의로 이동
@@ -250,6 +292,18 @@
 3. 세션 선택하면 자동으로 전환
 4. tmux 외부에서 실행 시 자동으로 attach
 
+### Git Diff 뷰어 사용법
+1. **변경 사항 확인**: `<leader>gd`로 현재 변경된 파일들의 diff 보기
+2. **파일 히스토리**: `<leader>gh`로 전체 프로젝트 히스토리, `<leader>gH`로 현재 파일 히스토리
+3. **스테이징**: 파일 패널에서 `-`로 개별 파일 스테이지/언스테이지, `S`/`U`로 전체 스테이지/언스테이지
+4. **머지 충돌 해결**: `[x]`/`]x`로 충돌 간 이동, `2do`/`3do`로 변경사항 가져오기
+5. **레이아웃 변경**: `g<Ctrl-x>`로 horizontal/vertical 레이아웃 순환
+
+### Git Blame 정보 보기
+- 파일을 열면 커서가 있는 라인의 Git Blame 정보가 자동으로 표시됩니다
+- 커밋 요약, 날짜, 작성자 정보를 한눈에 확인
+- `<leader>gW`로 해당 커밋의 웹 URL 열기 (GitHub/GitLab)
+
 ## 📦 주요 플러그인 목록
 
 ### 핵심 플러그인
@@ -266,11 +320,18 @@
 - **nvim-dap-ui** - 디버깅 UI
 - **nvim-treesitter** - 구문 하이라이팅
 
+### Git 관련
+- **gitsigns.nvim** - Git 변경사항 표시
+- **git-blame.nvim** - Git blame 정보 표시
+- **diffview.nvim** - Git diff 뷰어 및 파일 히스토리
+- **snacks.nvim** - Git 관련 기능 (브랜치, 로그, 상태 등)
+
 ### UI/UX
 - **kanagawa.nvim** - 컬러스킴
 - **which-key.nvim** - 키바인딩 도움말
 - **snacks.nvim** - 통합 UI 플러그인 (파일 탐색, 검색, 알림 등)
-- **gitsigns.nvim** - Git 변경사항 표시
+- **trouble.nvim** - 진단 및 문제 관리 UI
+- **flash.nvim** - 빠른 네비게이션 및 점프
 
 ### Frontend 전용
 - **nvim-ts-autotag** - HTML/JSX 자동 태그
@@ -281,8 +342,8 @@
 ### 유틸리티
 - **smart-splits.nvim** - 스마트 윈도우 관리
 - **guess-indent.nvim** - 자동 indent 감지
-- **flash.nvim** - 빠른 네비게이션 및 점프
 - **todo-comments.nvim** - TODO 하이라이팅
+- **claude-code.nvim** - AI 어시스턴트 (Claude Code)
 
 ## 📋 설정 파일 위치
 - 메인 설정: `~/.config/nvim-kickstart/init.lua`
