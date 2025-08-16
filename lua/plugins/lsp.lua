@@ -155,21 +155,13 @@ return {
         use_nvim_cmp_as_default = true,
         nerd_font_variant = 'mono'
       },
+      snippets = {
+        preset = 'luasnip',
+      },
       sources = {
-        default = { 'lsp', 'path', 'luasnip', 'buffer' },
-        providers = {
-          obsidian = {
-            name = 'Obsidian',
-            module = 'blink.compat.source',
-            opts = {
-              get_source = function()
-                return require('obsidian').get_completion_source()
-              end,
-            },
-          },
-        },
+        default = { 'lsp', 'path', 'snippets', 'buffer' },
         per_filetype = {
-          markdown = { 'obsidian', 'lsp', 'path', 'luasnip', 'buffer' },
+          markdown = { 'lsp', 'path', 'snippets', 'buffer' },
         },
       },
       completion = {

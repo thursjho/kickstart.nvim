@@ -12,6 +12,14 @@ return {
         changedelete = { text = '~' },
       },
     },
+    config = function(_, opts)
+      require('gitsigns').setup(opts)
+      -- Setup custom Git age feature
+      require('config.git_age').setup()
+    end,
+    keys = {
+      { '<leader>uga', '<cmd>GitAgeToggle<cr>', desc = 'Toggle Git Age Markers' },
+    },
   },
 
   -- Git blame plugins
