@@ -272,7 +272,7 @@ require('lazy').setup({
   { -- Auto-detect indent settings from current file
     'NMAC427/guess-indent.nvim',
     config = function()
-      require('guess-indent').setup({
+      require('guess-indent').setup {
         auto_cmd = true, -- Set to false to disable automatic execution
         override_editorconfig = false, -- Set to true to override editorconfig
         filetype_exclude = { -- A list of filetypes for which the auto command gets disabled
@@ -285,7 +285,7 @@ require('lazy').setup({
           'terminal',
           'prompt',
         },
-      })
+      }
     end,
   },
 
@@ -384,20 +384,20 @@ require('lazy').setup({
       {
         '<leader>?',
         function()
-          require('which-key').show({ global = false })
+          require('which-key').show { global = false }
         end,
         desc = 'Buffer Keymaps (which-key)',
       },
       {
         '<c-w><space>',
         function()
-          require('which-key').show({ keys = '<c-w>', loop = true })
+          require('which-key').show { keys = '<c-w>', loop = true }
         end,
         desc = 'Window Hydra Mode (which-key)',
       },
     },
     config = function(_, opts)
-      local wk = require('which-key')
+      local wk = require 'which-key'
       wk.setup(opts)
       if not vim.tbl_isempty(opts.defaults) then
         wk.register(opts.defaults)
@@ -758,39 +758,38 @@ require('lazy').setup({
           mason = true,
           settings = {
             editor = {
-              tabSize = 2
+              tabSize = 2,
             },
             tailwindCSS = {
-              classAttributes = { "class", "className", "class:list", "classList", "ngClass" },
+              classAttributes = { 'class', 'className', 'class:list', 'classList', 'ngClass' },
               includeLanguages = {
-                eelixir = "html-eex",
-                elixir = "html-eex",
-                eruby = "erb",
-                heex = "html-eex",
-                htmlangular = "html",
-                templ = "html"
+                eelixir = 'html-eex',
+                elixir = 'html-eex',
+                eruby = 'erb',
+                heex = 'html-eex',
+                htmlangular = 'html',
+                templ = 'html',
               },
               lint = {
-                cssConflict = "warning",
-                invalidApply = "error",
-                invalidConfigPath = "error",
-                invalidScreen = "error",
-                invalidTailwindDirective = "error",
-                invalidVariant = "error",
-                recommendedVariantOrder = "warning"
+                cssConflict = 'warning',
+                invalidApply = 'error',
+                invalidConfigPath = 'error',
+                invalidScreen = 'error',
+                invalidTailwindDirective = 'error',
+                invalidVariant = 'error',
+                recommendedVariantOrder = 'warning',
               },
-              validate = true
-            }
-
-          }
+              validate = true,
+            },
+          },
         },
 
         vtsls = {
           settings = {
             typescript = {
-              updateImportsOnFileMove = { enabled = "always" },
+              updateImportsOnFileMove = { enabled = 'always' },
               inlayHints = {
-                parameterNames = { enabled = "all" },
+                parameterNames = { enabled = 'all' },
                 parameterTypes = { enabled = true },
                 variableTypes = { enabled = true },
                 propertyDeclarationTypes = { enabled = true },
@@ -799,9 +798,9 @@ require('lazy').setup({
               },
             },
             javascript = {
-              updateImportsOnFileMove = { enabled = "always" },
+              updateImportsOnFileMove = { enabled = 'always' },
               inlayHints = {
-                parameterNames = { enabled = "literals" },
+                parameterNames = { enabled = 'literals' },
                 parameterTypes = { enabled = true },
                 variableTypes = { enabled = true },
                 propertyDeclarationTypes = { enabled = true },
@@ -820,16 +819,16 @@ require('lazy').setup({
           settings = {
             python = {
               analysis = {
-                typeCheckingMode = "standard",
+                typeCheckingMode = 'standard',
                 diagnosticSeverityOverrides = {
                   -- reportUnknownVariableType = "none",
-                  reportUnknownVariableType = "false",
+                  reportUnknownVariableType = 'false',
                   reportUnknownMemberType = false,
                   reportUnknownParameterType = false,
                   reportMissingParameterType = false,
-                  reportDeprecated = "false",
+                  reportDeprecated = 'false',
                   reportMissingTypeArgument = false,
-                  reportAny = "false",
+                  reportAny = 'false',
                 },
               },
             },
@@ -928,8 +927,8 @@ require('lazy').setup({
     'mfussenegger/nvim-lint',
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
-      local lint = require('lint')
-      
+      local lint = require 'lint'
+
       lint.linters_by_ft = {
         python = { 'ruff' },
         javascript = { 'eslint_d' },
@@ -937,7 +936,7 @@ require('lazy').setup({
         javascriptreact = { 'eslint_d' },
         typescriptreact = { 'eslint_d' },
       }
-      
+
       -- Create autocommand which carries out the actual linting
       -- on the specified events.
       local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
@@ -1048,7 +1047,7 @@ require('lazy').setup({
       -- Shows a signature help window while you type arguments for a function
       signature = { enabled = true },
     },
-    opts_extend = { "sources.default" }
+    opts_extend = { 'sources.default' },
   },
 
   { -- 🎨 Kanagawa colorscheme - A dark theme inspired by the famous painting
@@ -1056,7 +1055,7 @@ require('lazy').setup({
     'rebelot/kanagawa.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
-      require('kanagawa').setup({
+      require('kanagawa').setup {
         compile = false, -- Enable compiling the colorscheme
         undercurl = true, -- Enable undercurls
         commentStyle = { italic = false }, -- Disable italics in comments
@@ -1069,17 +1068,17 @@ require('lazy').setup({
         terminalColors = true, -- Define vim.g.terminal_color_{0,17}
         colors = {
           palette = {},
-          theme = { wave = {}, lotus = {}, dragon = {}, all = {} }
+          theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
         },
         overrides = function(colors)
           return {}
         end,
-        theme = "wave", -- Load "wave" theme when 'background' option is not set
+        theme = 'wave', -- Load "wave" theme when 'background' option is not set
         background = {
-          dark = "wave", -- Try "dragon" for different dark variant
-          light = "lotus"
+          dark = 'wave', -- Try "dragon" for different dark variant
+          light = 'lotus',
         },
-      })
+      }
 
       -- Load the colorscheme
       -- Available variants: kanagawa-wave (default), kanagawa-dragon, kanagawa-lotus
@@ -1133,8 +1132,26 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc',
-      'python', 'javascript', 'typescript', 'tsx', 'json', 'yaml', 'toml'},
+      ensure_installed = {
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+        'python',
+        'javascript',
+        'typescript',
+        'tsx',
+        'json',
+        'yaml',
+        'toml',
+      },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -1157,7 +1174,7 @@ require('lazy').setup({
   -- custom
   {
     'mrjones2014/smart-splits.nvim',
-    config = function ()
+    config = function()
       -- recommended mappings
       -- resizing splits
       -- these keymaps will also accept a range,
@@ -1177,11 +1194,11 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader><leader>j', require('smart-splits').swap_buf_down)
       vim.keymap.set('n', '<leader><leader>k', require('smart-splits').swap_buf_up)
       vim.keymap.set('n', '<leader><leader>l', require('smart-splits').swap_buf_right)
-    end
+    end,
   },
 
   {
-    "folke/snacks.nvim",
+    'folke/snacks.nvim',
     priority = 1000,
     lazy = false,
     ---@type snacks.Config
@@ -1204,205 +1221,620 @@ require('lazy').setup({
       styles = {
         notification = {
           -- wo = { wrap = true } -- Wrap notifications
-        }
-      }
+        },
+      },
     },
     keys = {
       -- Top Pickers & Explorer
-      { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
-      { "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },
-      { "<leader>/", function() Snacks.picker.grep() end, desc = "Grep" },
-      { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
-      { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notification History" },
-      { "<leader>e", function() Snacks.explorer() end, desc = "File Explorer" },
+      {
+        '<leader><space>',
+        function()
+          Snacks.picker.smart()
+        end,
+        desc = 'Smart Find Files',
+      },
+      {
+        '<leader>,',
+        function()
+          Snacks.picker.buffers()
+        end,
+        desc = 'Buffers',
+      },
+      {
+        '<leader>/',
+        function()
+          Snacks.picker.grep()
+        end,
+        desc = 'Grep',
+      },
+      {
+        '<leader>:',
+        function()
+          Snacks.picker.command_history()
+        end,
+        desc = 'Command History',
+      },
+      {
+        '<leader>;',
+        function()
+          Snacks.picker.commands()
+        end,
+        desc = 'Command History',
+      },
+      {
+        '<leader>n',
+        function()
+          Snacks.picker.notifications()
+        end,
+        desc = 'Notification History',
+      },
+      {
+        '<leader>e',
+        function()
+          Snacks.explorer()
+        end,
+        desc = 'File Explorer',
+      },
       -- find
-      { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Buffers" },
-      { "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
-      { "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
-      { "<leader>fg", function() Snacks.picker.git_files() end, desc = "Find Git Files" },
-      { "<leader>fp", function() Snacks.picker.projects() end, desc = "Projects" },
-      { "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent" },
+      {
+        '<leader>fb',
+        function()
+          Snacks.picker.buffers()
+        end,
+        desc = 'Buffers',
+      },
+      {
+        '<leader>fc',
+        function()
+          Snacks.picker.files { cwd = vim.fn.stdpath 'config' }
+        end,
+        desc = 'Find Config File',
+      },
+      {
+        '<leader>ff',
+        function()
+          Snacks.picker.files()
+        end,
+        desc = 'Find Files',
+      },
+      {
+        '<leader>fg',
+        function()
+          Snacks.picker.git_files()
+        end,
+        desc = 'Find Git Files',
+      },
+      {
+        '<leader>fp',
+        function()
+          Snacks.picker.projects()
+        end,
+        desc = 'Projects',
+      },
+      {
+        '<leader>fr',
+        function()
+          Snacks.picker.recent()
+        end,
+        desc = 'Recent',
+      },
       -- git
-      { "<leader>gb", function() Snacks.picker.git_branches() end, desc = "Git Branches" },
-      { "<leader>gl", function() Snacks.picker.git_log() end, desc = "Git Log" },
-      { "<leader>gL", function() Snacks.picker.git_log_line() end, desc = "Git Log Line" },
-      { "<leader>gs", function() Snacks.picker.git_status() end, desc = "Git Status" },
-      { "<leader>gS", function() Snacks.picker.git_stash() end, desc = "Git Stash" },
-      { "<leader>gd", function() Snacks.picker.git_diff() end, desc = "Git Diff (Hunks)" },
-      { "<leader>gf", function() Snacks.picker.git_log_file() end, desc = "Git Log File" },
+      {
+        '<leader>gb',
+        function()
+          Snacks.picker.git_branches()
+        end,
+        desc = 'Git Branches',
+      },
+      {
+        '<leader>gl',
+        function()
+          Snacks.picker.git_log()
+        end,
+        desc = 'Git Log',
+      },
+      {
+        '<leader>gL',
+        function()
+          Snacks.picker.git_log_line()
+        end,
+        desc = 'Git Log Line',
+      },
+      {
+        '<leader>gs',
+        function()
+          Snacks.picker.git_status()
+        end,
+        desc = 'Git Status',
+      },
+      {
+        '<leader>gS',
+        function()
+          Snacks.picker.git_stash()
+        end,
+        desc = 'Git Stash',
+      },
+      {
+        '<leader>gd',
+        function()
+          Snacks.picker.git_diff()
+        end,
+        desc = 'Git Diff (Hunks)',
+      },
+      {
+        '<leader>gf',
+        function()
+          Snacks.picker.git_log_file()
+        end,
+        desc = 'Git Log File',
+      },
       -- Grep
-      { "<leader>sb", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
-      { "<leader>sB", function() Snacks.picker.grep_buffers() end, desc = "Grep Open Buffers" },
-      { "<leader>sg", function() Snacks.picker.grep() end, desc = "Grep" },
-      { "<leader>sw", function() Snacks.picker.grep_word() end, desc = "Visual selection or word", mode = { "n", "x" } },
+      {
+        '<leader>sb',
+        function()
+          Snacks.picker.lines()
+        end,
+        desc = 'Buffer Lines',
+      },
+      {
+        '<leader>sB',
+        function()
+          Snacks.picker.grep_buffers()
+        end,
+        desc = 'Grep Open Buffers',
+      },
+      {
+        '<leader>sg',
+        function()
+          Snacks.picker.grep()
+        end,
+        desc = 'Grep',
+      },
+      {
+        '<leader>sw',
+        function()
+          Snacks.picker.grep_word()
+        end,
+        desc = 'Visual selection or word',
+        mode = { 'n', 'x' },
+      },
       -- search
-      { '<leader>s"', function() Snacks.picker.registers() end, desc = "Registers" },
-      { '<leader>s/', function() Snacks.picker.search_history() end, desc = "Search History" },
-      { "<leader>sa", function() Snacks.picker.autocmds() end, desc = "Autocmds" },
-      { "<leader>sb", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
-      { "<leader>sc", function() Snacks.picker.command_history() end, desc = "Command History" },
-      { "<leader>sC", function() Snacks.picker.commands() end, desc = "Commands" },
-      { "<leader>sd", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
-      { "<leader>sD", function() Snacks.picker.diagnostics_buffer() end, desc = "Buffer Diagnostics" },
-      { "<leader>sh", function() Snacks.picker.help() end, desc = "Help Pages" },
-      { "<leader>sH", function() Snacks.picker.highlights() end, desc = "Highlights" },
-      { "<leader>si", function() Snacks.picker.icons() end, desc = "Icons" },
-      { "<leader>sj", function() Snacks.picker.jumps() end, desc = "Jumps" },
-      { "<leader>sk", function() Snacks.picker.keymaps() end, desc = "Keymaps" },
-      { "<leader>sl", function() Snacks.picker.loclist() end, desc = "Location List" },
-      { "<leader>sm", function() Snacks.picker.marks() end, desc = "Marks" },
-      { "<leader>sM", function() Snacks.picker.man() end, desc = "Man Pages" },
-      { "<leader>sp", function() Snacks.picker.lazy() end, desc = "Search for Plugin Spec" },
-      { "<leader>sq", function() Snacks.picker.qflist() end, desc = "Quickfix List" },
-      { "<leader>sR", function() Snacks.picker.resume() end, desc = "Resume" },
-      { "<leader>su", function() Snacks.picker.undo() end, desc = "Undo History" },
-      { "<leader>uC", function() Snacks.picker.colorschemes() end, desc = "Colorschemes" },
+      {
+        '<leader>s"',
+        function()
+          Snacks.picker.registers()
+        end,
+        desc = 'Registers',
+      },
+      {
+        '<leader>s/',
+        function()
+          Snacks.picker.search_history()
+        end,
+        desc = 'Search History',
+      },
+      {
+        '<leader>sa',
+        function()
+          Snacks.picker.autocmds()
+        end,
+        desc = 'Autocmds',
+      },
+      {
+        '<leader>sb',
+        function()
+          Snacks.picker.lines()
+        end,
+        desc = 'Buffer Lines',
+      },
+      {
+        '<leader>sc',
+        function()
+          Snacks.picker.command_history()
+        end,
+        desc = 'Command History',
+      },
+      {
+        '<leader>sC',
+        function()
+          Snacks.picker.commands()
+        end,
+        desc = 'Commands',
+      },
+      {
+        '<leader>sd',
+        function()
+          Snacks.picker.diagnostics()
+        end,
+        desc = 'Diagnostics',
+      },
+      {
+        '<leader>sD',
+        function()
+          Snacks.picker.diagnostics_buffer()
+        end,
+        desc = 'Buffer Diagnostics',
+      },
+      {
+        '<leader>sh',
+        function()
+          Snacks.picker.help()
+        end,
+        desc = 'Help Pages',
+      },
+      {
+        '<leader>sH',
+        function()
+          Snacks.picker.highlights()
+        end,
+        desc = 'Highlights',
+      },
+      {
+        '<leader>si',
+        function()
+          Snacks.picker.icons()
+        end,
+        desc = 'Icons',
+      },
+      {
+        '<leader>sj',
+        function()
+          Snacks.picker.jumps()
+        end,
+        desc = 'Jumps',
+      },
+      {
+        '<leader>sk',
+        function()
+          Snacks.picker.keymaps()
+        end,
+        desc = 'Keymaps',
+      },
+      {
+        '<leader>sl',
+        function()
+          Snacks.picker.loclist()
+        end,
+        desc = 'Location List',
+      },
+      {
+        '<leader>sm',
+        function()
+          Snacks.picker.marks()
+        end,
+        desc = 'Marks',
+      },
+      {
+        '<leader>sM',
+        function()
+          Snacks.picker.man()
+        end,
+        desc = 'Man Pages',
+      },
+      {
+        '<leader>sp',
+        function()
+          Snacks.picker.lazy()
+        end,
+        desc = 'Search for Plugin Spec',
+      },
+      {
+        '<leader>sq',
+        function()
+          Snacks.picker.qflist()
+        end,
+        desc = 'Quickfix List',
+      },
+      {
+        '<leader>sR',
+        function()
+          Snacks.picker.resume()
+        end,
+        desc = 'Resume',
+      },
+      {
+        '<leader>su',
+        function()
+          Snacks.picker.undo()
+        end,
+        desc = 'Undo History',
+      },
+      {
+        '<leader>uC',
+        function()
+          Snacks.picker.colorschemes()
+        end,
+        desc = 'Colorschemes',
+      },
       -- Tmux integration
-      { "<leader>st", function() 
-        -- Custom tmux session picker with preview
-        local function get_tmux_sessions()
-          local handle = io.popen("tmux list-sessions -F '#{session_name}\t#{session_windows}\t#{?session_attached,●,○}\t#{session_created}\t#{session_last_attached}' 2>/dev/null")
-          if not handle then
-            vim.notify("tmux not found or no sessions available", vim.log.levels.WARN)
-            return {}
-          end
-          
-          local sessions = {}
-          for line in handle:lines() do
-            local name, windows, attached, created, last_attached = line:match("([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]*)")
-            if name then
-              table.insert(sessions, {
-                text = string.format("%-20s %s %s windows", name, attached, windows),
-                session = name,
-                windows = windows,
-                attached = attached == "●",
-                created = created,
-                last_attached = last_attached or "never"
-              })
+      {
+        '<leader>st',
+        function()
+          -- Custom tmux session picker with preview
+          local function get_tmux_sessions()
+            local handle =
+              io.popen "tmux list-sessions -F '#{session_name}\t#{session_windows}\t#{?session_attached,●,○}\t#{session_created}\t#{session_last_attached}' 2>/dev/null"
+            if not handle then
+              vim.notify('tmux not found or no sessions available', vim.log.levels.WARN)
+              return {}
             end
-          end
-          handle:close()
-          return sessions
-        end
-        
-        local function get_session_windows(session_name)
-          local handle = io.popen(string.format("tmux list-windows -t '%s' -F '#{window_index}: #{window_name} [#{window_panes} panes]#{?window_active, (active),}' 2>/dev/null", session_name))
-          if not handle then return {} end
-          
-          local windows = {}
-          for line in handle:lines() do
-            table.insert(windows, line)
-          end
-          handle:close()
-          return windows
-        end
-        
-        local sessions = get_tmux_sessions()
-        if #sessions == 0 then
-          vim.notify("No tmux sessions found", vim.log.levels.INFO)
-          return
-        end
-        
-        -- Create items for Snacks picker
-        local items = {}
-        for _, session in ipairs(sessions) do
-          table.insert(items, {
-            text = session.text,
-            session_name = session.session,
-            windows_count = session.windows,
-            attached = session.attached,
-            created = session.created,
-            last_attached = session.last_attached
-          })
-        end
-        
-        -- Use stable vim.ui.select with enhanced display
-        local enhanced_sessions = {}
-        for _, session in ipairs(sessions) do
-          -- Add preview info directly to the display text
-          local windows_list = get_session_windows(session.session)
-          local preview_text = string.format("%s | %s | %s", 
-            session.text,
-            session.attached and "Connected" or "Disconnected",
-            #windows_list > 0 and table.concat(windows_list, ", "):gsub("%s*%[%d+ panes%]", "") or "No windows"
-          )
-          
-          table.insert(enhanced_sessions, {
-            display = preview_text,
-            session_name = session.session,
-            original = session
-          })
-        end
-        
-        vim.ui.select(enhanced_sessions, {
-          prompt = "󰀹 Select tmux session:",
-          format_item = function(item)
-            return item.display
-          end,
-        }, function(choice)
-          if choice and choice.session_name then
-            local cmd = string.format("tmux switch-client -t '%s'", choice.session_name)
-            local result = os.execute(cmd)
-            if result == 0 then
-              vim.notify("Switched to tmux session: " .. choice.session_name, vim.log.levels.INFO)
-            else
-              -- Try attaching if switch failed (not inside tmux)
-              cmd = string.format("tmux attach-session -t '%s'", choice.session_name)
-              local attach_result = os.execute(cmd)
-              if attach_result == 0 then
-                vim.notify("Attached to tmux session: " .. choice.session_name, vim.log.levels.INFO)
-              else
-                vim.notify("Failed to switch/attach to session: " .. choice.session_name, vim.log.levels.ERROR)
+
+            local sessions = {}
+            for line in handle:lines() do
+              local name, windows, attached, created, last_attached = line:match '([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]*)'
+              if name then
+                table.insert(sessions, {
+                  text = string.format('%-20s %s %s windows', name, attached, windows),
+                  session = name,
+                  windows = windows,
+                  attached = attached == '●',
+                  created = created,
+                  last_attached = last_attached or 'never',
+                })
               end
             end
+            handle:close()
+            return sessions
           end
-        end)
-      end, desc = "Tmux Sessions" },
+
+          local function get_session_windows(session_name)
+            local handle = io.popen(
+              string.format(
+                "tmux list-windows -t '%s' -F '#{window_index}: #{window_name} [#{window_panes} panes]#{?window_active, (active),}' 2>/dev/null",
+                session_name
+              )
+            )
+            if not handle then
+              return {}
+            end
+
+            local windows = {}
+            for line in handle:lines() do
+              table.insert(windows, line)
+            end
+            handle:close()
+            return windows
+          end
+
+          local sessions = get_tmux_sessions()
+          if #sessions == 0 then
+            vim.notify('No tmux sessions found', vim.log.levels.INFO)
+            return
+          end
+
+          -- Create items for Snacks picker
+          local items = {}
+          for _, session in ipairs(sessions) do
+            table.insert(items, {
+              text = session.text,
+              session_name = session.session,
+              windows_count = session.windows,
+              attached = session.attached,
+              created = session.created,
+              last_attached = session.last_attached,
+            })
+          end
+
+          -- Use stable vim.ui.select with enhanced display
+          local enhanced_sessions = {}
+          for _, session in ipairs(sessions) do
+            -- Add preview info directly to the display text
+            local windows_list = get_session_windows(session.session)
+            local preview_text = string.format(
+              '%s | %s | %s',
+              session.text,
+              session.attached and 'Connected' or 'Disconnected',
+              #windows_list > 0 and table.concat(windows_list, ', '):gsub('%s*%[%d+ panes%]', '') or 'No windows'
+            )
+
+            table.insert(enhanced_sessions, {
+              display = preview_text,
+              session_name = session.session,
+              original = session,
+            })
+          end
+
+          vim.ui.select(enhanced_sessions, {
+            prompt = '󰀹 Select tmux session:',
+            format_item = function(item)
+              return item.display
+            end,
+          }, function(choice)
+            if choice and choice.session_name then
+              local cmd = string.format("tmux switch-client -t '%s'", choice.session_name)
+              local result = os.execute(cmd)
+              if result == 0 then
+                vim.notify('Switched to tmux session: ' .. choice.session_name, vim.log.levels.INFO)
+              else
+                -- Try attaching if switch failed (not inside tmux)
+                cmd = string.format("tmux attach-session -t '%s'", choice.session_name)
+                local attach_result = os.execute(cmd)
+                if attach_result == 0 then
+                  vim.notify('Attached to tmux session: ' .. choice.session_name, vim.log.levels.INFO)
+                else
+                  vim.notify('Failed to switch/attach to session: ' .. choice.session_name, vim.log.levels.ERROR)
+                end
+              end
+            end
+          end)
+        end,
+        desc = 'Tmux Sessions',
+      },
       -- LSP
-      { "gd", function() Snacks.picker.lsp_definitions() end, desc = "Goto Definition" },
-      { "gD", function() Snacks.picker.lsp_declarations() end, desc = "Goto Declaration" },
-      { "gr", function() Snacks.picker.lsp_references() end, nowait = true, desc = "References" },
-      { "gI", function() Snacks.picker.lsp_implementations() end, desc = "Goto Implementation" },
-      { "gy", function() Snacks.picker.lsp_type_definitions() end, desc = "Goto T[y]pe Definition" },
-      { "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
-      { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols" },
-      -- Other
-      { "<leader>z",  function() Snacks.zen() end, desc = "Toggle Zen Mode" },
-      { "<leader>Z",  function() Snacks.zen.zoom() end, desc = "Toggle Zoom" },
-      { "<leader>.",  function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
-      { "<leader>S",  function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
-      { "<leader>n",  function() Snacks.notifier.show_history() end, desc = "Notification History" },
-      { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete Buffer" },
-      { "<leader>cR", function() Snacks.rename.rename_file() end, desc = "Rename File" },
-      { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Git Browse", mode = { "n", "v" } },
-      { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit" },
-      { "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
-      { "<c-/>",      function() Snacks.terminal() end, desc = "Toggle Terminal" },
-      { "<c-_>",      function() Snacks.terminal() end, desc = "which_key_ignore" },
-      { "]]",         function() Snacks.words.jump(vim.v.count1) end, desc = "Next Reference", mode = { "n", "t" } },
-      { "[[",         function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference", mode = { "n", "t" } },
       {
-        "<leader>N",
-        desc = "Neovim News",
+        'gd',
         function()
-          Snacks.win({
-            file = vim.api.nvim_get_runtime_file("doc/news.txt", false)[1],
+          Snacks.picker.lsp_definitions()
+        end,
+        desc = 'Goto Definition',
+      },
+      {
+        'gD',
+        function()
+          Snacks.picker.lsp_declarations()
+        end,
+        desc = 'Goto Declaration',
+      },
+      {
+        'gr',
+        function()
+          Snacks.picker.lsp_references()
+        end,
+        nowait = true,
+        desc = 'References',
+      },
+      {
+        'gI',
+        function()
+          Snacks.picker.lsp_implementations()
+        end,
+        desc = 'Goto Implementation',
+      },
+      {
+        'gy',
+        function()
+          Snacks.picker.lsp_type_definitions()
+        end,
+        desc = 'Goto T[y]pe Definition',
+      },
+      {
+        '<leader>ss',
+        function()
+          Snacks.picker.lsp_symbols()
+        end,
+        desc = 'LSP Symbols',
+      },
+      {
+        '<leader>sS',
+        function()
+          Snacks.picker.lsp_workspace_symbols()
+        end,
+        desc = 'LSP Workspace Symbols',
+      },
+      -- Other
+      {
+        '<leader>z',
+        function()
+          Snacks.zen()
+        end,
+        desc = 'Toggle Zen Mode',
+      },
+      {
+        '<leader>Z',
+        function()
+          Snacks.zen.zoom()
+        end,
+        desc = 'Toggle Zoom',
+      },
+      {
+        '<leader>.',
+        function()
+          Snacks.scratch()
+        end,
+        desc = 'Toggle Scratch Buffer',
+      },
+      {
+        '<leader>S',
+        function()
+          Snacks.scratch.select()
+        end,
+        desc = 'Select Scratch Buffer',
+      },
+      {
+        '<leader>n',
+        function()
+          Snacks.notifier.show_history()
+        end,
+        desc = 'Notification History',
+      },
+      {
+        '<leader>bd',
+        function()
+          Snacks.bufdelete()
+        end,
+        desc = 'Delete Buffer',
+      },
+      {
+        '<leader>cR',
+        function()
+          Snacks.rename.rename_file()
+        end,
+        desc = 'Rename File',
+      },
+      {
+        '<leader>gw',
+        function()
+          Snacks.gitbrowse()
+        end,
+        desc = 'Git Browse',
+        mode = { 'n', 'v' },
+      },
+      {
+        '<leader>gg',
+        function()
+          Snacks.lazygit()
+        end,
+        desc = 'Lazygit',
+      },
+      {
+        '<leader>un',
+        function()
+          Snacks.notifier.hide()
+        end,
+        desc = 'Dismiss All Notifications',
+      },
+      {
+        '<c-/>',
+        function()
+          Snacks.terminal()
+        end,
+        desc = 'Toggle Terminal',
+      },
+      {
+        '<c-_>',
+        function()
+          Snacks.terminal()
+        end,
+        desc = 'which_key_ignore',
+      },
+      {
+        ']]',
+        function()
+          Snacks.words.jump(vim.v.count1)
+        end,
+        desc = 'Next Reference',
+        mode = { 'n', 't' },
+      },
+      {
+        '[[',
+        function()
+          Snacks.words.jump(-vim.v.count1)
+        end,
+        desc = 'Prev Reference',
+        mode = { 'n', 't' },
+      },
+      {
+        '<leader>N',
+        desc = 'Neovim News',
+        function()
+          Snacks.win {
+            file = vim.api.nvim_get_runtime_file('doc/news.txt', false)[1],
             width = 0.6,
             height = 0.6,
             wo = {
               spell = false,
               wrap = false,
-              signcolumn = "yes",
-              statuscolumn = " ",
+              signcolumn = 'yes',
+              statuscolumn = ' ',
               conceallevel = 3,
             },
-          })
+          }
         end,
-      }
+      },
     },
     init = function()
-      vim.api.nvim_create_autocmd("User", {
-        pattern = "VeryLazy",
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'VeryLazy',
         callback = function()
           -- Setup some globals for debugging (lazy-loaded)
           _G.dd = function(...)
@@ -1414,105 +1846,304 @@ require('lazy').setup({
           vim.print = _G.dd -- Override print to use snacks for `:=` command
 
           -- Create some toggle mappings
-          Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
-          Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
-          Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
-          Snacks.toggle.diagnostics():map("<leader>ud")
-          Snacks.toggle.line_number():map("<leader>ul")
-          Snacks.toggle.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 }):map("<leader>uc")
-          Snacks.toggle.treesitter():map("<leader>uT")
-          Snacks.toggle.option("background", { off = "light", on = "dark", name = "Dark Background" }):map("<leader>ub")
-          Snacks.toggle.inlay_hints():map("<leader>uh")
-          Snacks.toggle.indent():map("<leader>ug")
-          Snacks.toggle.dim():map("<leader>uD")
+          Snacks.toggle.option('spell', { name = 'Spelling' }):map '<leader>us'
+          Snacks.toggle.option('wrap', { name = 'Wrap' }):map '<leader>uw'
+          Snacks.toggle.option('relativenumber', { name = 'Relative Number' }):map '<leader>uL'
+          Snacks.toggle.diagnostics():map '<leader>ud'
+          Snacks.toggle.line_number():map '<leader>ul'
+          Snacks.toggle.option('conceallevel', { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 }):map '<leader>uc'
+          Snacks.toggle.treesitter():map '<leader>uT'
+          Snacks.toggle.option('background', { off = 'light', on = 'dark', name = 'Dark Background' }):map '<leader>ub'
+          Snacks.toggle.inlay_hints():map '<leader>uh'
+          Snacks.toggle.indent():map '<leader>ug'
+          Snacks.toggle.dim():map '<leader>uD'
         end,
       })
     end,
   },
 
   {
-    "greggh/claude-code.nvim",
+  "coder/claudecode.nvim",
+  dependencies = { "folke/snacks.nvim" },
+  config = true,
+  keys = {
+    { "<leader>a", nil, desc = "AI/Claude Code" },
+    { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+    { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+    { "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
+    { "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
+    { "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
+    { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
+    { "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
+    {
+      "<leader>as",
+      "<cmd>ClaudeCodeTreeAdd<cr>",
+      desc = "Add file",
+      ft = { "NvimTree", "neo-tree", "oil", "minifiles" },
+    },
+    -- Diff management
+    { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
+    { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
+  },
+},
+
+
+  {
+    'greggh/claude-code.nvim',
     dependencies = {
-      "nvim-lua/plenary.nvim", -- Required for git operations
+      'nvim-lua/plenary.nvim', -- Required for git operations
     },
     config = function()
-      require("claude-code").setup({
+      require('claude-code').setup {
         window = {
-          position = "vertical"
-        }
-      })
-    end
+          position = 'vertical',
+        },
+      }
+    end,
   },
 
   -- 🔍 Diagnostic Management with Trouble
   {
-    "folke/trouble.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    cmd = "Trouble",
+    'folke/trouble.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    cmd = 'Trouble',
     keys = {
       {
-        "<leader>xx",
-        "<cmd>Trouble diagnostics toggle<cr>",
-        desc = "Diagnostics (Trouble)",
+        '<leader>xx',
+        '<cmd>Trouble diagnostics toggle<cr>',
+        desc = 'Diagnostics (Trouble)',
       },
       {
-        "<leader>xX",
-        "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-        desc = "Buffer Diagnostics (Trouble)",
+        '<leader>xX',
+        '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
+        desc = 'Buffer Diagnostics (Trouble)',
       },
       {
-        "<leader>cs",
-        "<cmd>Trouble symbols toggle focus=false<cr>",
-        desc = "Symbols (Trouble)",
+        '<leader>cs',
+        '<cmd>Trouble symbols toggle focus=false<cr>',
+        desc = 'Symbols (Trouble)',
       },
       {
-        "<leader>cl",
-        "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
-        desc = "LSP Definitions / references / ... (Trouble)",
+        '<leader>cl',
+        '<cmd>Trouble lsp toggle focus=false win.position=right<cr>',
+        desc = 'LSP Definitions / references / ... (Trouble)',
       },
       {
-        "<leader>xL",
-        "<cmd>Trouble loclist toggle<cr>",
-        desc = "Location List (Trouble)",
+        '<leader>xL',
+        '<cmd>Trouble loclist toggle<cr>',
+        desc = 'Location List (Trouble)',
       },
       {
-        "<leader>xQ",
-        "<cmd>Trouble qflist toggle<cr>",
-        desc = "Quickfix List (Trouble)",
+        '<leader>xQ',
+        '<cmd>Trouble qflist toggle<cr>',
+        desc = 'Quickfix List (Trouble)',
       },
       {
-        "]x",
+        ']x',
         function()
-          require("trouble").next({skip_groups = true, jump = true})
+          require('trouble').next { skip_groups = true, jump = true }
         end,
-        desc = "Next trouble/diagnostic",
+        desc = 'Next trouble/diagnostic',
       },
       {
-        "[x",
+        '[x',
         function()
-          require("trouble").prev({skip_groups = true, jump = true})
+          require('trouble').prev { skip_groups = true, jump = true }
         end,
-        desc = "Previous trouble/diagnostic",
+        desc = 'Previous trouble/diagnostic',
       },
     },
     config = function()
-      require("trouble").setup({
+      require('trouble').setup {
         modes = {
           preview_float = {
-            mode = "diagnostics",
+            mode = 'diagnostics',
             preview = {
-              type = "float",
-              relative = "editor",
-              border = "rounded",
-              title = "Preview",
-              title_pos = "center",
+              type = 'float',
+              relative = 'editor',
+              border = 'rounded',
+              title = 'Preview',
+              title_pos = 'center',
               position = { 0, -2 },
               size = { width = 0.3, height = 0.3 },
               zindex = 200,
             },
           },
         },
-      })
+      }
+    end,
+  },
+
+  -- ⚡ Enhanced Navigation with Flash
+  {
+    'folke/flash.nvim',
+    event = 'VeryLazy',
+    opts = {
+      -- Flash configuration
+      labels = 'asdfghjklqwertyuiopzxcvbnm',
+      search = {
+        multi_window = true,
+        forward = true,
+        wrap = true,
+        mode = 'exact', -- exact/search/fuzzy
+      },
+      jump = {
+        jumplist = true,
+        pos = 'start', -- start/end/range
+        history = false,
+        register = false,
+      },
+      label = {
+        uppercase = true,
+        exclude = '',
+        current = true,
+        after = true, -- show labels after the match
+        before = false, -- show labels before the match
+        style = 'overlay', -- eob/overlay/right_align/inline
+        reuse = 'lowercase', -- lowercase/all/none
+        distance = true,
+      },
+      highlight = {
+        backdrop = true,
+        matches = true,
+        priority = 5000,
+        groups = {
+          match = 'FlashMatch',
+          current = 'FlashCurrent',
+          backdrop = 'FlashBackdrop',
+          label = 'FlashLabel',
+        },
+      },
+      modes = {
+        search = {
+          enabled = true, -- enable flash for search
+          highlight = { backdrop = false },
+          jump = { history = true, register = true, nohlsearch = true },
+          search = {
+            mode = 'search',
+            max_length = false,
+          },
+        },
+        char = {
+          enabled = true,
+          config = function(opts)
+            opts.autohide = opts.autohide == nil and (vim.fn.mode(true):find 'no' and vim.v.operator == 'y')
+            opts.jump_labels = opts.jump_labels and vim.v.count == 0 and vim.fn.reg_executing() == '' and vim.fn.reg_recording() == ''
+          end,
+          autohide = false,
+          jump_labels = false,
+          multi_line = true,
+          label = { exclude = 'hjkliardc' },
+          keys = { 'f', 'F', 't', 'T', ';', ',' },
+          char_actions = function(motion)
+            return {
+              [';'] = 'next', -- set to `right` to always go right
+              [','] = 'prev', -- set to `left` to always go left
+              [motion:lower()] = 'next',
+              [motion:upper()] = 'prev',
+            }
+          end,
+          search = { wrap = false },
+          highlight = { backdrop = true },
+          jump = { register = false },
+        },
+        treesitter = {
+          labels = 'abcdefghijklmnopqrstuvwxyz',
+          jump = { pos = 'range' },
+          search = { incremental = false },
+          label = { before = true, after = true, style = 'inline' },
+          highlight = {
+            backdrop = false,
+            matches = false,
+          },
+        },
+        treesitter_search = {
+          jump = { pos = 'range' },
+          search = { multi_window = true, wrap = true, incremental = false },
+          remote_op = { restore = true },
+          label = { before = false, after = true, style = 'inline' },
+        },
+      },
+    },
+    keys = {
+      {
+        's',
+        mode = { 'n', 'x', 'o' },
+        function()
+          require('flash').jump()
+        end,
+        desc = 'Flash',
+      },
+      {
+        'S',
+        mode = { 'n', 'o', 'x' },
+        function()
+          require('flash').treesitter()
+        end,
+        desc = 'Flash Treesitter',
+      },
+      {
+        'r',
+        mode = 'o',
+        function()
+          require('flash').remote()
+        end,
+        desc = 'Remote Flash',
+      },
+      {
+        'R',
+        mode = { 'o', 'x' },
+        function()
+          require('flash').treesitter_search()
+        end,
+        desc = 'Treesitter Search',
+      },
+      {
+        '<c-s>',
+        mode = { 'c' },
+        function()
+          require('flash').toggle()
+        end,
+        desc = 'Toggle Flash Search',
+      },
+    },
+  },
+
+  -- 📝 Git Blame with blame.nvim (DISABLED)
+  {
+    'FabijanZulj/blame.nvim',
+    keys = {
+      { '<leader>gB', '<cmd>BlameToggle<cr>', desc = 'Git Blame Toggle' },
+    },
+    config = function()
+      require('blame').setup()
+    end,
+  },
+
+  -- 📝 Git Blame with git-blame.nvim
+  {
+    'f-person/git-blame.nvim',
+    event = 'VeryLazy',
+    keys = {
+      --       { '<leader>gB', '<cmd>GitBlameToggle<cr>', desc = 'Git Blame Toggle' },
+      { '<leader>gW', '<cmd>GitBlameOpenCommitURL<cr>', desc = 'Git Blame Open Commit URL' },
+    },
+    config = function()
+      require('gitblame').setup {
+        -- Note how the `gitblame_` prefix is omitted in `setup()`
+        enabled = true,
+        message_template = ' <summary> • <date> • <author>',
+        date_format = '%m-%d-%Y %H:%M:%S',
+        virtual_text_column = nil, -- Display blame on same line as code
+        display_virtual_text = true,
+        ignored_filetypes = {},
+        delay = 500,
+        use_blame_commit_file_urls = false,
+        highlight_group = 'Comment',
+        set_extmark_options = {},
+        schedule_event = 'CursorMoved',
+        clear_event = 'CursorMovedI',
+      }
     end,
   },
 
@@ -1523,32 +2154,32 @@ require('lazy').setup({
       -- UI for DAP
       'rcarriga/nvim-dap-ui',
       'nvim-neotest/nvim-nio', -- Required by dap-ui
-      
+
       -- Virtual text showing variable values during debugging
       'theHamsta/nvim-dap-virtual-text',
-      
+
       -- Mason integration for DAP adapters
       'jay-babu/mason-nvim-dap.nvim',
-      
+
       -- Language specific extensions
       'mfussenegger/nvim-dap-python', -- Python debugging
     },
     config = function()
-      local dap = require('dap')
-      local dapui = require('dapui')
+      local dap = require 'dap'
+      local dapui = require 'dapui'
 
       -- Mason DAP setup - automatically install debuggers
-      require('mason-nvim-dap').setup({
+      require('mason-nvim-dap').setup {
         automatic_installation = true,
         handlers = {},
         ensure_installed = {
           'debugpy', -- Python debugger
           'js-debug-adapter', -- JavaScript/TypeScript debugger
-        }
-      })
+        },
+      }
 
       -- DAP UI setup
-      dapui.setup({
+      dapui.setup {
         icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
         controls = {
           icons = {
@@ -1563,20 +2194,20 @@ require('lazy').setup({
             disconnect = '⏏',
           },
         },
-      })
+      }
 
       -- Virtual text setup - shows variable values inline
-      require('nvim-dap-virtual-text').setup({
+      require('nvim-dap-virtual-text').setup {
         enabled = true,
         enabled_commands = true,
         highlight_changed_variables = true,
         highlight_new_as_changed = false,
         show_stop_reason = true,
         commented = false,
-      })
+      }
 
       -- Python debugging setup
-      require('dap-python').setup('python') -- Uses system python, can specify debugpy path
+      require('dap-python').setup 'python' -- Uses system python, can specify debugpy path
 
       -- JavaScript/TypeScript debugging setup
       dap.adapters['pwa-node'] = {
@@ -1586,7 +2217,7 @@ require('lazy').setup({
         executable = {
           command = 'js-debug-adapter',
           args = { '${port}' },
-        }
+        },
       }
 
       -- JavaScript debugging configuration
@@ -1604,7 +2235,7 @@ require('lazy').setup({
           name = 'Attach',
           processId = require('dap.utils').pick_process,
           cwd = '${workspaceFolder}',
-        }
+        },
       }
 
       -- TypeScript debugging (same as JavaScript)
@@ -1620,7 +2251,7 @@ require('lazy').setup({
           runtimeArgs = { 'start' },
           cwd = '${workspaceFolder}',
           port = 3000,
-        }
+        },
       }
       dap.configurations.typescriptreact = dap.configurations.javascriptreact
 
@@ -1642,19 +2273,18 @@ require('lazy').setup({
       vim.keymap.set('n', '<F12>', dap.step_out, { desc = 'Debug: Step Out' })
       vim.keymap.set('n', '<leader>db', dap.toggle_breakpoint, { desc = 'Debug: Toggle Breakpoint' })
       vim.keymap.set('n', '<leader>dB', function()
-        dap.set_breakpoint(vim.fn.input('Breakpoint condition: '))
+        dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
       end, { desc = 'Debug: Set Conditional Breakpoint' })
       vim.keymap.set('n', '<leader>dr', dap.repl.open, { desc = 'Debug: Open REPL' })
       vim.keymap.set('n', '<leader>dl', dap.run_last, { desc = 'Debug: Run Last' })
       vim.keymap.set('n', '<leader>dt', dap.terminate, { desc = 'Debug: Terminate' })
-      
+
       -- DAP UI specific keymaps
       vim.keymap.set('n', '<leader>du', dapui.toggle, { desc = 'Debug: Toggle UI' })
       vim.keymap.set('n', '<leader>de', dapui.eval, { desc = 'Debug: Evaluate Expression' })
       vim.keymap.set('v', '<leader>de', dapui.eval, { desc = 'Debug: Evaluate Selection' })
     end,
-  }
-
+  },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and

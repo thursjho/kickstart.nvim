@@ -98,6 +98,20 @@
 - `]x` - 다음 문제/진단으로 이동
 - `[x` - 이전 문제/진단으로 이동
 
+### 빠른 네비게이션 (Flash.nvim)
+#### 기본 점프
+- `s` - Flash 점프 (화면 내 임의 위치로 빠른 이동)
+- `S` - Flash Treesitter (함수, 클래스 등 구문 요소로 점프)
+
+#### 고급 기능
+- `r` - Remote Flash (operator pending 모드에서 원격 동작)
+- `R` - Treesitter Search (구문 요소 검색 및 점프)
+- `<Ctrl-s>` - 검색 중 Flash 토글
+
+#### 향상된 f/t 동작
+- `f`, `F`, `t`, `T` - 문자 찾기 (라벨과 함께 표시)
+- `;`, `,` - 다음/이전 문자로 이동
+
 ### 디버깅 (DAP)
 #### 기본 컨트롤
 - `<F5>` - 디버깅 시작/계속
@@ -267,6 +281,7 @@
 ### 유틸리티
 - **smart-splits.nvim** - 스마트 윈도우 관리
 - **guess-indent.nvim** - 자동 indent 감지
+- **flash.nvim** - 빠른 네비게이션 및 점프
 - **todo-comments.nvim** - TODO 하이라이팅
 
 ## 📋 설정 파일 위치
