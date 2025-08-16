@@ -196,6 +196,46 @@ return {
     end,
   },
 
+  -- Yank history and enhanced paste
+  -- {
+  --   'gbprod/yanky.nvim',
+  --   opts = {
+  --     ring = { history_length = 200 },
+  --     system_clipboard = { sync_with_ring = true },
+  --     highlight = { on_put = true, on_yank = true },
+  --   },
+  --   keys = {
+  --     -- Enhanced put
+  --     { 'p', '<Plug>(YankyPutAfter)', mode = { 'n', 'x' }, desc = 'Put after (Yanky)' },
+  --     { 'P', '<Plug>(YankyPutBefore)', mode = { 'n', 'x' }, desc = 'Put before (Yanky)' },
+  --     { 'gp', '<Plug>(YankyGPutAfter)', mode = { 'n', 'x' }, desc = 'Put after (Yanky keep cursor)' },
+  --     { 'gP', '<Plug>(YankyGPutBefore)', mode = { 'n', 'x' }, desc = 'Put before (Yanky keep cursor)' },
+
+  --     -- Cycle through yank ring
+  --     { ']y', '<Plug>(YankyCycleForward)', desc = 'Next yank in ring' },
+  --     { '[y', '<Plug>(YankyCycleBackward)', desc = 'Prev yank in ring' },
+
+  --     -- History UI with built-in command
+  --     { '<leader>yh', '<cmd>YankyRingHistory<CR>', desc = 'Yank history' },
+  --   },
+  -- },
+
+  {
+    "gbprod/yanky.nvim",
+    opts = { },
+    dependencies = { "folke/snacks.nvim" },
+    keys = {
+      {
+        "<leader>p",
+        function()
+            Snacks.picker.yanky()
+        end,
+        mode = { "n", "x" },
+        desc = "Open Yank History",
+      },
+    }
+  },
+
   -- bullets.vim: better Markdown and text list editing
   {
     'bullets-vim/bullets.vim',

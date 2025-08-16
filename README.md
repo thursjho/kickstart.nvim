@@ -67,6 +67,12 @@
 - `<Esc><Esc>` - 터미널 모드에서 나가기
 - `<leader>R` - Neovim 설정 리로드
 
+#### Yank/Paste 향상 (yanky.nvim)
+- `p` / `P` - Yanky 기반 붙여넣기 (히스토리와 연동)
+- `gp` / `gP` - 붙여넣기 후 커서 위치 유지
+- `]y` / `[y` - Yank 히스토리 순환(다음/이전)
+- `<leader>yh` - Yank 히스토리 보기 (Telescope가 있으면 사용, 없으면 기본 UI)
+
 ### 파일 및 검색 (Snacks Picker)
 
 #### 주요 파일 검색
@@ -102,7 +108,7 @@
 - `<leader>sB` - 열린 버퍼들에서 검색
 - `<leader>sc` - 명령 히스토리
 - `<leader>sC` - 사용가능한 명령어들
-- `<leader>s"` - 레지스터 내용
+- `<leader>s"` - 레지스터 내용 (복사/붙여넣기 레지스터)
 - `<leader>s/` - 검색 히스토리
 - `<leader>sa` - 자동 명령어 (autocmds)
 - `<leader>sd` - 진단 (Diagnostics)
@@ -120,6 +126,7 @@
 - `<leader>sR` - 마지막 검색 재개
 - `<leader>st` - Tmux 세션 목록
 - `<leader>su` - Undo 히스토리
+- `<leader>p` - Yank 히스토리 (복사한 텍스트 목록)
 
 ### Git 관련 (Snacks Picker)
 
@@ -629,6 +636,18 @@
 - `<leader>cR` - 파일 이름 변경
 - `<leader>uC` - 컬러스킴 선택
 - `]]` / `[[` - 다음/이전 참조로 이동
+
+### Yank History (Yanky)
+
+#### 복사/붙여넣기 기능
+- `<leader>p` - Yank 히스토리 (빠른 접근)
+- `<leader>s"` - 레지스터 내용 (대안적 접근법)
+
+#### 특징
+- **히스토리 저장**: 최대 200개의 복사 내용 저장
+- **시스템 클립보드 동기화**: OS 클립보드와 자동 동기화
+- **비주얼 피드백**: 복사/붙여넣기 시 하이라이트 표시
+- **미리보기**: Snacks Picker에서 복사 내용 미리보기 가능
 
 ### 키맵 치트시트 (NvCheatsheet)
 

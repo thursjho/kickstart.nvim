@@ -99,6 +99,7 @@ return {
           { 'Resume', '<leader>sR' },
           { 'Tmux Sessions', '<leader>st' },
           { 'Undo History', '<leader>su' },
+          { 'Yank History', '<leader>p' },
         },
         ['Git Operations'] = {
           { 'Lazygit', '<leader>gg' },
