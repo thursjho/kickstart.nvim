@@ -75,6 +75,76 @@
 - 커서가 있는 라인의 Git Blame 정보 자동 표시 (0.5초 후)
 - 삽입 모드에서는 자동으로 숨김
 
+### Git Interface (Neogit)
+#### 기본 명령어
+- `<leader>gn` - Neogit 열기 (새 탭에서)
+- `<leader>gN` - Neogit 열기 (분할 창에서)
+- `<leader>gc` - 빠른 커밋
+- `<leader>gp` - Pull
+- `<leader>gP` - Push
+
+#### Neogit 내부 키맵 (Status Buffer)
+##### 기본 네비게이션
+- `q` - Neogit 닫기
+- `<Tab>` - 섹션/아이템 펼치기/접기
+- `<Enter>` - 파일로 이동
+- `<Ctrl-v>` - 수직 분할로 파일 열기
+- `<Ctrl-x>` - 수평 분할로 파일 열기
+- `<Ctrl-t>` - 새 탭에서 파일 열기
+
+##### 스테이징 작업
+- `s` - 파일/헝크 스테이지
+- `u` - 파일/헝크 언스테이지
+- `S` - 모든 언스테이지된 파일 스테이지
+- `U` - 모든 스테이지된 파일 언스테이지
+- `<Ctrl-s>` - 모든 파일 스테이지
+- `x` - 변경사항 취소 (discard)
+
+##### 헝크 네비게이션
+- `{` / `}` - 이전/다음 헝크 헤더로 이동
+- `[c]` / `]c` - 스크롤 업/다운
+
+##### 팝업 메뉴 (Magic Keys)
+- `c` - 커밋 팝업
+- `b` - 브랜치 팝업
+- `p` - Pull 팝업
+- `P` - Push 팝업
+- `f` - Fetch 팝업
+- `l` - Log 팝업
+- `m` - Merge 팝업
+- `r` - Rebase 팝업
+- `t` - Tag 팝업
+- `Z` - Stash 팝업
+- `A` - Cherry-pick 팝업
+- `D` - Diff 팝업 (diffview 통합)
+- `M` - Remote 팝업
+- `X` - Reset 팝업
+- `w` - Worktree 팝업
+- `?` - 도움말
+
+##### 기타 유용한 기능
+- `1` / `2` / `3` / `4` - 표시 깊이 조정
+- `Y` - 선택된 항목 복사
+- `<Ctrl-r>` - 버퍼 새로고침
+- `$` - 명령어 히스토리
+- `I` - 저장소 초기화
+
+#### 커밋 에디터 키맵
+- `q` - 에디터 닫기 (커밋 취소)
+- `<Ctrl-c><Ctrl-c>` - 커밋 제출
+- `<Ctrl-c><Ctrl-k>` - 커밋 중단
+
+#### 리베이스 에디터 키맵
+- `p` - Pick (선택)
+- `r` - Reword (메시지 변경)
+- `e` - Edit (편집)
+- `s` - Squash (합치기)
+- `f` - Fixup (자동 합치기)
+- `d` - Drop (삭제)
+- `x` - Execute (명령어 실행)
+- `gj` / `gk` - 아래/위로 이동
+- `<Enter>` - 커밋 열기
+
 ### Git Diff Viewer (diffview.nvim)
 #### 기본 명령어
 - `<leader>gd` - DiffView 열기 (변경된 파일들의 diff 보기)
