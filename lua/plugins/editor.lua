@@ -194,4 +194,5 @@ return {
       -- vim.g.bullets_checkbox_markers = ' xX-'
     end,
   },
+
 }

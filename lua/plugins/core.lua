@@ -141,8 +141,14 @@ return {
       
       -- UI toggles (via picker)
       { '<leader>uC', function() Snacks.picker.colorschemes() end, desc = 'Colorscheme' },
+      -- Recent edits (JetBrains-style)
+      { '<leader>re', function() require('config.recent_edits').pick() end, desc = 'Recently Edited Locations' },
+      { ']e', function() require('config.recent_edits').next() end, desc = 'Next recent edit' },
+      { '[e', function() require('config.recent_edits').prev() end, desc = 'Prev recent edit' },
     },
     init = function()
+      -- Track recent edit locations
+      pcall(function() require('config.recent_edits').setup() end)
       vim.api.nvim_create_autocmd('User', {
         pattern = 'VeryLazy',
         callback = function()
