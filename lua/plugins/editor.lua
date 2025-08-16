@@ -117,4 +117,49 @@ return {
       --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
     end,
   },
+
+  -- Oil.nvim: simple file explorer that replaces netrw
+  {
+    'stevearc/oil.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' }, -- optional, for file icons
+    opts = {
+      default_file_explorer = true,
+      view_options = {
+        show_hidden = false,
+      },
+      skip_confirm_for_simple_edits = true,
+    },
+    keys = {
+      { '-', '<cmd>Oil<CR>', desc = 'Open parent directory (Oil)' },
+      {
+        '<leader>e',
+        function()
+          require('oil').toggle_float()
+        end,
+        desc = 'Oil File Explorer',
+      },
+    },
+  },
+
+  -- headlines.nvim: for code-folding and code-highlighting
+  {
+    'lukas-reineke/headlines.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    config = function()
+      require('headlines').setup()
+    end,
+  },
+
+  -- bullets.vim: better Markdown and text list editing
+  {
+    'bullets-vim/bullets.vim',
+    ft = { 'markdown', 'text', 'gitcommit' },
+    init = function()
+      -- Enable default mappings and restrict to common text filetypes
+      vim.g.bullets_set_mappings = 1
+      vim.g.bullets_enabled_file_types = { 'markdown', 'text', 'gitcommit' }
+      -- Optional: treat checkboxes like bullets as well
+      -- vim.g.bullets_checkbox_markers = ' xX-'
+    end,
+  },
 }

@@ -47,6 +47,15 @@
   - `kanagawa-dragon` (다른 다크 변형)
   - `kanagawa-lotus` (라이트 테마)
 
+## 📝 Markdown 작성 향상
+
+- **Headlines**: `headlines.nvim`으로 Markdown/Org 헤드라인과 인용/리스트의 가독성을 향상합니다.
+- **Bullets**: `bullets.vim`으로 리스트 편집이 더 편리해집니다.
+  - Enter / `o` / `O`: 현재 리스트 자동 이어쓰기
+  - `>>` / `<<`: 들여쓰기/내어쓰기에 따라 번호 자동 재정렬
+  - 백스페이스: 라인 맨 앞에서 불릿 제거
+  - 적용 파일타입: `markdown`, `text`, `gitcommit`
+
 ## ⌨️ 주요 키바인딩
 
 ### 기본 편집
@@ -62,6 +71,10 @@
 - `<leader>/` - 전체 검색 (Grep)
 - `<leader>:` - 명령 히스토리
 - `<leader>e` - 파일 탐색기
+
+### 파일 탐색 (Oil.nvim)
+- `-` - 현재 파일의 상위 디렉토리를 Oil로 열기
+- `<leader>e` - 떠있는(floating) Oil 탐색기 토글
 
 #### 파일 관련 (f 그룹)
 - `<leader>ff` - 파일 찾기
@@ -165,7 +178,7 @@
 - `1` / `2` / `3` / `4` - 표시 깊이 조정
 - `Y` - 선택된 항목 복사
 - `<Ctrl-r>` - 버퍼 새로고침
-- `$` - 명령어 히스토리
+- ` - 명령어 히스토리
 - `I` - 저장소 초기화
 
 #### 커밋 에디터 키맵
@@ -653,6 +666,8 @@
 - **snacks.nvim** - 통합 UI 플러그인 (파일 탐색, 검색, 알림 등)
 - **trouble.nvim** - 진단 및 문제 관리 UI
 - **flash.nvim** - 빠른 네비게이션 및 점프
+- **oil.nvim** - 파일 탐색기 (netrw 대체)
+- **headlines.nvim** - 마크다운 등 파일의 헤드라인 강조 및 폴딩
 
 ### Frontend 전용
 - **nvim-ts-autotag** - HTML/JSX 자동 태그
