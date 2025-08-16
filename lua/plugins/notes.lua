@@ -10,18 +10,58 @@ return {
       'nvim-lua/plenary.nvim',
       'nvim-treesitter/nvim-treesitter',
     },
-    opts = {
-      workspaces = {
-        {
-          name = 'Personal',
-          path = '~/Documents/Obsidian/Personal',
-        },
-        {
-          name = 'Work',
-          path = '~/Documents/Obsidian/Work',
-        },
-      },
-      completion = {
+    opts = function()
+      -- Auto-detect common Obsidian vault locations
+      local function find_vaults()
+        local possible_paths = {
+          vim.fn.expand('~/Documents/Obsidian'),
+          vim.fn.expand('~/Obsidian'),
+          vim.fn.expand('~/Library/Mobile Documents/iCloud~md~obsidian/Documents'),
+          vim.fn.expand('~/iCloudDrive/Obsidian'),
+          vim.fn.expand('~/Dropbox/Obsidian'),
+          vim.fn.expand('~/OneDrive/Obsidian'),
+        }
+        
+        local workspaces = {}
+        
+        for _, base_path in ipairs(possible_paths) do
+          if vim.fn.isdirectory(base_path) == 1 then
+            -- Get all subdirectories in the base path
+            local vaults = vim.fn.globpath(base_path, '*', false, true)
+            for _, vault_path in ipairs(vaults) do
+              if vim.fn.isdirectory(vault_path) == 1 then
+                local vault_name = vim.fn.fnamemodify(vault_path, ':t')
+                table.insert(workspaces, {
+                  name = vault_name,
+                  path = vault_path,
+                })
+              end
+            end
+            break -- Use first found base path
+          end
+        end
+        
+        -- Fallback: if no vaults found, provide default locations
+        if #workspaces == 0 then
+          workspaces = {
+            {
+              name = 'Personal',
+              path = vim.fn.expand('~/Documents/Obsidian/Personal'),
+            },
+            {
+              name = 'Work', 
+              path = vim.fn.expand('~/Documents/Obsidian/Work'),
+            },
+          }
+        end
+        
+        return workspaces
+      end
+
+      return {
+        workspaces = find_vaults(),
+        detect_cwd = true, -- Auto-detect if current directory is a vault
+        completion = {
         nvim_cmp = true,
         min_chars = 2,
       },
@@ -145,7 +185,8 @@ return {
           return string.format('![%s](%s)', path.name, path)
         end,
       },
-    },
+      }
+    end,
     keys = {
       { '<leader>oo', '<cmd>ObsidianOpen<cr>', desc = 'Open note in Obsidian app' },
       { '<leader>on', '<cmd>ObsidianNew<cr>', desc = 'Create new note' },
@@ -161,7 +202,7 @@ return {
       { '<leader>oT', '<cmd>ObsidianTemplate<cr>', desc = 'Insert template' },
     },
     config = function(_, opts)
-      require('obsidian').setup(opts)
+      require('obsidian').setup(opts())
       
       -- Configure snacks picker integration
       vim.keymap.set('n', '<leader>of', function()
