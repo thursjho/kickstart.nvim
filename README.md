@@ -2,6 +2,44 @@
 
 이 설정은 Neovim Kickstart를 기반으로 한 완전한 개발 환경입니다. Frontend(JavaScript/TypeScript/React) 개발과 Python 개발에 최적화되어 있습니다.
 
+## 📁 구조
+
+### 파일 구조
+
+```text
+~/.config/nvim-kickstart/
+├── init.lua                # 메인 설정 파일 (모듈 import)
+├── lua/
+│   ├── config/            # 핵심 설정 모듈
+│   │   ├── options.lua    # Vim 옵션 설정
+│   │   ├── keymaps.lua    # 기본 키매핑
+│   │   └── autocmds.lua   # 자동 명령어들
+│   └── plugins/           # 플러그인 모듈 (기능별 분류)
+│       ├── core.lua       # 핵심 플러그인 (snacks, which-key, workspaces)
+│       ├── ui.lua         # UI/테마 (kanagawa, todo-comments)
+│       ├── editor.lua     # 에디터 기능 (mini.nvim, flash, treesitter, autotag)
+│       ├── lsp.lua        # LSP 및 완성 (nvim-lspconfig, blink.cmp)
+│       ├── development.lua# 개발 도구 (trouble, conform, lint, neotest, dap)
+│       ├── git.lua        # Git 도구들 (gitsigns, blame, diffview, neogit, octo)
+│       └── notes.lua      # 노트 작성 (obsidian.nvim)
+└── README.md              # 이 파일
+```
+
+### 새로운 init.lua 특징
+- **간결함**: 기존 3000줄 → 62줄로 대폭 축소
+- **모듈화**: 기능별로 명확하게 분리된 구조
+- **유지보수성**: 각 기능을 독립적으로 관리 가능
+- **확장성**: 새로운 플러그인 추가가 더욱 체계적
+
+### 플러그인 분류 기준
+- **core**: 핵심 기능 (which-key, snacks, workspaces)
+- **ui**: 사용자 인터페이스 및 테마
+- **editor**: 편집 기능 강화
+- **lsp**: 언어 서버 및 자동완성
+- **development**: 개발 도구 (테스트, 디버깅, 린팅, 포맷팅)
+- **git**: Git 관련 모든 기능
+- **notes**: 노트 작성 및 관리
+
 ## 🎨 테마
 
 - **Kanagawa** - 일본 전통 미술에서 영감을 받은 아름다운 테마
@@ -609,6 +647,8 @@
 
 ## 📋 설정 파일 위치
 - 메인 설정: `~/.config/nvim-kickstart/init.lua`
+- 핵심 설정 모듈: `~/.config/nvim-kickstart/lua/config/`
+- 플러그인 모듈: `~/.config/nvim-kickstart/lua/plugins/`
 - 이 README: `~/.config/nvim-kickstart/README.md`
 
 ## 🔄 업데이트 및 관리
@@ -653,3 +693,4 @@ F5를 누르면 다음 옵션들 중 선택:
 - `<leader>?`를 눌러서 현재 버퍼에서 사용 가능한 모든 키맵을 확인할 수 있습니다!
 - 처음 실행 시 모든 플러그인과 도구가 자동으로 설치됩니다.
 - `:checkhealth`로 설정 상태를 점검하고 문제를 해결할 수 있습니다.
+- 모듈화된 구조로 인해 특정 기능만 수정하거나 비활성화하는 것이 매우 쉬워졌습니다.
