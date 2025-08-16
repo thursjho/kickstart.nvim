@@ -1406,6 +1406,270 @@ require('lazy').setup({
     end,
   },
 
+  -- 📝 Obsidian Integration
+  {
+    'epwalsh/obsidian.nvim',
+    version = '*',
+    lazy = true,
+    ft = 'markdown',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-treesitter/nvim-treesitter',
+    },
+    opts = {
+      workspaces = {
+        {
+          name = 'personal',
+          path = '~/Documents/Obsidian/Personal',
+        },
+        {
+          name = 'work',
+          path = '~/Documents/Obsidian/Work',
+        },
+      },
+      
+      completion = {
+        nvim_cmp = false,
+        min_chars = 2,
+      },
+
+      mappings = {
+        ['gf'] = {
+          action = function()
+            return require('obsidian').util.gf_passthrough()
+          end,
+          opts = { noremap = false, expr = true, buffer = true },
+        },
+        ['<leader>ch'] = {
+          action = function()
+            return require('obsidian').util.toggle_checkbox()
+          end,
+          opts = { buffer = true },
+        },
+        ['<cr>'] = {
+          action = function()
+            return require('obsidian').util.smart_action()
+          end,
+          opts = { buffer = true, expr = true },
+        },
+      },
+
+      new_notes_location = 'current_dir',
+      
+      note_id_func = function(title)
+        local suffix = ''
+        if title ~= nil then
+          suffix = title:gsub(' ', '-'):gsub('[^A-Za-z0-9-]', ''):lower()
+        else
+          for _ = 1, 4 do
+            suffix = suffix .. string.char(math.random(65, 90))
+          end
+        end
+        return tostring(os.time()) .. '-' .. suffix
+      end,
+
+      note_frontmatter_func = function(note)
+        local out = { id = note.id, aliases = note.aliases, tags = note.tags }
+        if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+          for k, v in pairs(note.metadata) do
+            out[k] = v
+          end
+        end
+        return out
+      end,
+
+      templates = {
+        subdir = 'Templates',
+        date_format = '%Y-%m-%d',
+        time_format = '%H:%M',
+        substitutions = {},
+      },
+
+      daily_notes = {
+        folder = 'Daily',
+        date_format = '%Y-%m-%d',
+        alias_format = '%B %-d, %Y',
+        template = nil,
+      },
+
+      follow_url_func = function(url)
+        vim.fn.jobstart({ 'open', url })
+      end,
+
+      use_advanced_uri = false,
+      open_app_foreground = false,
+      picker = {
+        name = 'snacks_picker',
+        mappings = {
+          new = '<C-x>',
+          insert_link = '<C-l>',
+        },
+      },
+
+      sort_by = 'modified',
+      sort_reversed = true,
+
+      search_max_lines = 1000,
+      open_notes_in = 'current',
+
+      ui = {
+        enable = true,
+        update_debounce = 200,
+        checkboxes = {
+          [' '] = { char = '󰄱', hl_group = 'ObsidianTodo' },
+          ['x'] = { char = '', hl_group = 'ObsidianDone' },
+          ['>'] = { char = '', hl_group = 'ObsidianRightArrow' },
+          ['~'] = { char = '󰰱', hl_group = 'ObsidianTilde' },
+        },
+        bullets = { char = '•', hl_group = 'ObsidianBullet' },
+        external_link_icon = { char = '', hl_group = 'ObsidianExtLinkIcon' },
+        reference_text = { hl_group = 'ObsidianRefText' },
+        highlight_text = { hl_group = 'ObsidianHighlightText' },
+        tags = { hl_group = 'ObsidianTag' },
+        block_ids = { hl_group = 'ObsidianBlockID' },
+        hl_groups = {
+          ObsidianTodo = { bold = true, fg = '#f78c6c' },
+          ObsidianDone = { bold = true, fg = '#89ddff' },
+          ObsidianRightArrow = { bold = true, fg = '#f78c6c' },
+          ObsidianTilde = { bold = true, fg = '#ff5370' },
+          ObsidianBullet = { bold = true, fg = '#89ddff' },
+          ObsidianRefText = { underline = true, fg = '#c792ea' },
+          ObsidianExtLinkIcon = { fg = '#c792ea' },
+          ObsidianTag = { italic = true, fg = '#89ddff' },
+          ObsidianBlockID = { italic = true, fg = '#89ddff' },
+          ObsidianHighlightText = { bg = '#75662e' },
+        },
+      },
+
+      attachments = {
+        img_folder = 'Assets/Images',
+        img_text_func = function(client, path)
+          path = client:vault_relative_path(path) or path
+          return string.format('![%s](%s)', path.name, path)
+        end,
+      },
+    },
+    config = function(_, opts)
+      require('obsidian').setup(opts)
+
+      -- Custom snacks picker integration for vault selection
+      vim.keymap.set('n', '<leader>ov', function()
+        local obsidian = require('obsidian')
+        local client = obsidian.get_client()
+        
+        if not client then
+          vim.notify('No Obsidian workspace found', vim.log.levels.WARN)
+          return
+        end
+
+        local workspaces = {}
+        for _, workspace in ipairs(client.opts.workspaces) do
+          table.insert(workspaces, {
+            text = string.format('%s (%s)', workspace.name, workspace.path),
+            name = workspace.name,
+            path = workspace.path,
+          })
+        end
+
+        if #workspaces == 0 then
+          vim.notify('No Obsidian workspaces configured', vim.log.levels.WARN)
+          return
+        end
+
+        require('snacks').picker.pick({
+          items = workspaces,
+          format = function(item)
+            return item.text
+          end,
+          on_choice = function(item)
+            if item then
+              obsidian.switch_workspace(item.name)
+              vim.notify('Switched to workspace: ' .. item.name, vim.log.levels.INFO)
+            end
+          end,
+        }, { prompt = 'Obsidian Workspaces' })
+      end, { desc = 'Switch Obsidian Vault' })
+
+      -- Custom snacks picker integration for note/page selection
+      vim.keymap.set('n', '<leader>on', function()
+        local obsidian = require('obsidian')
+        local client = obsidian.get_client()
+        
+        if not client then
+          vim.notify('No Obsidian workspace found', vim.log.levels.WARN)
+          return
+        end
+
+        -- Get all notes from current workspace
+        local notes = client:find_notes('', { sort = { by = 'modified', desc = true } })
+        
+        if not notes or #notes == 0 then
+          vim.notify('No notes found in current workspace', vim.log.levels.WARN)
+          return
+        end
+
+        local note_items = {}
+        for _, note in ipairs(notes) do
+          local relative_path = client:vault_relative_path(note.path) or note.path
+          local display_name = note.title or note.id or relative_path.name
+          table.insert(note_items, {
+            text = string.format('%s (%s)', display_name, relative_path),
+            note = note,
+            path = note.path,
+            title = display_name,
+          })
+        end
+
+        require('snacks').picker.pick({
+          items = note_items,
+          format = function(item)
+            return item.text
+          end,
+          on_choice = function(item)
+            if item then
+              vim.cmd('edit ' .. vim.fn.fnameescape(tostring(item.path)))
+            end
+          end,
+        }, { prompt = 'Obsidian Notes' })
+      end, { desc = 'Open Obsidian Note' })
+
+      -- Quick note creation with snacks input
+      vim.keymap.set('n', '<leader>oN', function()
+        vim.ui.input({ prompt = 'Note title: ' }, function(title)
+          if title and title ~= '' then
+            vim.cmd('ObsidianNew ' .. title)
+          end
+        end)
+      end, { desc = 'Create New Obsidian Note' })
+
+      -- Daily note shortcuts
+      vim.keymap.set('n', '<leader>ot', '<cmd>ObsidianToday<cr>', { desc = 'Open Today Note' })
+      vim.keymap.set('n', '<leader>oy', '<cmd>ObsidianYesterday<cr>', { desc = 'Open Yesterday Note' })
+      vim.keymap.set('n', '<leader>om', '<cmd>ObsidianTomorrow<cr>', { desc = 'Open Tomorrow Note' })
+
+      -- Search and navigation
+      vim.keymap.set('n', '<leader>os', '<cmd>ObsidianSearch<cr>', { desc = 'Search Obsidian Notes' })
+      vim.keymap.set('n', '<leader>oq', '<cmd>ObsidianQuickSwitch<cr>', { desc = 'Quick Switch Notes' })
+      vim.keymap.set('n', '<leader>ob', '<cmd>ObsidianBacklinks<cr>', { desc = 'Show Backlinks' })
+      vim.keymap.set('n', '<leader>ol', '<cmd>ObsidianLinks<cr>', { desc = 'Show Links' })
+      vim.keymap.set('n', '<leader>oT', '<cmd>ObsidianTags<cr>', { desc = 'Show Tags' })
+
+      -- Template and utility functions
+      vim.keymap.set('n', '<leader>otm', '<cmd>ObsidianTemplate<cr>', { desc = 'Insert Template' })
+      vim.keymap.set('n', '<leader>op', '<cmd>ObsidianPasteImg<cr>', { desc = 'Paste Image' })
+      vim.keymap.set('n', '<leader>or', '<cmd>ObsidianRename<cr>', { desc = 'Rename Note' })
+      vim.keymap.set('v', '<leader>oe', '<cmd>ObsidianExtractNote<cr>', { desc = 'Extract to New Note' })
+      vim.keymap.set('n', '<leader>oc', '<cmd>ObsidianTOC<cr>', { desc = 'Generate Table of Contents' })
+
+      -- Link management
+      vim.keymap.set('v', '<leader>oL', '<cmd>ObsidianLink<cr>', { desc = 'Create Link from Selection' })
+      vim.keymap.set('v', '<leader>oln', '<cmd>ObsidianLinkNew<cr>', { desc = 'Create Link to New Note' })
+      
+      -- Open in Obsidian app
+      vim.keymap.set('n', '<leader>oo', '<cmd>ObsidianOpen<cr>', { desc = 'Open in Obsidian App' })
+    end,
+  },
+
   -- custom
   {
     'mrjones2014/smart-splits.nvim',
