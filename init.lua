@@ -1682,165 +1682,30 @@ require('lazy').setup({
         desc = 'Tmux Sessions',
       },
       -- LSP
-      {
-        'gd',
-        function()
-          Snacks.picker.lsp_definitions()
-        end,
-        desc = 'Goto Definition',
-      },
-      {
-        'gD',
-        function()
-          Snacks.picker.lsp_declarations()
-        end,
-        desc = 'Goto Declaration',
-      },
-      {
-        'gr',
-        function()
-          Snacks.picker.lsp_references()
-        end,
-        nowait = true,
-        desc = 'References',
-      },
-      {
-        'gI',
-        function()
-          Snacks.picker.lsp_implementations()
-        end,
-        desc = 'Goto Implementation',
-      },
-      {
-        'gy',
-        function()
-          Snacks.picker.lsp_type_definitions()
-        end,
-        desc = 'Goto T[y]pe Definition',
-      },
-      {
-        '<leader>ss',
-        function()
-          Snacks.picker.lsp_symbols()
-        end,
-        desc = 'LSP Symbols',
-      },
-      {
-        '<leader>sS',
-        function()
-          Snacks.picker.lsp_workspace_symbols()
-        end,
-        desc = 'LSP Workspace Symbols',
-      },
+      { 'gd', function() Snacks.picker.lsp_definitions() end, desc = 'Goto Definition', },
+      { 'gD', function() Snacks.picker.lsp_declarations() end, desc = 'Goto Declaration', },
+      { 'gr', function() Snacks.picker.lsp_references() end, nowait = true, desc = 'References', },
+      { 'gI', function() Snacks.picker.lsp_implementations() end, desc = 'Goto Implementation', },
+      { 'gy', function() Snacks.picker.lsp_type_definitions() end, desc = 'Goto T[y]pe Definition', },
+      { '<leader>ss', function() Snacks.picker.lsp_symbols() end, desc = 'LSP Symbols', },
+      { '<leader>sS', function() Snacks.picker.lsp_workspace_symbols() end, desc = 'LSP Workspace Symbols', },
       -- Other
-      {
-        '<leader>z',
-        function()
-          Snacks.zen()
-        end,
-        desc = 'Toggle Zen Mode',
-      },
-      {
-        '<leader>Z',
-        function()
-          Snacks.zen.zoom()
-        end,
-        desc = 'Toggle Zoom',
-      },
-      {
-        '<leader>.',
-        function()
-          Snacks.scratch()
-        end,
-        desc = 'Toggle Scratch Buffer',
-      },
-      {
-        '<leader>S',
-        function()
-          Snacks.scratch.select()
-        end,
-        desc = 'Select Scratch Buffer',
-      },
-      {
-        '<leader>n',
-        function()
-          Snacks.notifier.show_history()
-        end,
-        desc = 'Notification History',
-      },
-      {
-        '<leader>bd',
-        function()
-          Snacks.bufdelete()
-        end,
-        desc = 'Delete Buffer',
-      },
-      {
-        '<leader>cR',
-        function()
-          Snacks.rename.rename_file()
-        end,
-        desc = 'Rename File',
-      },
-      {
-        '<leader>gw',
-        function()
-          Snacks.gitbrowse()
-        end,
-        desc = 'Git Browse',
-        mode = { 'n', 'v' },
-      },
-      {
-        '<leader>gg',
-        function()
-          Snacks.lazygit()
-        end,
-        desc = 'Lazygit',
-      },
-      {
-        '<leader>un',
-        function()
-          Snacks.notifier.hide()
-        end,
-        desc = 'Dismiss All Notifications',
-      },
-      {
-        '<c-/>',
-        function()
-          Snacks.terminal()
-        end,
-        desc = 'Toggle Terminal',
-      },
-      {
-        '<c-_>',
-        function()
-          Snacks.terminal()
-        end,
-        desc = 'which_key_ignore',
-      },
-      {
-        ']]',
-        function()
-          Snacks.words.jump(vim.v.count1)
-        end,
-        desc = 'Next Reference',
-        mode = { 'n', 't' },
-      },
-      {
-        '[[',
-        function()
-          Snacks.words.jump(-vim.v.count1)
-        end,
-        desc = 'Prev Reference',
-        mode = { 'n', 't' },
-      },
-      {
-        '<leader>N',
-        desc = 'Neovim News',
-        function()
-          Snacks.win {
-            file = vim.api.nvim_get_runtime_file('doc/news.txt', false)[1],
-            width = 0.6,
+      { '<leader>z', function() Snacks.zen() end, desc = 'Toggle Zen Mode', },
+      { '<leader>Z', function() Snacks.zen.zoom() end, desc = 'Toggle Zoom', },
+      { '<leader>.', function() Snacks.scratch() end, desc = 'Toggle Scratch Buffer', },
+      { '<leader>S', function() Snacks.scratch.select() end, desc = 'Select Scratch Buffer', },
+      { '<leader>n', function() Snacks.notifier.show_history() end, desc = 'Notification History', },
+      { '<leader>bd', function() Snacks.bufdelete() end, desc = 'Delete Buffer', },
+      { '<leader>cR', function() Snacks.rename.rename_file() end, desc = 'Rename File', },
+      { '<leader>gw', function() Snacks.gitbrowse() end, desc = 'Git Browse', mode = { 'n', 'v' }, },
+      { '<leader>gg', function() Snacks.lazygit() end, desc = 'Lazygit', },
+      { '<leader>un', function() Snacks.notifier.hide() end, desc = 'Dismiss All Notifications', },
+      { '<c-/>', function() Snacks.terminal() end, desc = 'Toggle Terminal', },
+      { '<c-_>', function() Snacks.terminal() end, desc = 'which_key_ignore', },
+      { ']]', function() Snacks.words.jump(vim.v.count1) end, desc = 'Next Reference', mode = { 'n', 't' }, },
+      { '[[', function() Snacks.words.jump(-vim.v.count1) end, desc = 'Prev Reference', mode = { 'n', 't' }, },
+      { '<leader>N', desc = 'Neovim News',
+        function() Snacks.win { file = vim.api.nvim_get_runtime_file('doc/news.txt', false)[1], width = 0.6,
             height = 0.6,
             wo = {
               spell = false,
@@ -2272,8 +2137,8 @@ require('lazy').setup({
             { "n", "<C-w>gf", function() require("diffview.actions").goto_file_tab() end, { desc = "Open file in tab" } },
             { "n", "<leader>e", function() require("diffview.actions").toggle_files() end, { desc = "Toggle file panel" } },
             { "n", "g<C-x>", function() require("diffview.actions").cycle_layout() end, { desc = "Cycle layout" } },
-            { "n", "[x", function() require("diffview.actions").prev_conflict() end, { desc = "Previous conflict" } },
-            { "n", "]x", function() require("diffview.actions").next_conflict() end, { desc = "Next conflict" } },
+            { "n", "[c", function() require("diffview.actions").prev_conflict() end, { desc = "Previous conflict" } },
+            { "n", "]c", function() require("diffview.actions").next_conflict() end, { desc = "Next conflict" } },
           },
           file_panel = {
             { "n", "j", function() require("diffview.actions").next_entry() end, { desc = "Next entry" } },
