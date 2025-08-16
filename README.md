@@ -261,9 +261,20 @@
 - `<leader>sS` - 워크스페이스 심볼
 
 ### 코드 포맷팅 및 린팅
-- `<leader>f` - 코드 포맷팅
+- `<leader>f` - 코드 포맷팅 (현재 버퍼)
+- `<leader>l` - 수동 린팅 실행 (현재 버퍼)
 - 자동 포맷팅 (저장 시)
 - 실시간 린팅 (입력 중)
+
+#### 지원하는 포맷터 및 린터
+##### 포맷터 (conform.nvim)
+- **Lua**: stylua
+- **Markdown**: prettier
+- 저장 시 자동 포맷팅 (일부 언어는 LSP fallback)
+
+##### 린터 (nvim-lint)
+- **Markdown**: markdownlint
+- 실시간 이벤트: BufEnter, BufWritePost, InsertLeave
 
 ### Diagnostic 관리 (Trouble.nvim)
 #### 목록 보기

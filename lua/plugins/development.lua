@@ -79,6 +79,13 @@ return {
         mode = '',
         desc = '[F]ormat buffer',
       },
+      {
+        '<leader>l',
+        function()
+          require('lint').try_lint()
+        end,
+        desc = '[L]int current buffer',
+      },
     },
     opts = {
       notify_on_error = false,
@@ -94,6 +101,7 @@ return {
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        markdown = { 'prettier' },
       },
     },
   },
