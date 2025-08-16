@@ -32,6 +32,7 @@
 - `<leader>fc` - 설정 파일 찾기
 - `<leader>fb` - 버퍼 목록
 - `<leader>fp` - 프로젝트 목록
+- `<leader>fw` - 워크스페이스 전환
 
 #### 검색 관련 (s 그룹)
 - `<leader>sg` - 전체 검색 (Grep)
@@ -144,6 +145,37 @@
 - `x` - Execute (명령어 실행)
 - `gj` / `gk` - 아래/위로 이동
 - `<Enter>` - 커밋 열기
+
+### Advanced Git Search (advanced-git-search.nvim)
+#### 콘텐츠 기반 검색 (핵심 기능)
+- `<leader>gsc` - Git 로그 콘텐츠 검색 (코드 내용으로 커밋 찾기)
+- `<leader>gsf` - 현재 파일에서 Git 콘텐츠 검색
+
+#### 라인 히스토리 및 Diff
+- `<leader>gsl` - 선택된 라인의 변경 히스토리
+- `<leader>gsr` - 커밋 범위 간 Diff
+
+#### 브랜치 및 파일 작업
+- `<leader>gsb` - 현재 파일을 다른 브랜치와 비교
+- `<leader>gso` - 현재 브랜치에서 변경된 파일들
+
+#### 고급 네비게이션
+- `<leader>gsk` - Reflog에서 체크아웃
+
+### GitHub Integration (Octo.nvim)
+#### Issues 관리
+- `<leader>ghi` - Issue 목록
+- `<leader>ghI` - Issue 생성
+
+#### Pull Request 관리
+- `<leader>ghp` - PR 목록
+- `<leader>ghP` - PR 생성
+- `<leader>ghr` - 리뷰 시작
+
+#### 빠른 작업
+- `<leader>ghv` - 브라우저에서 PR 열기
+- `<leader>ghc` - PR 체크아웃
+- `<leader>ghm` - PR 머지
 
 ### Git Diff Viewer (diffview.nvim)
 #### 기본 명령어
@@ -275,6 +307,23 @@
 - `<leader>cd` - 문서화 요청
 - `<leader>cq` - 빠른 질문
 
+### 워크스페이스 관리 (Workspace Management)
+#### 기본 워크스페이스 명령어
+- `<leader>fw` - 워크스페이스 전환 (Snacks Picker 사용)
+- `<leader>wa` - 현재 디렉토리를 워크스페이스로 추가
+- `<leader>wr` - 워크스페이스 제거
+
+#### 워크스페이스 사용법
+1. **워크스페이스 추가**: 프로젝트 폴더에서 `<leader>wa`로 현재 디렉토리를 워크스페이스로 등록
+2. **워크스페이스 전환**: `<leader>fw`로 워크스페이스 목록을 보고 선택하여 빠르게 프로젝트 간 이동
+3. **워크스페이스 제거**: `<leader>wr`로 불필요한 워크스페이스를 목록에서 제거
+4. **자동 파일 탐색기**: 워크스페이스 전환 시 파일 탐색기가 자동으로 열림
+
+#### 워크스페이스 활용 팁
+- 여러 프로젝트를 동시에 작업할 때 각각을 워크스페이스로 등록
+- 워크스페이스 이름으로 프로젝트를 쉽게 구분
+- Snacks Picker를 통해 빠르고 직관적인 워크스페이스 선택
+
 ### 기타 유용한 기능
 - `<leader>z` - Zen 모드 토글
 - `<leader>Z` - 줌 모드 토글
@@ -384,11 +433,21 @@
 7. **Diff 보기**: `D`로 Diff 팝업 → diffview 통합으로 상세 diff 확인
 
 ### 통합 Git 도구 사용 팁
+#### 계층별 Git 워크플로우
 - **빠른 확인**: Snacks Picker(`<leader>gs`, `<leader>gl`)로 상태/로그 빠르게 보기
 - **상세 작업**: Neogit(`<leader>gn`)으로 복잡한 Git 작업 수행
+- **코드 검색**: Advanced Git Search(`<leader>gsc`, `<leader>gsl`)로 "언제/어디서 바뀌었나" 추적
 - **Diff 분석**: Diffview(`<leader>gd`)로 변경사항 상세 비교
-- **Blame 추적**: 자동 Git Blame으로 코드 히스토리 추적
+- **Blame 추적**: 자동 Git Blame으로 현재 라인 히스토리 추적
+- **GitHub 작업**: Octo(`<leader>gh*`)로 Issues/PR 관리
 - **빠른 커밋**: `<leader>gc`로 즉시 커밋 화면 열기
+
+#### 검색 중심 워크플로우 (Advanced Git Search 활용)
+1. **"이 코드 언제 추가됐지?"** → `<leader>gsc`로 콘텐츠 검색
+2. **"이 라인 왜 바뀌었지?"** → `<leader>gsl`로 라인 히스토리 추적  
+3. **"브랜치 간 차이점은?"** → `<leader>gsb`로 파일 비교
+4. **"이 기능 어떻게 구현했지?"** → `<leader>gsf`로 파일 내 검색
+5. **검색 결과를 diffview로 상세 분석** → 자동 연동
 
 ## 📦 주요 플러그인 목록
 
@@ -411,6 +470,8 @@
 - **git-blame.nvim** - Git blame 정보 표시
 - **diffview.nvim** - Git diff 뷰어 및 파일 히스토리
 - **neogit.nvim** - Git 인터페이스 (Magit 스타일)
+- **advanced-git-search.nvim** - Git 히스토리 콘텐츠 검색
+- **octo.nvim** - GitHub Issues/PR 관리
 - **snacks.nvim** - Git 관련 기능 (브랜치, 로그, 상태 등)
 
 ### UI/UX
@@ -431,6 +492,7 @@
 - **guess-indent.nvim** - 자동 indent 감지
 - **todo-comments.nvim** - TODO 하이라이팅
 - **claude-code.nvim** - AI 어시스턴트 (Claude Code)
+- **workspaces.nvim** - 워크스페이스 관리 및 프로젝트 간 빠른 전환
 
 ## 📋 설정 파일 위치
 - 메인 설정: `~/.config/nvim-kickstart/init.lua`

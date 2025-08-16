@@ -1860,6 +1860,98 @@ require('lazy').setup({
     end,
   },
 
+  -- 📁 Workspace Management
+  {
+    'natecraddock/workspaces.nvim',
+    config = function()
+      require('workspaces').setup {
+        hooks = {
+          open = function()
+            -- Optionally update current working directory
+            require('snacks').explorer()
+          end,
+        },
+      }
+
+      -- Add workspace keymaps
+      vim.keymap.set('n', '<leader>fw', function()
+        local workspaces = require('workspaces')
+        local workspace_list = workspaces.get()
+        
+        if #workspace_list == 0 then
+          vim.notify('No workspaces found. Add some workspaces first!', vim.log.levels.WARN)
+          return
+        end
+
+        -- Create items for snacks picker
+        local items = {}
+        for _, workspace in ipairs(workspace_list) do
+          table.insert(items, {
+            text = string.format('%s (%s)', workspace.name, workspace.path),
+            name = workspace.name,
+            path = workspace.path,
+          })
+        end
+
+        -- Use snacks picker for workspace selection
+        require('snacks').picker.pick({
+          items = items,
+          format = function(item)
+            return item.text
+          end,
+          on_choice = function(item)
+            if item then
+              -- Open the selected workspace
+              workspaces.open(item.name)
+              vim.notify('Switched to workspace: ' .. item.name, vim.log.levels.INFO)
+            end
+          end,
+        }, { prompt = 'Workspaces' })
+      end, { desc = 'Switch Workspace' })
+
+      -- Quick workspace management
+      vim.keymap.set('n', '<leader>wa', function()
+        vim.ui.input({ prompt = 'Workspace name: ' }, function(name)
+          if name and name ~= '' then
+            require('workspaces').add(vim.fn.getcwd(), name)
+            vim.notify('Added workspace: ' .. name, vim.log.levels.INFO)
+          end
+        end)
+      end, { desc = 'Add Current Directory as Workspace' })
+
+      vim.keymap.set('n', '<leader>wr', function()
+        local workspaces = require('workspaces')
+        local workspace_list = workspaces.get()
+        
+        if #workspace_list == 0 then
+          vim.notify('No workspaces to remove', vim.log.levels.WARN)
+          return
+        end
+
+        local items = {}
+        for _, workspace in ipairs(workspace_list) do
+          table.insert(items, {
+            text = string.format('%s (%s)', workspace.name, workspace.path),
+            name = workspace.name,
+          })
+        end
+
+        require('snacks').picker.pick({
+          items = items,
+          format = function(item)
+            return item.text
+          end,
+          on_choice = function(item)
+            if item then
+              workspaces.remove(item.name)
+              vim.notify('Removed workspace: ' .. item.name, vim.log.levels.INFO)
+            end
+          end,
+        }, { prompt = 'Remove Workspace' })
+      end, { desc = 'Remove Workspace' })
+    end,
+  },
+
   -- ⚡ Enhanced Navigation with Flash
   {
     'folke/flash.nvim',
@@ -2347,6 +2439,70 @@ require('lazy').setup({
         commit_editor = {
           show_staged_diff = true,
         },
+      })
+    end,
+  },
+
+  -- 🔍 Advanced Git Search with Snacks integration
+  {
+    'aaronhallaert/advanced-git-search.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'sindrets/diffview.nvim',
+    },
+    cmd = { 'AdvancedGitSearch' },
+    keys = {
+      -- Content-based search (core strength)
+      { '<leader>gsc', '<cmd>AdvancedGitSearch search_log_content<cr>', desc = 'Search Git Log Content' },
+      { '<leader>gsf', '<cmd>AdvancedGitSearch search_log_content_file<cr>', desc = 'Search Git Content (Current File)' },
+      
+      -- Line history and diff
+      { '<leader>gsl', '<cmd>AdvancedGitSearch diff_commit_line<cr>', desc = 'Line History' },
+      { '<leader>gsr', '<cmd>AdvancedGitSearch diff_commit_range<cr>', desc = 'Commit Range Diff' },
+      
+      -- Branch and file operations
+      { '<leader>gsb', '<cmd>AdvancedGitSearch diff_branch_file<cr>', desc = 'Compare File with Branch' },
+      { '<leader>gso', '<cmd>AdvancedGitSearch changed_on_branch<cr>', desc = 'Files Changed on Branch' },
+      
+      -- Advanced navigation
+      { '<leader>gsk', '<cmd>AdvancedGitSearch checkout_reflog<cr>', desc = 'Checkout from Reflog' },
+    },
+    config = function()
+      require('advanced_git_search').setup({
+        diff_plugin = 'diffview',
+        show_builtin_git_pickers = false,
+      })
+    end,
+  },
+
+  -- 🐙 GitHub Integration with Octo
+  {
+    'pwntester/octo.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-tree/nvim-web-devicons',
+    },
+    cmd = 'Octo',
+    keys = {
+      -- Issues
+      { '<leader>ghi', '<cmd>Octo issue list<cr>', desc = 'List Issues' },
+      { '<leader>ghI', '<cmd>Octo issue create<cr>', desc = 'Create Issue' },
+      
+      -- Pull Requests
+      { '<leader>ghp', '<cmd>Octo pr list<cr>', desc = 'List PRs' },
+      { '<leader>ghP', '<cmd>Octo pr create<cr>', desc = 'Create PR' },
+      { '<leader>ghr', '<cmd>Octo review start<cr>', desc = 'Start Review' },
+      
+      -- Quick actions
+      { '<leader>ghv', '<cmd>Octo pr browser<cr>', desc = 'Open PR in Browser' },
+      { '<leader>ghc', '<cmd>Octo pr checkout<cr>', desc = 'Checkout PR' },
+      { '<leader>ghm', '<cmd>Octo pr merge<cr>', desc = 'Merge PR' },
+    },
+    config = function()
+      require('octo').setup({
+        default_remote = {'upstream', 'origin'},
+        default_merge_method = 'commit',
+        picker = 'default', -- Use vim.ui.select instead of telescope
       })
     end,
   },
