@@ -212,6 +212,15 @@ return {
           { 'Add Workspace', '<leader>wa' },
           { 'Remove Workspace', '<leader>wr' },
         },
+        ['Yank History (Yanky)'] = {
+          { 'Enhanced Put After', 'p' },
+          { 'Enhanced Put Before', 'P' },
+          { 'Put After (keep cursor)', 'gp' },
+          { 'Put Before (keep cursor)', 'gP' },
+          { 'Next Yank in Ring', ']y' },
+          { 'Prev Yank in Ring', '[y' },
+          { 'Yank History Picker', '<leader>p' },
+        },
         ['Misc'] = {
           { 'Command History', '<leader>:' },
           { 'Notification History', '<leader>n' },

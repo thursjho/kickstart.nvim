@@ -88,7 +88,6 @@ return {
       { '<leader>sR', function() Snacks.picker.resume() end, desc = 'Resume' },
       { '<leader>st', function() Snacks.picker.tmux() end, desc = 'Tmux Sessions' },
       { '<leader>su', function() Snacks.picker.undo() end, desc = 'Undo History' },
-      { '<leader>p', '<cmd>YankyRingHistory<CR>', desc = 'Yank History' },
       
       -- Git operations
       { '<leader>gb', function() Snacks.picker.git_branches() end, desc = 'Git Branches' },
