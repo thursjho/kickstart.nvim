@@ -5,5 +5,9 @@ nvim
 
 spell/
 lazy-lock.json
-.vscocde
+.vscode
 .idea
+.claude
+
+*.bak
+*.backup
