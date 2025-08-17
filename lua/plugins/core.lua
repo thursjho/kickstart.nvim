@@ -132,6 +132,50 @@ return {
       { '<leader>sR', function() Snacks.picker.resume() end, desc = 'Resume' },
       { '<leader>su', function() Snacks.picker.undo() end, desc = 'Undo History' },
       
+      -- Todo comments
+      { '<leader>st', function()
+        -- Custom todo comments picker using grep
+        local cwd = vim.fn.getcwd()
+        local cmd = 'grep -rn --include="*.lua" --include="*.js" --include="*.ts" --include="*.jsx" --include="*.tsx" --include="*.py" --include="*.md" "\\(TODO\\|FIXME\\|HACK\\|WARN\\|PERF\\|NOTE\\)" ' .. vim.fn.shellescape(cwd)
+        local output = vim.fn.system(cmd)
+        
+        if vim.v.shell_error ~= 0 or output == "" then
+          vim.notify("No todo comments found", vim.log.levels.INFO)
+          return
+        end
+
+        local items = {}
+        for line in output:gmatch("[^\r\n]+") do
+          local file, lnum, text = line:match("([^:]+):(%d+):(.*)")
+          if file and lnum and text then
+            table.insert(items, {
+              text = string.format("%s:%s:%s", vim.fn.fnamemodify(file, ":."), lnum, text:gsub("^%s*", "")),
+              file = file,
+              lnum = tonumber(lnum),
+              col = 1
+            })
+          end
+        end
+
+        if #items == 0 then
+          vim.notify("No todo comments found", vim.log.levels.INFO)
+          return
+        end
+
+        Snacks.picker.pick({
+          source = 'todo_comments',
+          title = 'Todo Comments',
+          items = items,
+          preview = { type = 'file' },
+          actions = {
+            open = function(item)
+              vim.cmd('edit ' .. vim.fn.fnameescape(item.file))
+              vim.api.nvim_win_set_cursor(0, { item.lnum, item.col - 1 })
+            end
+          }
+        })
+      end, desc = 'Todo Comments' },
+      
       -- Tmux sessions (using <leader>sx to avoid conflict with todo-comments)
       { '<leader>sx', function()
         -- Check if tmux is available
@@ -207,8 +251,23 @@ return {
       -- Buffer operations
       { '<leader>bd', function() Snacks.bufdelete() end, desc = 'Delete Buffer' },
       
-      -- File operations
+      -- Code operations (LazyVim style)
+      { '<leader>ca', vim.lsp.buf.code_action, desc = 'Code Action' },
+      { '<leader>cA', function()
+        vim.lsp.buf.code_action({
+          context = {
+            only = { "source" },
+            diagnostics = {},
+          },
+        })
+      end, desc = 'Source Action' },
+      { '<leader>cd', vim.diagnostic.open_float, desc = 'Line Diagnostics' },
+      { '<leader>cf', function() require('conform').format({ lsp_fallback = true }) end, desc = 'Format Document' },
+      { '<leader>cF', function() require('conform').format({ formatters = { "injected" }, lsp_fallback = true }) end, desc = 'Format Injected Langs' },
+      { '<leader>cr', vim.lsp.buf.rename, desc = 'Rename' },
       { '<leader>cR', function() Snacks.rename.rename_file() end, desc = 'Rename File' },
+      { '<leader>cs', function() Snacks.picker.lsp_document_symbols() end, desc = 'Document Symbols' },
+      { '<leader>cS', function() Snacks.picker.lsp_workspace_symbols() end, desc = 'Workspace Symbols' },
       
       -- Terminal
       { '<c-/>', function() Snacks.terminal() end, desc = 'Toggle Terminal' },
