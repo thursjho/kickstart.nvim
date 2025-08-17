@@ -86,7 +86,60 @@ return {
       { '<leader>sp', function() Snacks.picker.pickers() end, desc = 'Pickers' },
       { '<leader>sq', function() Snacks.picker.qflist() end, desc = 'Quickfix List' },
       { '<leader>sR', function() Snacks.picker.resume() end, desc = 'Resume' },
-      { '<leader>st', function() Snacks.picker.tmux() end, desc = 'Tmux Sessions' },
+      { '<leader>st', function()
+        -- Check if tmux is available
+        if vim.fn.executable('tmux') == 0 then
+          vim.notify('tmux not found', vim.log.levels.ERROR)
+          return
+        end
+
+        -- Get tmux sessions
+        local handle = io.popen('tmux list-sessions -F "#{session_name} (#{session_windows} windows) #{?session_attached,[attached],[detached]}" 2>/dev/null')
+        if not handle then
+          vim.notify('Failed to get tmux sessions', vim.log.levels.ERROR)
+          return
+        end
+
+        local sessions = {}
+        for line in handle:lines() do
+          local session_name = line:match('^([^%s]+)')
+          if session_name then
+            table.insert(sessions, {
+              text = line,
+              session = session_name
+            })
+          end
+        end
+        handle:close()
+
+        if #sessions == 0 then
+          vim.notify('No tmux sessions found', vim.log.levels.WARN)
+          return
+        end
+
+        Snacks.picker.pick({
+          source = 'tmux_sessions',
+          title = 'Tmux Sessions',
+          items = sessions,
+          preview = false,
+          actions = {
+            open = function(item)
+              local cmd
+              if vim.env.TMUX then
+                cmd = string.format('tmux switch-client -t "%s"', item.session)
+              else
+                cmd = string.format('tmux attach-session -t "%s"', item.session)
+              end
+              vim.fn.system(cmd)
+              if vim.v.shell_error ~= 0 then
+                vim.notify('Failed to switch to tmux session: ' .. item.session, vim.log.levels.ERROR)
+              else
+                vim.notify('Switched to tmux session: ' .. item.session, vim.log.levels.INFO)
+              end
+            end
+          }
+        })
+      end, desc = 'Tmux Sessions' },
       { '<leader>su', function() Snacks.picker.undo() end, desc = 'Undo History' },
       
       -- Git operations
