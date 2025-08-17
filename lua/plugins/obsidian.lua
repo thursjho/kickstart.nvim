@@ -1,4 +1,3 @@
--- Note-taking and documentation plugins
 return {
   -- Obsidian integration
   {
@@ -332,4 +331,5 @@ return {
       end, { desc = 'Find Obsidian Tags' })
     end,
   }
+
 }
