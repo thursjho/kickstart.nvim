@@ -38,11 +38,11 @@ return {
   },
 
   -- Todo comments highlighting
-  { 
-    'folke/todo-comments.nvim', 
-    event = 'VimEnter', 
-    dependencies = { 'nvim-lua/plenary.nvim' }, 
-    opts = { signs = false } 
+  {
+    'folke/todo-comments.nvim',
+    event = 'VimEnter',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    opts = { signs = false },
   },
 
   -- NvCheatsheet for easy keymap viewing
@@ -97,7 +97,8 @@ return {
           { 'Pickers', '<leader>sp' },
           { 'Quickfix List', '<leader>sq' },
           { 'Resume', '<leader>sR' },
-          { 'Tmux Sessions', '<leader>st' },
+          { 'Todo Comments', '<leader>st' },
+          { 'Tmux Sessions', '<leader>sx' },
           { 'Undo History', '<leader>su' },
           { 'Yank History', '<leader>p' },
         },

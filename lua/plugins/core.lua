@@ -38,6 +38,50 @@ return {
           wo = { wrap = true } -- Wrap notifications
         }
       },
+      dashboard = {
+        enabled = true,
+        preset = {
+          header = [[
+███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
+████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
+██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
+██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
+██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
+╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝
+          ]],
+          keys = {
+            { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.picker.files()" },
+            { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+            { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.picker.grep()" },
+            { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.picker.recent()" },
+            { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.picker.files({cwd = vim.fn.stdpath('config')})" },
+            { icon = " ", key = "s", desc = "Restore Session", section = "session" },
+            { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
+            { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+          },
+        },
+        sections = {
+          { section = "header" },
+          { section = "keys", gap = 1, padding = 1 },
+          { pane = 2, icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
+          { pane = 2, icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
+          {
+            pane = 2,
+            icon = " ",
+            title = "Git Status",
+            section = "terminal",
+            enabled = function()
+              return Snacks.git.get_root() ~= nil
+            end,
+            cmd = "git status --porcelain -b",
+            height = 5,
+            padding = 1,
+            ttl = 5 * 60,
+            indent = 3,
+          },
+          { section = "startup" },
+        },
+      },
       input = {},
       picker = {},
       terminal = {},
@@ -86,7 +130,10 @@ return {
       { '<leader>sp', function() Snacks.picker.pickers() end, desc = 'Pickers' },
       { '<leader>sq', function() Snacks.picker.qflist() end, desc = 'Quickfix List' },
       { '<leader>sR', function() Snacks.picker.resume() end, desc = 'Resume' },
-      { '<leader>st', function()
+      { '<leader>su', function() Snacks.picker.undo() end, desc = 'Undo History' },
+      
+      -- Tmux sessions (using <leader>sx to avoid conflict with todo-comments)
+      { '<leader>sx', function()
         -- Check if tmux is available
         if vim.fn.executable('tmux') == 0 then
           vim.notify('tmux not found', vim.log.levels.ERROR)
@@ -140,7 +187,6 @@ return {
           }
         })
       end, desc = 'Tmux Sessions' },
-      { '<leader>su', function() Snacks.picker.undo() end, desc = 'Undo History' },
       
       -- Git operations
       { '<leader>gb', function() Snacks.picker.git_branches() end, desc = 'Git Branches' },
