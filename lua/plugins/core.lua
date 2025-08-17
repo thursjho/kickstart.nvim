@@ -250,6 +250,14 @@ return {
       
       -- Buffer operations
       { '<leader>bd', function() Snacks.bufdelete() end, desc = 'Delete Buffer' },
+      { '<leader>bD', function() Snacks.bufdelete.other() end, desc = 'Delete Other Buffers' },
+      { '<leader>bl', function() Snacks.bufdelete.all() end, desc = 'Delete All Buffers' },
+      { '<leader>bo', function() Snacks.bufdelete.other() end, desc = 'Delete Other Buffers' },
+      { '<leader>bp', '<cmd>bprevious<cr>', desc = 'Prev Buffer' },
+      { '<leader>bn', '<cmd>bnext<cr>', desc = 'Next Buffer' },
+      { '<leader>br', '<cmd>e!<cr>', desc = 'Reload Buffer' },
+      { '<leader>bs', function() Snacks.scratch() end, desc = 'Toggle Scratch Buffer' },
+      { '<leader>bS', function() Snacks.scratch.select() end, desc = 'Select Scratch Buffer' },
       
       -- Code operations (LazyVim style)
       { '<leader>ca', vim.lsp.buf.code_action, desc = 'Code Action' },
@@ -264,10 +272,39 @@ return {
       { '<leader>cd', vim.diagnostic.open_float, desc = 'Line Diagnostics' },
       { '<leader>cf', function() require('conform').format({ lsp_fallback = true }) end, desc = 'Format Document' },
       { '<leader>cF', function() require('conform').format({ formatters = { "injected" }, lsp_fallback = true }) end, desc = 'Format Injected Langs' },
+      { '<leader>cl', function() require('lint').try_lint() end, desc = 'Lint Buffer' },
       { '<leader>cr', vim.lsp.buf.rename, desc = 'Rename' },
       { '<leader>cR', function() Snacks.rename.rename_file() end, desc = 'Rename File' },
       { '<leader>cs', function() Snacks.picker.lsp_document_symbols() end, desc = 'Document Symbols' },
       { '<leader>cS', function() Snacks.picker.lsp_workspace_symbols() end, desc = 'Workspace Symbols' },
+      
+      -- LSP Info
+      { "<leader>L", function() Snacks.picker.lsp_config() end, desc = "Lsp Info" },
+      -- { '<leader>L', '<cmd>LspInfo<cr>', desc = 'LSP Info' },
+      
+      -- Debug operations (DAP)
+      { '<leader>da', function() require('dap').continue() end, desc = 'Run with Args' },
+      { '<leader>db', function() require('dap').toggle_breakpoint() end, desc = 'Toggle Breakpoint' },
+      { '<leader>dB', function() require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = 'Breakpoint Condition' },
+      { '<leader>dc', function() require('dap').continue() end, desc = 'Continue' },
+      { '<leader>dC', function() require('dap').run_to_cursor() end, desc = 'Run to Cursor' },
+      { '<leader>dd', function() require('dap').disconnect() end, desc = 'Disconnect' },
+      { '<leader>dg', function() require('dap').session() end, desc = 'Get Session' },
+      { '<leader>di', function() require('dap').step_into() end, desc = 'Step Into' },
+      { '<leader>dj', function() require('dap').down() end, desc = 'Down' },
+      { '<leader>dk', function() require('dap').up() end, desc = 'Up' },
+      { '<leader>dl', function() require('dap').run_last() end, desc = 'Run Last' },
+      { '<leader>do', function() require('dap').step_over() end, desc = 'Step Over' },
+      { '<leader>dO', function() require('dap').step_out() end, desc = 'Step Out' },
+      { '<leader>dp', function() require('dap').pause() end, desc = 'Pause' },
+      { '<leader>dr', function() require('dap').repl.toggle() end, desc = 'Toggle REPL' },
+      { '<leader>ds', function() require('dap').session() end, desc = 'Session' },
+      { '<leader>dt', function() require('dap').terminate() end, desc = 'Terminate' },
+      { '<leader>du', function() require('dapui').toggle({}) end, desc = 'Dap UI' },
+      { '<leader>dw', function() require('dap.ui.widgets').hover() end, desc = 'Widgets' },
+
+      -- Lazy
+      { '<leader>l', '<cmd>Lazy<cr>', desc = 'Lazy' },
       
       -- Terminal
       { '<c-/>', function() Snacks.terminal() end, desc = 'Toggle Terminal' },
@@ -276,6 +313,141 @@ return {
       -- Words navigation
       { ']]', function() Snacks.words.jump(vim.v.count1) end, desc = 'Next Reference', mode = { 'n', 't' } },
       { '[[', function() Snacks.words.jump(-vim.v.count1) end, desc = 'Prev Reference', mode = { 'n', 't' } },
+      
+      -- Buffer local keymaps (LazyVim style)
+      { '<leader>?', function()
+        local function get_buffer_keymaps()
+          local buf = vim.api.nvim_get_current_buf()
+          local ft = vim.bo[buf].filetype
+          local keymaps = {}
+          
+          -- Get all buffer-local keymaps
+          local buf_keymaps = vim.api.nvim_buf_get_keymap(buf, 'n')
+          for _, keymap in ipairs(buf_keymaps) do
+            if keymap.lhs and keymap.desc then
+              table.insert(keymaps, {
+                key = keymap.lhs,
+                desc = keymap.desc,
+                mode = 'n'
+              })
+            end
+          end
+          
+          -- Add LSP keymaps if LSP is attached
+          local clients = vim.lsp.get_clients({ bufnr = buf })
+          if #clients > 0 then
+            local lsp_keymaps = {
+              { 'gd', 'Goto Definition' },
+              { 'gD', 'Goto Declaration' },
+              { 'gr', 'References' },
+              { 'gI', 'Goto Implementation' },
+              { 'gy', 'Goto T[y]pe Definition' },
+              { 'K', 'Hover' },
+              { 'gK', 'Signature Help' },
+              { '<leader>ca', 'Code Action' },
+              { '<leader>cA', 'Source Action' },
+              { '<leader>cr', 'Rename' },
+              { '<leader>cf', 'Format Document' },
+              { '<leader>cl', 'Lint Buffer' },
+              { '<leader>cd', 'Line Diagnostics' },
+              { ']d', 'Next Diagnostic' },
+              { '[d', 'Prev Diagnostic' },
+              { ']e', 'Next Error' },
+              { '[e', 'Prev Error' },
+              { ']w', 'Next Warning' },
+              { '[w', 'Prev Warning' },
+            }
+            for _, lsp_keymap in ipairs(lsp_keymaps) do
+              table.insert(keymaps, {
+                key = lsp_keymap[1],
+                desc = lsp_keymap[2] .. ' (LSP)',
+                mode = 'n'
+              })
+            end
+          end
+          
+          -- Add DAP keymaps if available
+          if pcall(require, 'dap') then
+            local dap_keymaps = {
+              { '<leader>db', 'Toggle Breakpoint' },
+              { '<leader>dB', 'Breakpoint Condition' },
+              { '<leader>dc', 'Continue' },
+              { '<leader>dC', 'Run to Cursor' },
+              { '<leader>di', 'Step Into' },
+              { '<leader>do', 'Step Over' },
+              { '<leader>dO', 'Step Out' },
+              { '<leader>dr', 'Toggle REPL' },
+              { '<leader>dt', 'Terminate' },
+              { '<leader>du', 'Dap UI' },
+            }
+            for _, dap_keymap in ipairs(dap_keymaps) do
+              table.insert(keymaps, {
+                key = dap_keymap[1],
+                desc = dap_keymap[2] .. ' (DAP)',
+                mode = 'n'
+              })
+            end
+          end
+          
+          -- Add common buffer keymaps
+          local common_keymaps = {
+            { '<leader>bd', 'Delete Buffer' },
+            { '<leader>bn', 'Next Buffer' },
+            { '<leader>bp', 'Prev Buffer' },
+            { '<leader>br', 'Reload Buffer' },
+            { '<leader>bs', 'Scratch Buffer' },
+            { '<leader>bS', 'Select Scratch Buffer' },
+          }
+          for _, common_keymap in ipairs(common_keymaps) do
+            table.insert(keymaps, {
+              key = common_keymap[1],
+              desc = common_keymap[2],
+              mode = 'n'
+            })
+          end
+          
+          -- Add filetype-specific keymaps
+          if ft == 'lua' then
+            table.insert(keymaps, { key = '<leader>R', desc = 'Reload Config', mode = 'n' })
+          elseif ft == 'markdown' then
+            table.insert(keymaps, { key = '<leader>st', desc = 'Todo Comments', mode = 'n' })
+          elseif ft == 'git' then
+            table.insert(keymaps, { key = '<leader>gg', desc = 'Lazygit', mode = 'n' })
+          end
+          
+          return keymaps
+        end
+        
+        local keymaps = get_buffer_keymaps()
+        if #keymaps == 0 then
+          vim.notify("No buffer keymaps found", vim.log.levels.INFO)
+          return
+        end
+        
+        -- Format and display using Snacks picker
+        local items = {}
+        for _, keymap in ipairs(keymaps) do
+          table.insert(items, {
+            text = string.format("%-20s %s", keymap.key, keymap.desc),
+            key = keymap.key,
+            desc = keymap.desc,
+            mode = keymap.mode
+          })
+        end
+        
+        Snacks.picker.pick({
+          source = 'buffer_keymaps',
+          title = 'Buffer Keymaps (' .. vim.bo.filetype .. ')',
+          items = items,
+          preview = false,
+          actions = {
+            open = function(item)
+              -- Execute the keymap
+              vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(item.key, true, false, true), 'n', false)
+            end
+          }
+        })
+      end, desc = 'Buffer Local Keymaps' },
       
       -- Neovim News
       {
