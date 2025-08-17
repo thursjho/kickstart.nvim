@@ -303,6 +303,13 @@ return {
       { '<leader>du', function() require('dapui').toggle({}) end, desc = 'Dap UI' },
       { '<leader>dw', function() require('dap.ui.widgets').hover() end, desc = 'Widgets' },
 
+      -- Save and quit keymaps
+      { '<C-s>', '<cmd>w<cr><esc>', desc = 'Save Buffer', mode = { 'i', 'x', 'n', 's' } },
+      { '<leader>w', '<cmd>w<cr>', desc = 'Save Buffer' },
+      { '<leader>W', '<cmd>wa<cr>', desc = 'Save All Buffers' },
+      { '<leader>q', '<cmd>q<cr>', desc = 'Quit' },
+      { '<leader>Q', '<cmd>qa<cr>', desc = 'Quit All' },
+
       -- Lazy
       { '<leader>l', '<cmd>Lazy<cr>', desc = 'Lazy' },
       
@@ -397,6 +404,34 @@ return {
             { '<leader>br', 'Reload Buffer' },
             { '<leader>bs', 'Scratch Buffer' },
             { '<leader>bS', 'Select Scratch Buffer' },
+            { '<C-s>', 'Save Buffer' },
+            { '<leader>w', 'Save Buffer' },
+            { '<leader>W', 'Save All Buffers' },
+            { '<leader>q', 'Quit' },
+            { '<leader>Q', 'Quit All' },
+            { '<C-h>', 'Move to Left Window' },
+            { '<C-j>', 'Move to Down Window' },
+            { '<C-k>', 'Move to Up Window' },
+            { '<C-l>', 'Move to Right Window' },
+            { '<A-h>', 'Resize Left' },
+            { '<A-j>', 'Resize Down' },
+            { '<A-k>', 'Resize Up' },
+            { '<A-l>', 'Resize Right' },
+            { '<C-/>', 'Toggle Terminal' },
+            { 's', 'Flash Jump' },
+            { 'S', 'Flash Treesitter' },
+            { ']h', 'Next Git Hunk' },
+            { '[h', 'Prev Git Hunk' },
+            { ']t', 'Next Trouble' },
+            { '[t', 'Prev Trouble' },
+            { ']]', 'Next Reference' },
+            { '[[', 'Prev Reference' },
+            { ']y', 'Next Yank in Ring' },
+            { '[y', 'Prev Yank in Ring' },
+            { 'p', 'Enhanced Put After (Yanky)' },
+            { 'P', 'Enhanced Put Before (Yanky)' },
+            { 'gp', 'Put After (keep cursor)' },
+            { 'gP', 'Put Before (keep cursor)' },
           }
           for _, common_keymap in ipairs(common_keymaps) do
             table.insert(keymaps, {
