@@ -7,10 +7,10 @@ return {
     opts = {
       preset = 'helix',
       defaults = {},
-      delay = 300,
-      triggers = {
-        { "<auto>", mode = "nxso" },
-      },
+      -- delay = 300,
+      -- triggers = {
+      --   { "<auto>", mode = "nxso" },
+      -- },
       spec = {
         {
           mode = { 'n', 'v' },
@@ -51,11 +51,18 @@ return {
     },
     keys = {
       {
-        '<c-w><space>',
+        "<leader>?",
         function()
-          require('which-key').show { keys = '<c-w>', loop = true }
+          require("which-key").show({ global = false })
         end,
-        desc = 'Window Hydra Mode (which-key)',
+        desc = "Buffer Keymaps (which-key)",
+      },
+      {
+        "<c-w><space>",
+        function()
+          require("which-key").show({ keys = "<c-w>", loop = true })
+        end,
+        desc = "Window Hydra Mode (which-key)",
       },
     },
     config = function(_, opts)
