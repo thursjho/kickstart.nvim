@@ -27,16 +27,24 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- [[ Configure and install plugins ]]
-require('lazy').setup({
-  -- Import plugin modules
-  { import = 'plugins.core' },
-  { import = 'plugins.ui' },
-  { import = 'plugins.editor' },
-  { import = 'plugins.lsp' },
-  { import = 'plugins.development' },
-  { import = 'plugins.git' },
-  { import = 'plugins.notes' },
-}, {
+-- Auto-import all plugin files from plugins directory
+local function get_plugin_specs()
+  local plugins_dir = vim.fn.stdpath('config') .. '/lua/plugins'
+  local plugin_files = vim.fn.glob(plugins_dir .. '/*.lua', false, true)
+  local specs = {}
+
+  for _, file_path in ipairs(plugin_files) do
+    local filename = vim.fn.fnamemodify(file_path, ':t:r')
+    -- Skip init.lua if it exists in plugins directory
+    if filename ~= 'init' then
+      table.insert(specs, { import = 'plugins.' .. filename })
+    end
+  end
+
+  return specs
+end
+
+require('lazy').setup(get_plugin_specs(), {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
     -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
