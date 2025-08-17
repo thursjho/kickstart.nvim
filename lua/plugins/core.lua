@@ -321,8 +321,37 @@ return {
       { ']]', function() Snacks.words.jump(vim.v.count1) end, desc = 'Next Reference', mode = { 'n', 't' } },
       { '[[', function() Snacks.words.jump(-vim.v.count1) end, desc = 'Prev Reference', mode = { 'n', 't' } },
       
-      -- Buffer local keymaps (LazyVim style)
-      { '<leader>?', function()
+      
+      -- Neovim News
+      {
+        '<leader>N',
+        desc = 'Neovim News',
+        function() 
+          Snacks.win { 
+            file = vim.api.nvim_get_runtime_file('doc/news.txt', false)[1], 
+            width = 0.6,
+            height = 0.6, 
+            wo = { 
+              spell = false, 
+              wrap = false, 
+              signcolumn = 'yes', 
+              statuscolumn = ' ', 
+              conceallevel = 3, 
+            } 
+          } 
+        end,
+      },
+      
+      -- UI toggles (via picker)
+      { '<leader>uC', function() Snacks.picker.colorschemes() end, desc = 'Colorscheme' },
+      -- Recent edits (JetBrains-style)
+      { '<leader>re', function() require('config.recent_edits').pick() end, desc = 'Recently Edited Locations' },
+      { ']e', function() require('config.recent_edits').next() end, desc = 'Next recent edit' },
+      { '[e', function() require('config.recent_edits').prev() end, desc = 'Prev recent edit' },
+    },
+    init = function()
+      -- Set up buffer keymaps functionality early to avoid which-key conflicts
+      vim.keymap.set('n', '<leader>?', function()
         local function get_buffer_keymaps()
           local buf = vim.api.nvim_get_current_buf()
           local ft = vim.bo[buf].filetype
@@ -470,7 +499,7 @@ return {
           })
         end
         
-        Snacks.picker.pick({
+        require('snacks').picker.pick({
           source = 'buffer_keymaps',
           title = 'Buffer Keymaps (' .. vim.bo.filetype .. ')',
           items = items,
@@ -482,36 +511,8 @@ return {
             end
           }
         })
-      end, desc = 'Buffer Local Keymaps' },
+      end, { desc = 'Buffer Local Keymaps', nowait = true })
       
-      -- Neovim News
-      {
-        '<leader>N',
-        desc = 'Neovim News',
-        function() 
-          Snacks.win { 
-            file = vim.api.nvim_get_runtime_file('doc/news.txt', false)[1], 
-            width = 0.6,
-            height = 0.6, 
-            wo = { 
-              spell = false, 
-              wrap = false, 
-              signcolumn = 'yes', 
-              statuscolumn = ' ', 
-              conceallevel = 3, 
-            } 
-          } 
-        end,
-      },
-      
-      -- UI toggles (via picker)
-      { '<leader>uC', function() Snacks.picker.colorschemes() end, desc = 'Colorscheme' },
-      -- Recent edits (JetBrains-style)
-      { '<leader>re', function() require('config.recent_edits').pick() end, desc = 'Recently Edited Locations' },
-      { ']e', function() require('config.recent_edits').next() end, desc = 'Next recent edit' },
-      { '[e', function() require('config.recent_edits').prev() end, desc = 'Prev recent edit' },
-    },
-    init = function()
       -- Track recent edit locations
       pcall(function() require('config.recent_edits').setup() end)
       vim.api.nvim_create_autocmd('User', {
@@ -551,6 +552,10 @@ return {
     opts = {
       preset = 'helix',
       defaults = {},
+      delay = 300,
+      triggers = {
+        { "<auto>", mode = "nxso" },
+      },
       spec = {
         {
           mode = { 'n', 'v' },
@@ -590,13 +595,6 @@ return {
       },
     },
     keys = {
-      {
-        '<leader>?',
-        function()
-          require('which-key').show { global = false }
-        end,
-        desc = 'Buffer Keymaps (which-key)',
-      },
       {
         '<c-w><space>',
         function()
