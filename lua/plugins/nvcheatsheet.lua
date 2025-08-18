@@ -246,7 +246,7 @@ return {
       nvcheatsheet.setup(opts)
       
       -- Set up toggle keybinding
-      vim.keymap.set('n', '<leader>?c', function()
+      vim.keymap.set('n', '<leader>uc', function()
         nvcheatsheet.toggle()
       end, { desc = 'Toggle Cheatsheet' })
       
