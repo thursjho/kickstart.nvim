@@ -589,14 +589,21 @@
 
 ### Claude Code (AI 어시스턴트)
 
-- `<leader>ac` - Claude Code 채팅 열기
-- `<leader>aC` - Claude Code Continue
-- `<leader>an` - 새 대화 시작
-- `<leader>at` - 현재 선택영역에 대해 질문
-- `<leader>ae` - 코드 설명 요청
-- `<leader>ar` - 코드 리팩토링 요청
-- `<leader>ad` - 문서화 요청
-- `<leader>aq` - 빠른 질문
+#### 기본 채팅 및 작업
+- `<leader>ac` - Claude Code 토글
+- `<leader>af` - Claude Code 포커스
+- `<leader>ar` - Claude Code Resume (이전 대화 재개)
+- `<leader>aC` - Claude Code Continue (대화 계속)
+- `<leader>am` - Claude 모델 선택
+
+#### 코드 작업
+- `<leader>ab` - 현재 버퍼를 Claude에 추가
+- `<leader>as` - 선택된 텍스트를 Claude에 전송 (Visual 모드)
+- `<leader>as` - 파일 탐색기에서 파일 추가 (Neo-tree, Oil 등)
+
+#### Diff 관리
+- `<leader>aa` - Diff 수락
+- `<leader>ad` - Diff 거부
 
 ### 테스팅 (Neotest Framework)
 
@@ -988,7 +995,7 @@
 - **smart-splits.nvim** - 스마트 윈도우 관리
 - **guess-indent.nvim** - 자동 indent 감지
 - **todo-comments.nvim** - TODO 하이라이팅
-- **claude-code.nvim** - AI 어시스턴트 (Claude Code)
+- **claudecode.nvim** - AI 어시스턴트 (Claude Code)
 - **workspaces.nvim** - 워크스페이스 관리 및 프로젝트 간 빠른 전환
 
 ## 📋 설정 파일 위치
