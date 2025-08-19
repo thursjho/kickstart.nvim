@@ -29,11 +29,11 @@ return {
       { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>",   desc = "Deny diff" },
     },
     opts = {
-      -- Authentication
+      -- Authentication - supports both direct API and router
       anthropic_api_key = nil, -- Will use environment variable ANTHROPIC_API_KEY
       
-      -- Model configuration
-      model = 'claude-sonnet-4-20250514',
+      -- Model configuration - can be overridden by environment variables
+      model = vim.env.ANTHROPIC_MODEL or 'claude-sonnet-4-20250514',
       max_tokens = 20000,
       temperature = 0,
       
@@ -61,6 +61,13 @@ Guidelines:
 - Provide context-aware suggestions based on the code being analyzed
 - For edit requests, provide only the modified code without explanations unless asked
 ]],
+
+      -- Environment Variables Support:
+      -- ANTHROPIC_API_KEY - API key for authentication
+      -- ANTHROPIC_BASE_URL - Custom base URL (e.g., company router)
+      -- ANTHROPIC_MODEL - Override model selection
+      -- ANTHROPIC_CUSTOM_HEADERS - Additional headers for routing
+      -- HTTP_PROXY/HTTPS_PROXY - Proxy configuration
     },
     config = function(_, opts)
       -- Set up Claude Code with provided options
