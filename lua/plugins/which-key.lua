@@ -19,6 +19,7 @@ return {
           { '<leader>f', group = 'file/find' },
           { '<leader>g', group = 'git' },
           { '<leader>gh', group = 'hunks' },
+          { '<leader>l', group = 'lazy', icon = { icon = '󰒲 ', color = 'cyan' } },
           { '<leader>o', group = 'obsidian' },
           { '<leader>p', group = 'paste/yank' },
           { '<leader>q', group = 'quit/session' },

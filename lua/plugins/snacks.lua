@@ -190,8 +190,18 @@ return {
       { '<leader>q', '<cmd>q<cr>', desc = 'Quit' },
       { '<leader>Q', '<cmd>qa<cr>', desc = 'Quit All' },
 
-      -- Lazy
-      { '<leader>l', '<cmd>Lazy<cr>', desc = 'Lazy' },
+      -- Lazy.nvim commands (LazyVim style)
+      { '<leader>l', '<cmd>Lazy<cr>', desc = 'Lazy Home' },
+      { '<leader>li', '<cmd>Lazy install<cr>', desc = 'Lazy Install' },
+      { '<leader>ls', '<cmd>Lazy sync<cr>', desc = 'Lazy Sync' },
+      { '<leader>lu', '<cmd>Lazy update<cr>', desc = 'Lazy Update' },
+      { '<leader>lc', '<cmd>Lazy clean<cr>', desc = 'Lazy Clean' },
+      { '<leader>lC', '<cmd>Lazy check<cr>', desc = 'Lazy Check' },
+      { '<leader>ll', '<cmd>Lazy log<cr>', desc = 'Lazy Log' },
+      { '<leader>lr', '<cmd>Lazy restore<cr>', desc = 'Lazy Restore' },
+      { '<leader>lx', '<cmd>Lazy clear<cr>', desc = 'Lazy Clear' },
+      { '<leader>lp', '<cmd>Lazy profile<cr>', desc = 'Lazy Profile' },
+      { '<leader>ld', '<cmd>Lazy debug<cr>', desc = 'Lazy Debug' },
       
       -- Terminal
       { '<c-/>', function() Snacks.terminal() end, desc = 'Toggle Terminal' },

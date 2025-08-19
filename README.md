@@ -558,6 +558,20 @@
 - `<leader>bd` - 버퍼 삭제
 - `<leader>?` - 현재 버퍼 키맵 보기
 
+### 플러그인 관리 (Lazy.nvim)
+
+- `<leader>l` - Lazy 홈 (플러그인 관리 UI)
+- `<leader>li` - 플러그인 설치
+- `<leader>ls` - 플러그인 동기화 (설치 + 업데이트 + 정리)
+- `<leader>lu` - 플러그인 업데이트
+- `<leader>lc` - 사용하지 않는 플러그인 정리
+- `<leader>lC` - 플러그인 상태 확인
+- `<leader>ll` - 플러그인 로그 보기
+- `<leader>lr` - lockfile에서 플러그인 복원
+- `<leader>lx` - 캐시 지우기
+- `<leader>lp` - 프로파일링 (성능 분석)
+- `<leader>ld` - 디버그 정보
+
 ### UI 토글
 
 - `<leader>us` - 맞춤법 검사 토글

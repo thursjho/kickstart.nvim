@@ -116,8 +116,18 @@ return {
           { 'Select Scratch Buffer', '<leader>bS' },
           { 'Buffer Local Keymaps', '<leader>?' },
         },
-        ['Plugin Management'] = {
-          { 'Lazy Plugin Manager', '<leader>l' },
+        ['Plugin Management (Lazy)'] = {
+          { 'Lazy Home', '<leader>l' },
+          { 'Lazy Install', '<leader>li' },
+          { 'Lazy Sync', '<leader>ls' },
+          { 'Lazy Update', '<leader>lu' },
+          { 'Lazy Clean', '<leader>lc' },
+          { 'Lazy Check', '<leader>lC' },
+          { 'Lazy Log', '<leader>ll' },
+          { 'Lazy Restore', '<leader>lr' },
+          { 'Lazy Clear', '<leader>lx' },
+          { 'Lazy Profile', '<leader>lp' },
+          { 'Lazy Debug', '<leader>ld' },
         },
         ['Diagnostics (Trouble)'] = {
           { 'Project Diagnostics', '<leader>xx' },
@@ -249,7 +259,7 @@ return {
       vim.keymap.set('n', '<leader>uc', function()
         nvcheatsheet.toggle()
       end, { desc = 'Toggle Cheatsheet' })
-      
+
       -- Also bind to F1 for quick access
       vim.keymap.set('n', '<F1>', function()
         nvcheatsheet.toggle()
