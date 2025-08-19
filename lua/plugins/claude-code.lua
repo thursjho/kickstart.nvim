@@ -33,9 +33,9 @@ return {
       anthropic_api_key = nil, -- Will use environment variable ANTHROPIC_API_KEY
       
       -- Model configuration
-      model = 'claude-3-5-sonnet-20241022',
-      max_tokens = 8192,
-      temperature = 0.3,
+      model = 'claude-sonnet-4-20250514',
+      max_tokens = 20000,
+      temperature = 0,
       
       -- UI configuration
       window_opts = {
