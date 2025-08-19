@@ -10,14 +10,14 @@ return {
           require('conform').format { async = true, lsp_fallback = true }
         end,
         mode = '',
-        desc = '[F]ormat buffer',
+        desc = 'format buffer',
       },
       {
         '<leader>l',
         function()
           require('lint').try_lint()
         end,
-        desc = '[L]int current buffer',
+        desc = 'lint current buffer',
       },
     },
     opts = {
@@ -35,6 +35,11 @@ return {
       formatters_by_ft = {
         lua = { 'stylua' },
         markdown = { 'prettier' },
+        go = { "goimports", "gofmt" },
+        sql = { "sql_formatter" },
+        python = { "ruff_format", "isort" },
+        javascript = { "prettierd", "prettier", stop_after_first = true },
+        ["*"] = { "injected" },
       },
     },
   },

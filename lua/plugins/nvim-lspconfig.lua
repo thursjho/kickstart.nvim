@@ -86,6 +86,13 @@ return {
       vim.list_extend(ensure_installed, {
         'stylua',
         'prettier',
+        'prettierd',
+        'goimports',
+        -- 'gofmt',
+        -- 'sql_formatter',
+        'ruff',
+        'isort',
+        -- 'injected',
         'markdownlint',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
