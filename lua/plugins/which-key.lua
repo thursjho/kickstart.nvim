@@ -15,6 +15,7 @@ return {
         {
           mode = { 'n', 'v' },
           { '<leader><tab>', group = 'tabs' },
+          { '<leader>a', group = 'ai/claude', icon = { icon = '󰭻 ', color = 'purple' } },
           { '<leader>c', group = 'code' },
           { '<leader>f', group = 'file/find' },
           { '<leader>g', group = 'git' },
