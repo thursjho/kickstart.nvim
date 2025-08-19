@@ -10,49 +10,25 @@ return {
       'nvim-treesitter/nvim-treesitter',
     },
     opts = function()
-      -- Auto-detect common Obsidian vault locations
+      -- Find Obsidian vaults from environment variable
       local function find_vaults()
-        local possible_paths = {
-          vim.fn.expand('~/documents/obsidian'),
-          vim.fn.expand('~/Documents/Obsidian'),
-          vim.fn.expand('~/Obsidian'),
-          vim.fn.expand('~/Library/Mobile Documents/iCloud~md~obsidian/Documents'),
-          vim.fn.expand('~/iCloudDrive/Obsidian'),
-          vim.fn.expand('~/Dropbox/Obsidian'),
-          vim.fn.expand('~/OneDrive/Obsidian'),
-        }
-        
+        -- Check if OBSIDIAN_VAULTS_DIR environment variable is set
+        local vaults_base_dir = os.getenv('OBSIDIAN_VAULTS_DIR')
         local workspaces = {}
         
-        for _, base_path in ipairs(possible_paths) do
-          if vim.fn.isdirectory(base_path) == 1 then
-            -- Get all subdirectories in the base path
-            local vaults = vim.fn.globpath(base_path, '*', false, true)
-            for _, vault_path in ipairs(vaults) do
-              if vim.fn.isdirectory(vault_path) == 1 then
-                local vault_name = vim.fn.fnamemodify(vault_path, ':t')
-                table.insert(workspaces, {
-                  name = vault_name,
-                  path = vault_path,
-                })
-              end
+        -- If environment variable is set, find vaults in that directory
+        if vaults_base_dir and vim.fn.isdirectory(vaults_base_dir) == 1 then
+          -- Get all subdirectories in the base path
+          local vaults = vim.fn.globpath(vaults_base_dir, '*', false, true)
+          for _, vault_path in ipairs(vaults) do
+            if vim.fn.isdirectory(vault_path) == 1 then
+              local vault_name = vim.fn.fnamemodify(vault_path, ':t')
+              table.insert(workspaces, {
+                name = vault_name,
+                path = vault_path,
+              })
             end
-            break -- Use first found base path
           end
-        end
-        
-        -- Fallback: if no vaults found, provide default locations
-        if #workspaces == 0 then
-          workspaces = {
-            {
-              name = 'Personal',
-              path = vim.fn.expand('~/Documents/Obsidian/Personal'),
-            },
-            {
-              name = 'Work', 
-              path = vim.fn.expand('~/Documents/Obsidian/Work'),
-            },
-          }
         end
         
         return workspaces

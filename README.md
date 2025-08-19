@@ -575,13 +575,14 @@
 
 ### Claude Code (AI 어시스턴트)
 
-- `<leader>cc` - Claude Code 채팅 열기
-- `<leader>cn` - 새 대화 시작
-- `<leader>ct` - 현재 선택영역에 대해 질문
-- `<leader>ce` - 코드 설명 요청
-- `<leader>cr` - 코드 리팩토링 요청
-- `<leader>cd` - 문서화 요청
-- `<leader>cq` - 빠른 질문
+- `<leader>ac` - Claude Code 채팅 열기
+- `<leader>aC` - Claude Code Continue
+- `<leader>an` - 새 대화 시작
+- `<leader>at` - 현재 선택영역에 대해 질문
+- `<leader>ae` - 코드 설명 요청
+- `<leader>ar` - 코드 리팩토링 요청
+- `<leader>ad` - 문서화 요청
+- `<leader>aq` - 빠른 질문
 
 ### 테스팅 (Neotest Framework)
 
