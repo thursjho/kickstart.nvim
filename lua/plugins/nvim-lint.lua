@@ -6,7 +6,30 @@ return {
     config = function()
       local lint = require 'lint'
       lint.linters_by_ft = {
-        markdown = { 'markdownlint' },
+        -- Web Development
+        javascript = { 'eslint_d' },
+        typescript = { 'eslint_d' },
+        javascriptreact = { 'eslint_d' },
+        typescriptreact = { 'eslint_d' },
+        vue = { 'eslint_d' },
+        svelte = { 'eslint_d' },
+        css = { 'stylelint' },
+        scss = { 'stylelint' },
+        less = { 'stylelint' },
+        html = { 'htmlhint' },
+
+        -- Python Development
+        python = { 'ruff', 'mypy' },
+
+        -- Configuration & Markup
+        json = { 'jsonlint' },
+        yaml = { 'yamllint' },
+        markdown = { 'markdownlint', 'alex' },
+
+        -- Shell Scripts
+        sh = { 'shellcheck' },
+        bash = { 'shellcheck' },
+        zsh = { 'shellcheck' },
       }
 
       -- Create autocommand which carries out the actual linting

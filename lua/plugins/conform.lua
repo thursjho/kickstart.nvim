@@ -33,13 +33,40 @@ return {
         }
       end,
       formatters_by_ft = {
+        -- Web Development
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
+        typescript = { 'prettierd', 'prettier', stop_after_first = true },
+        javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        vue = { 'prettierd', 'prettier', stop_after_first = true },
+        svelte = { 'prettierd', 'prettier', stop_after_first = true },
+        html = { 'prettierd', 'prettier', stop_after_first = true },
+        css = { 'prettierd', 'prettier', stop_after_first = true },
+        scss = { 'prettierd', 'prettier', stop_after_first = true },
+        less = { 'prettierd', 'prettier', stop_after_first = true },
+        json = { 'prettierd', 'prettier', stop_after_first = true },
+        jsonc = { 'prettierd', 'prettier', stop_after_first = true },
+
+        -- Python Development
+        python = { 'ruff_format', 'ruff_organize_imports' },
+
+        -- Configuration Files
+        yaml = { 'prettierd', 'prettier', stop_after_first = true },
+        toml = { 'taplo' },
+        markdown = { 'prettierd', 'prettier', stop_after_first = true },
+
+        -- Other Languages
         lua = { 'stylua' },
-        markdown = { 'prettier' },
-        go = { "goimports", "gofmt" },
-        sql = { "sql_formatter" },
-        python = { "ruff_format", "isort" },
-        javascript = { "prettierd", "prettier", stop_after_first = true },
-        ["*"] = { "injected" },
+        go = { 'goimports', 'gofmt' },
+        sql = { 'sql-formatter' },
+        sh = { 'shfmt' },
+        bash = { 'shfmt' },
+        zsh = { 'shfmt' },
+
+        -- Fallback for any filetype
+        ['*'] = { 'codespell' },
+        -- Use the "_" filetype to run formatters on filetypes that don't have other formatters configured
+        ['_'] = { 'trim_whitespace' },
       },
     },
   },

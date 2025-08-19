@@ -8,6 +8,9 @@ return {
       'mason-org/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
+      -- JSON/YAML schemas
+      'b0o/schemastore.nvim',
+
       -- Useful status updates for LSP
       { 'j-hui/fidget.nvim', opts = {} },
 
@@ -69,6 +72,7 @@ return {
       capabilities = vim.tbl_deep_extend('force', capabilities, require('blink.cmp').get_lsp_capabilities())
 
       local servers = {
+        -- Lua
         lua_ls = {
           settings = {
             Lua = {
@@ -78,22 +82,154 @@ return {
             },
           },
         },
+        
+        -- TypeScript/JavaScript
+        ts_ls = {
+          settings = {
+            typescript = {
+              inlayHints = {
+                includeInlayParameterNameHints = 'all',
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayEnumMemberValueHints = true,
+              },
+            },
+          },
+        },
+        
+        -- Python
+        basedpyright = {
+          settings = {
+            python = {
+              analysis = {
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode = 'workspace',
+                typeCheckingMode = 'standard',
+              },
+            },
+          },
+        },
+        
+        -- HTML
+        html = {
+          settings = {
+            html = {
+              format = {
+                templating = true,
+                wrapLineLength = 120,
+                wrapAttributes = 'auto',
+              },
+              hover = {
+                documentation = true,
+                references = true,
+              },
+            },
+          },
+        },
+        
+        -- CSS
+        cssls = {
+          settings = {
+            css = {
+              validate = true,
+              lint = {
+                unknownAtRules = 'ignore',
+              },
+            },
+            scss = {
+              validate = true,
+              lint = {
+                unknownAtRules = 'ignore',
+              },
+            },
+            less = {
+              validate = true,
+              lint = {
+                unknownAtRules = 'ignore',
+              },
+            },
+          },
+        },
+        
+        -- TailwindCSS
+        tailwindcss = {
+          settings = {
+            tailwindCSS = {
+              experimental = {
+                classRegex = {
+                  'tw`([^`]*)', -- tw`...`
+                  'tw="([^"]*)', -- <div tw="..." />
+                  'tw={"([^"}]*)', -- <div tw={"..."} />
+                  'tw\\.\\w+`([^`]*)', -- tw.xxx`...`
+                  'tw\\(.*?\\)`([^`]*)', -- tw(Component)`...`
+                },
+              },
+            },
+          },
+        },
+        
+        -- JSON
+        jsonls = {
+          settings = {
+            json = {
+              schemas = require('schemastore').json.schemas(),
+              validate = { enable = true },
+            },
+          },
+        },
+        
+        -- YAML
+        yamlls = {
+          settings = {
+            yaml = {
+              schemaStore = {
+                enable = false,
+                url = '',
+              },
+              schemas = require('schemastore').yaml.schemas(),
+            },
+          },
+        },
+        
+        -- Emmet
+        emmet_language_server = {
+          filetypes = { 'html', 'typescriptreact', 'javascriptreact', 'css', 'sass', 'scss', 'less' },
+        },
       }
 
       require('mason').setup()
 
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
-        'stylua',
-        'prettier',
-        'prettierd',
-        'goimports',
-        -- 'gofmt',
-        -- 'sql_formatter',
-        'ruff',
-        'isort',
-        -- 'injected',
-        'markdownlint',
+        -- Formatters
+        'stylua',          -- Lua formatter
+        'prettier',        -- Multi-language formatter
+        'prettierd',       -- Faster prettier
+        'ruff',           -- Python formatter/linter
+        'isort',          -- Python import sorter
+        'black',          -- Python formatter (alternative)
+        'sql-formatter',  -- SQL formatter
+        'shfmt',          -- Shell script formatter
+
+        -- Linters
+        'eslint_d',       -- Fast ESLint
+        'markdownlint',   -- Markdown linter
+        'stylelint',      -- CSS/SCSS linter
+        'pylint',         -- Python linter (alternative)
+        'flake8',         -- Python linter (alternative)
+        'mypy',           -- Python type checker
+        'shellcheck',     -- Shell script linter
+        'yamllint',       -- YAML linter
+        'jsonlint',       -- JSON linter
+        'htmlhint',       -- HTML linter
+        'alex',           -- Natural language linter
+
+        -- Language servers (additional)
+        'taplo',          -- TOML language server
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
