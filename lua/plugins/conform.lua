@@ -13,7 +13,7 @@ return {
         desc = 'format buffer',
       },
       {
-        '<leader>l',
+        '<leader>cl',
         function()
           require('lint').try_lint()
         end,
