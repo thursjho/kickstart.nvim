@@ -79,7 +79,7 @@ return {
         else
           Snacks.notifier.show_history()
         end
-      end, desc = 'Notification History' },
+      end, desc = 'Obsidian' },
       
       -- File operations
       { '<leader>ff', function() Snacks.picker.files() end, desc = 'Find Files' },

@@ -10,14 +10,14 @@ return {
       require('octo').setup({
         enable_builtin = true,
         default_merge_method = 'squash',
-        picker = 'fzf-lua',
+        picker = 'snacks',
       })
     end,
     keys = {
-      { '<leader>goi', '<cmd>Octo issue list<cr>', desc = 'Octo Issues' },
-      { '<leader>gop', '<cmd>Octo pr list<cr>', desc = 'Octo Pull Requests' },
-      { '<leader>gor', '<cmd>Octo repo list<cr>', desc = 'Octo Repositories' },
-      { '<leader>gos', '<cmd>Octo search<cr>', desc = 'Octo Search' },
+      { '<leader>oi', '<cmd>Octo issue list<cr>', desc = 'Octo Issues' },
+      { '<leader>op', '<cmd>Octo pr list<cr>', desc = 'Octo Pull Requests' },
+      { '<leader>or', '<cmd>Octo repo list<cr>', desc = 'Octo Repositories' },
+      { '<leader>os', '<cmd>Octo search<cr>', desc = 'Octo Search' },
     },
   }
 }
