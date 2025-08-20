@@ -69,6 +69,7 @@ return {
     keys = {
       -- Top Pickers (LazyVim style)
       { '<leader><space>', function() Snacks.picker.smart() end, desc = 'Smart Find Files' },
+      { '<C-p>', function() Snacks.picker.commands() end, desc = 'Commands' },
       { '<leader>,', function() Snacks.picker.buffers() end, desc = 'Buffers' },
       { '<leader>/', function() Snacks.picker.grep() end, desc = 'Grep' },
       { '<leader>:', function() Snacks.picker.command_history() end, desc = 'Command History' },

@@ -4,7 +4,7 @@ return {
     'coder/claudecode.nvim',
     lazy = false,
     cmd = {
-      'ClaudeCodeChat',
+      'ClaudeCode',
       'ClaudeCodeNew',
       'ClaudeCodeComplete',
       'ClaudeCodeEdit',
@@ -45,6 +45,10 @@ return {
         border = 'rounded',
         title = 'Claude Code',
         title_pos = 'center',
+      },
+
+      opts = {
+        terminal_cmd = vim.env.CLAUDE_CODE_CMD or 'claude'
       },
       
       -- System message for Claude
