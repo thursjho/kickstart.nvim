@@ -73,13 +73,13 @@ return {
       { '<leader>,', function() Snacks.picker.buffers() end, desc = 'Buffers' },
       { '<leader>/', function() Snacks.picker.grep() end, desc = 'Grep' },
       { '<leader>:', function() Snacks.picker.command_history() end, desc = 'Command History' },
-      { '<leader>n', function() 
+      { '<leader>N', function() 
         if Snacks.config.picker and Snacks.config.picker.enabled then
           Snacks.picker.notifications()
         else
           Snacks.notifier.show_history()
         end
-      end, desc = 'Obsidian' },
+      end, desc = 'Notification History' },
       
       -- File operations
       { '<leader>ff', function() Snacks.picker.files() end, desc = 'Find Files' },
