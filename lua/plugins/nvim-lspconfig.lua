@@ -26,12 +26,12 @@ return {
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
 
-          map('gd', function() Snacks.picker.lsp_definitions() end, '[G]oto [D]efinition')
-          map('gr', function() Snacks.picker.lsp_references() end, '[G]oto [R]eferences')
-          map('gI', function() Snacks.picker.lsp_implementations() end, '[G]oto [I]mplementation')
-          map('<leader>D', function() Snacks.picker.lsp_type_definitions() end, 'Type [D]efinition')
-          map('<leader>ds', function() Snacks.picker.lsp_symbols() end, '[D]ocument [S]ymbols')
-          map('<leader>ws', function() Snacks.picker.lsp_symbols({ all = true }) end, '[W]orkspace [S]ymbols')
+          map('gd', function() Snacks.picker.lsp_definitions() end, 'goto definition')
+          map('gr', function() Snacks.picker.lsp_references() end, 'goto references')
+          map('gI', function() Snacks.picker.lsp_implementations() end, 'goto implementation')
+          map('<leader>D', function() Snacks.picker.lsp_type_definitions() end, 'type definition')
+          map('<leader>ds', function() Snacks.picker.lsp_symbols() end, 'document symbols')
+          map('<leader>ws', function() Snacks.picker.lsp_symbols { all = true } end, 'workspace symbols')
           map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
           map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
           map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -82,7 +82,7 @@ return {
             },
           },
         },
-        
+
         -- TypeScript/JavaScript (vtsls - Enhanced performance)
         vtsls = {
           settings = {
@@ -109,7 +109,7 @@ return {
             },
           },
         },
-        
+
         -- Python
         basedpyright = {
           settings = {
@@ -123,7 +123,7 @@ return {
             },
           },
         },
-        
+
         -- HTML
         html = {
           settings = {
@@ -140,7 +140,7 @@ return {
             },
           },
         },
-        
+
         -- CSS
         cssls = {
           settings = {
@@ -164,7 +164,7 @@ return {
             },
           },
         },
-        
+
         -- TailwindCSS
         tailwindcss = {
           settings = {
@@ -181,7 +181,7 @@ return {
             },
           },
         },
-        
+
         -- JSON
         jsonls = {
           settings = {
@@ -191,7 +191,7 @@ return {
             },
           },
         },
-        
+
         -- YAML
         yamlls = {
           settings = {
@@ -204,7 +204,7 @@ return {
             },
           },
         },
-        
+
         -- Emmet
         emmet_language_server = {
           filetypes = { 'html', 'typescriptreact', 'javascriptreact', 'css', 'sass', 'scss', 'less' },
@@ -216,30 +216,30 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         -- Formatters
-        'stylua',          -- Lua formatter
-        'prettier',        -- Multi-language formatter
-        'prettierd',       -- Faster prettier
-        'ruff',           -- Python formatter/linter
-        'isort',          -- Python import sorter
-        'black',          -- Python formatter (alternative)
-        'sql-formatter',  -- SQL formatter
-        'shfmt',          -- Shell script formatter
+        'stylua', -- Lua formatter
+        'prettier', -- Multi-language formatter
+        'prettierd', -- Faster prettier
+        'ruff', -- Python formatter/linter
+        'isort', -- Python import sorter
+        'black', -- Python formatter (alternative)
+        'sql-formatter', -- SQL formatter
+        'shfmt', -- Shell script formatter
 
         -- Linters
-        'eslint_d',       -- Fast ESLint
-        'markdownlint',   -- Markdown linter
-        'stylelint',      -- CSS/SCSS linter
-        'pylint',         -- Python linter (alternative)
-        'flake8',         -- Python linter (alternative)
-        'mypy',           -- Python type checker
-        'shellcheck',     -- Shell script linter
-        'yamllint',       -- YAML linter
-        'jsonlint',       -- JSON linter
-        'htmlhint',       -- HTML linter
-        'alex',           -- Natural language linter
+        'eslint_d', -- Fast ESLint
+        'markdownlint', -- Markdown linter
+        'stylelint', -- CSS/SCSS linter
+        'pylint', -- Python linter (alternative)
+        'flake8', -- Python linter (alternative)
+        'mypy', -- Python type checker
+        'shellcheck', -- Shell script linter
+        'yamllint', -- YAML linter
+        'jsonlint', -- JSON linter
+        'htmlhint', -- HTML linter
+        'alex', -- Natural language linter
 
         -- Language servers (additional)
-        'taplo',          -- TOML language server
+        'taplo', -- TOML language server
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -248,11 +248,13 @@ return {
           function(server_name)
             local server = servers[server_name] or {}
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+
+            -- Add server name to error context
+            vim.notify(string.format('Setting up LSP server: %s', server_name), vim.log.levels.INFO)
             require('lspconfig')[server_name].setup(server)
           end,
         },
       }
     end,
   },
-
 }

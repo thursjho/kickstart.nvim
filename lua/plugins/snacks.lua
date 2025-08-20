@@ -216,6 +216,11 @@ return {
       { '<leader>uC', function() Snacks.picker.colorschemes() end, desc = 'Colorscheme' },
       -- Recent edits (JetBrains-style)
       { '<leader>re', function() require('config.recent_edits').pick() end, desc = 'Recently Edited Locations' },
+
+      { "<leader>z",  function() Snacks.zen() end, desc = "Toggle Zen Mode" },
+      { "<leader>Z",  function() Snacks.zen.zoom() end, desc = "Toggle Zoom" },
+      { "<leader>.",  function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
+      { "<leader>S",  function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
     },
   },
 }
