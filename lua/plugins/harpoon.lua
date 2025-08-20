@@ -124,7 +124,7 @@ return {
             },
           })
         end,
-        desc = "pick harpoon
+        desc = "pick harpoon"
       }
     },
   },
