@@ -160,7 +160,8 @@ return {
       { '<leader>cS', function() Snacks.picker.lsp_workspace_symbols() end, desc = 'Workspace Symbols' },
       
       -- LSP Info
-      { "<leader>L", function() Snacks.picker.lsp_config() end, desc = "Lsp Info" },
+      { "<leader>Lc", function() Snacks.picker.lsp_config() end, desc = "Lsp Config" },
+      { "<leader>Li", '<cmd>LspInfo<cr>', desc = "Lsp Info" },
       -- { '<leader>L', '<cmd>LspInfo<cr>', desc = 'LSP Info' },
       
       -- Debug operations (DAP)
