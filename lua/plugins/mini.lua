@@ -7,7 +7,20 @@ return {
       require('mini.ai').setup { n_lines = 500 }
       
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
-      require('mini.surround').setup()
+      require('mini.surround').setup(
+        -- mappings = {
+        --   add = "gsa",
+        --   delete = "gsd",
+        --   find = "gsf",
+        --   find_left = "gsF",
+        --   highlight = "gsh",
+        --   replace = "gsr",
+        --   update_n_lines = "gsn",
+        -- }
+
+      )
+      -- Auto pair
+      require('mini.pairs').setup()
       
       -- Simple and easy statusline.
       local statusline = require 'mini.statusline'

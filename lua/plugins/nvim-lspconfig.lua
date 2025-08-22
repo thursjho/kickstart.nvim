@@ -138,19 +138,20 @@ return {
             [vim.diagnostic.severity.HINT] = '󰌶 ',
           },
         } or {},
-        virtual_text = {
-          source = 'if_many',
-          spacing = 2,
-          format = function(diagnostic)
-            local diagnostic_message = {
-              [vim.diagnostic.severity.ERROR] = diagnostic.message,
-              [vim.diagnostic.severity.WARN] = diagnostic.message,
-              [vim.diagnostic.severity.INFO] = diagnostic.message,
-              [vim.diagnostic.severity.HINT] = diagnostic.message,
-            }
-            return diagnostic_message[diagnostic.severity]
-          end,
-        },
+        virtual_text = false,
+        -- virtual_text = {
+        --   source = 'if_many',
+        --   spacing = 2,
+        --   format = function(diagnostic)
+        --     local diagnostic_message = {
+        --       [vim.diagnostic.severity.ERROR] = diagnostic.message,
+        --       [vim.diagnostic.severity.WARN] = diagnostic.message,
+        --       [vim.diagnostic.severity.INFO] = diagnostic.message,
+        --       [vim.diagnostic.severity.HINT] = diagnostic.message,
+        --     }
+        --     return diagnostic_message[diagnostic.severity]
+        --   end,
+        -- },
       }
 
       -- LSP servers and clients are able to communicate to each other what features they support.
@@ -302,6 +303,12 @@ return {
           },
         },
 
+        ['helm-ls'] = {
+          yamlls = {
+            path = "yaml-language-server",
+          }
+        },
+
         -- Emmet
         emmet_language_server = {
           filetypes = { 'html', 'typescriptreact', 'javascriptreact', 'css', 'sass', 'scss', 'less' },
@@ -323,7 +330,32 @@ return {
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
-        'stylua', -- Used to format Lua code
+        -- Formatters
+        'stylua', -- Lua formatter
+        'prettier', -- Multi-language formatter
+        'prettierd', -- Faster prettier
+        'ruff', -- Python formatter/linter
+        'isort', -- Python import sorter
+        'black', -- Python formatter (alternative)
+        'sql-formatter', -- SQL formatter
+        'shfmt', -- Shell script formatter
+
+        -- Linters
+        'eslint_d', -- Fast ESLint
+        'markdownlint', -- Markdown linter
+        'stylelint', -- CSS/SCSS linter
+        'pylint', -- Python linter (alternative)
+        'flake8', -- Python linter (alternative)
+        'mypy', -- Python type checker
+        'shellcheck', -- Shell script linter
+        'yamllint', -- YAML linter
+        'jsonlint', -- JSON linter
+        'htmlhint', -- HTML linter
+        'alex', -- Natural language linter
+        'hadolint', -- Dockerfile linter
+
+        -- Language servers (additional)
+        'taplo', -- TOML language server
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
